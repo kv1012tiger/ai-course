@@ -531,7 +531,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <a class="nl" href="#galaxy">課程星系</a>
       <a class="nl" href="#sessions">上課場次</a>
       <a class="nl" href="#pricing">費用方案</a>
-      <a class="nl" href="https://github.com/kv1012tiger/ai-course/releases/download/v1/AI-help-you-do_course-outline.pdf" data-dl>⬇ 下載 PDF</a>
+      <a class="nl" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載 PDF</a>
       <a class="btn btn-primary btn-sm" href="#sessions">立即報名</a>
     </nav>
   </div>
@@ -565,7 +565,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="cta-row">
         <a class="btn btn-primary" href="#sessions">選擇場次報名 →</a>
         <a class="btn btn-ghost" href="#galaxy">🪐 探索課程星系</a>
-        <a class="btn btn-ghost" href="https://github.com/kv1012tiger/ai-course/releases/download/v1/AI-help-you-do_course-outline.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+        <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
       </div>
       <p class="hero-dl" data-dl-count></p>
       <div class="stats">
@@ -623,7 +623,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
         <p>6 範例＋3 附錄的學習重點、實作流程與帶走的成果，一次帶走。</p>
         <span class="meta">PDF · 12 頁 · 1.6 MB</span>
         <span class="count" data-dl-count></span>
-        <a class="btn btn-primary btn-sm" href="https://github.com/kv1012tiger/ai-course/releases/download/v1/AI-help-you-do_course-outline.pdf" data-dl>⬇ 免費下載</a>
+        <a class="btn btn-primary btn-sm" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 免費下載</a>
       </div>
     </div>
   </div>
@@ -790,7 +790,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <p class="lead">選好場次與方案，就能線上報名及付費。</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#sessions">查看場次，立即報名 🚀</a>
-      <a class="btn btn-ghost" href="https://github.com/kv1012tiger/ai-course/releases/download/v1/AI-help-you-do_course-outline.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+      <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
     </div>
   </div>
 </section>
@@ -840,7 +840,7 @@ document.documentElement.classList.add('js');
 'use strict';
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var LINE='https://lin.ee/4xw8yKI';
-var PDF_API='https://api.github.com/repos/kv1012tiger/ai-course/releases/tags/v1',PDF_NAME='AI-help-you-do_course-outline.pdf';
+var PDF_FILE='AI幫你做_課程大綱與主題介紹.pdf',COUNT_API='https://abacus.jasoncameron.dev/{op}/kv1012tiger-ai-course/outline-pdf';
 var SHOP='https://autocad-tw.my1shop.com/la4v2u#Type=Product&ID=';
 var PAY={
   taipei:{b:'ZrLgxyBe1OoymBdQ1RGDQb9n',n:'eobJKaG21M0jZPOpzA4BqnwO'},
@@ -1390,17 +1390,17 @@ lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
   });
 });
 
-/* ---------- PDF 下載次數（GitHub Release 統計） ---------- */
+/* ---------- PDF 下載與次數（按下載按鈕即 +1） ---------- */
+var CK='aic-dl-count2';
 function showCount(n){[].forEach.call(document.querySelectorAll('[data-dl-count]'),function(el){el.textContent='📥 已下載 '+n.toLocaleString()+' 次'})}
-(function(){
-  var ck='aic-dl-count',cached=null;
-  try{cached=JSON.parse(sessionStorage.getItem(ck)||'null')}catch(e){}
-  if(cached&&Date.now()-cached.t<600000){showCount(cached.n);return}
+function saveCount(n){showCount(n);try{sessionStorage.setItem(CK,JSON.stringify({t:Date.now(),n:n}))}catch(e){}}
+function getCount(path,opt){
   if(!window.fetch)return;
-  fetch(PDF_API).then(function(r){return r.ok?r.json():null}).then(function(j){
-    if(!j||!j.assets)return;var a=j.assets.filter(function(x){return x.name===PDF_NAME})[0];if(!a)return;
-    showCount(a.download_count);try{sessionStorage.setItem(ck,JSON.stringify({t:Date.now(),n:a.download_count}))}catch(e){}
-  }).catch(function(){});
+  fetch(COUNT_API.replace('{op}',path),opt||{}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&typeof j.value==='number')saveCount(j.value)}).catch(function(){});
+}
+(function(){
+  var cached=null;try{cached=JSON.parse(sessionStorage.getItem(CK)||'null')}catch(e){}
+  if(cached&&Date.now()-cached.t<60000)showCount(cached.n);else getCount('get');
 })();
 /* App 內建瀏覽器（LINE、Facebook、Instagram 等）不支援下載檔案：
    LINE 改用官方的 openExternalBrowser 參數跳到手機瀏覽器；其他 App 提示改用瀏覽器開啟 */
@@ -1409,10 +1409,11 @@ var dlLinks=document.querySelectorAll('[data-dl]'),PDF_HREF=dlLinks.length?dlLin
 function closeDlTip(){dlTip.hidden=true}
 [].forEach.call(dlLinks,function(a){
   if(IN_LINE)a.href=PDF_HREF+(PDF_HREF.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+  else a.setAttribute('download',PDF_FILE);
   a.addEventListener('click',function(e){
     if(IN_APP){e.preventDefault();dlTip.hidden=false;$('dlCopy').focus({preventScroll:true});return}
-    toast(IN_LINE?'將用手機瀏覽器開啟並下載 PDF':'開始下載課程大綱 PDF');
-    try{sessionStorage.removeItem('aic-dl-count')}catch(err){}
+    toast(IN_LINE?'將用手機瀏覽器開啟 PDF':'開始下載課程大綱 PDF');
+    getCount('hit',{keepalive:true});
   });
 });
 $('dlCopy').addEventListener('click',function(){copyText(PDF_HREF,'已複製下載連結')});

@@ -4,6 +4,6 @@
 
 - 課程星系：6 個實作範例＋3 個加碼附錄
 - 上課場次、付款與報名資訊
-- 課程大綱 PDF：見 Releases
+- 課程大綱 PDF：網站內直接下載
 
 AutoCAD 顧問論壇 · 蘋果爸　https://www.autocad-tw.com/

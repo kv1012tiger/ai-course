@@ -75,7 +75,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .topbar{position:fixed;top:0;left:0;right:0;z-index:70;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
 .topbar.solid{background:rgba(1,2,10,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;font-size:23px;line-height:1.25;letter-spacing:.02em}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-size:21px;line-height:1.25;letter-spacing:.02em;padding:6px 18px 6px 7px;border-radius:999px;background:rgba(10,14,40,.85);border:1.5px solid rgba(255,138,42,.7);white-space:nowrap;transition:transform .2s,background .2s,box-shadow .2s}
+.brand:hover{transform:translateY(-1px);background:rgba(255,138,42,.16);box-shadow:0 6px 18px rgba(255,122,26,.25)}
 .brand-dot{flex:none;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffbe8,#ffd166 30%,#ff8a2a 65%,#b4400a);box-shadow:0 0 16px rgba(255,138,42,.7)}
 .brand small{display:block;font-size:15px;font-weight:500;color:var(--muted);letter-spacing:.06em}
 .topnav{display:flex;align-items:center;gap:8px}
@@ -523,6 +524,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @media (max-width:1180px){
   .topnav{gap:6px}
   .topnav a.nl{font-size:14px;padding:5px 10px}
+  .brand small{font-size:13px}
 }
 @media (max-width:1240px){
   .topnav a.nl.dl{display:none}
@@ -614,9 +616,9 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 /* 手機版：維持原字級（章節標籤除外） */
 @media (max-width:900px){
   .topbar .wrap{height:68px}
-  .brand{font-size:19px;gap:10px}
-  .brand small{font-size:13px}
-  .brand-dot{width:30px;height:30px}
+  .brand{font-size:18px;gap:8px;padding:5px 14px 5px 6px}
+  .brand small{display:none}
+  .brand-dot{width:28px;height:28px}
   .topnav .btn{font-size:14px;padding:9px 18px}
   .eyebrow{font-size:13px;gap:10px}
   .eyebrow::before{width:28px}
@@ -665,7 +667,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 
 <header class="topbar" id="topbar">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="回到頂部"><span class="brand-dot"></span><span>AI 幫你做<small>AutoCAD 顧問 · 實體課程</small></span></a>
+    <a class="brand" href="#top" aria-label="回到頂部"><span class="brand-dot"></span><span>AI 幫你做什麼<small>AutoCAD 顧問 · 實體課程</small></span></a>
     <nav class="topnav" aria-label="主選單">
       <a class="nl" href="#galaxy">學什麼</a>
       <a class="nl" href="#sessions">上課場次</a>

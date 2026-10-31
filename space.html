@@ -1539,12 +1539,14 @@ var BGM={on:false,timer:null,nodes:[],step:0,master:null};
 function bnote(a,f,t,dur,type,vol){var o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(BGM.master);o.start(t);o.stop(t+dur+.05)}
 /*BGM_START*/
 /* 太空氛圍：空靈長音＋慢速琶音（Am9 → Fmaj7 → Cmaj7 → G6） */
-var BGM_STEP=600;
+var BGM_STEP=320;
 function bgmInit(a){
   [[110,0],[164.81,.003],[220,-.002]].forEach(function(d,i){var o=a.createOscillator(),g=a.createGain(),l=a.createOscillator(),lg=a.createGain();o.type='sine';o.frequency.value=d[0]*(1+d[1]);g.gain.value=.035;l.frequency.value=.07+i*.03;lg.gain.value=.025;l.connect(lg);lg.connect(g.gain);o.connect(g);g.connect(BGM.master);o.start();l.start();BGM.nodes.push(o,l)});
 }
 var CHORDS=[[220,261.63,329.63,392,493.88],[174.61,220,261.63,329.63,392],[130.81,196,261.63,329.63,493.88],[196,246.94,293.66,392,440]],ARP=[0,2,4,3,1,4,2,3];
-function bgmTick(a){var t=a.currentTime+.05,c=CHORDS[Math.floor(BGM.step/8)%4],f=c[ARP[BGM.step%8]];bnote(a,f*2,t,1.6,'sine',.045);if(Math.random()<.18)bnote(a,f*4,t+.3,1.2,'sine',.02);BGM.step++}
+function bgmTick(a){var t=a.currentTime+.05,c=CHORDS[Math.floor(BGM.step/8)%4],f=c[ARP[BGM.step%8]];bnote(a,f*2,t,1,'sine',.045);
+  if(BGM.step%4===0){var ko=a.createOscillator(),kg=a.createGain();ko.frequency.setValueAtTime(130,t);ko.frequency.exponentialRampToValueAtTime(55,t+.16);kg.gain.setValueAtTime(.07,t);kg.gain.exponentialRampToValueAtTime(.0001,t+.2);ko.connect(kg);kg.connect(BGM.master);ko.start(t);ko.stop(t+.22)}/* 輕柔節拍 */
+  if(Math.random()<.18)bnote(a,f*4,t+.3,1.2,'sine',.02);BGM.step++}
 /*BGM_END*/
 function bgmStart(){
   if(!SFX_ON||BGM.on)return;var a=ac();if(!a)return;BGM.on=true;

@@ -117,7 +117,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .price-line .big small{font-size:15px;color:var(--muted);font-weight:500;margin-left:4px}
 .price-line .meta{color:var(--muted);font-size:18px}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-.hero-dl{margin:10px 0 0;min-height:20px;font-size:15px;font-weight:700;color:var(--gold)}
+.hero-dl{display:flex;flex-wrap:wrap;gap:4px 20px;margin:10px 0 0;min-height:20px;font-size:15px;font-weight:700;color:var(--gold)}
+.cap-txt .bio+.bio{margin-top:-10px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;max-width:600px}
 .stat{padding:14px 12px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-align:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .stat b{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:900;line-height:1.2}
@@ -713,8 +714,9 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
         <a class="btn btn-primary" href="#sessions">選擇場次報名 →</a>
         <a class="btn btn-ghost" href="#galaxy">🪐 探索課程星系</a>
         <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+        <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
       </div>
-      <p class="hero-dl" data-dl-count></p>
+      <p class="hero-dl"><span>課程大綱 <span data-dl-count></span></span><span>課前準備 <span data-dl-count="prep"></span></span></p>
       <div class="stats">
         <div class="stat"><b>5 小時</b><span>現場實作</span></div>
         <div class="stat"><b class="grad-fire">6＋3</b><span>範例＋加碼附錄</span></div>
@@ -945,6 +947,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <span class="eyebrow">Captain · 講師介紹</span>
       <h2>我是<span class="grad-fire">蘋果爸</span></h2>
       <p class="bio">AutoCAD 實務 30 年以上，長期經營 AutoCAD 顧問論壇。把繪圖經驗與 AI 協作流程，帶到實體課一起練習。</p>
+      <p class="bio">我喜歡知識分享、騎腳踏車、球類活動(籃球/撞球)、健行及爬山，家裡有三喵咪&amp;三狗勾(六畜興旺)😁</p>
       <div class="links">
         <a class="lk" href="https://autocad-tw.1shop.tw" target="_blank" rel="noopener"><i>🎓</i><span><b>蘋果爸課程百寶箱</b><small>所有 AutoCAD 課程一次看</small></span></a>
         <a class="lk" href="https://www.youtube.com/user/kv1012tiger" target="_blank" rel="noopener"><i>🍄</i><span><b>蘋果爸愛分享頻道</b><small>免費教學影片看到飽</small></span></a>
@@ -967,6 +970,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="cta-row">
       <a class="btn btn-primary" href="#sessions">查看場次，立即報名 🚀</a>
       <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+      <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
     </div>
   </div>
 </section>

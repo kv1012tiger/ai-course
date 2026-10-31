@@ -1366,16 +1366,18 @@ UNITS.forEach(function(u,i){
   r.addEventListener('click',function(e){openPanel('unit',i,r,e.detail===0)});
   (u.moon?$('listMoon'):$('listCore')).appendChild(r);routeItems.push(r);
 });
-var VIEW={tilt:null,target:null,zoom:1,vel:0,drag:null,moved:false};
+var VIEW={tilt:null,target:null,zoom:null,vel:0,drag:null,moved:false};
 var TOUCH=window.matchMedia('(hover:none)').matches;
-var DEF_TILT=.85,TILT_MIN=.08,TILT_MAX=1,ZOOM_MIN=.6,ZOOM_MAX=1.6;
+var DEF_TILT=.85,TILT_MIN=.08,TILT_MAX=1,ZOOM_MIN=.4,ZOOM_MAX=1.6;
 function clampT(v){return Math.max(TILT_MIN,Math.min(TILT_MAX,v))}
 function clampZ(v){return Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,v))}
 function layoutStage(){
   var w=stage.clientWidth,mob=w<640;
   $('core').classList.toggle('sm',mob);
   if(VIEW.tilt===null){VIEW.tilt=VIEW.target=DEF_TILT}
-  var z=VIEW.zoom,sc=(mob?.66:1)*z,maxB=82*sc;
+  /* 第一次排版：縮放到整個星系剛好放進一個畫面（一目了然） */
+  if(VIEW.zoom===null){var r0=Math.min(w*(mob?.45:.44),480),pad0=34+82*(mob?.66:1)*1.1+48;VIEW.zoom=clampZ(Math.min(1,(window.innerHeight-170-pad0)/(2*r0*(DEF_TILT+.02))))}
+  var z=VIEW.zoom,sc=(mob?.66:1)*Math.sqrt(z),maxB=82*sc;
   var top=34+maxB*.55,bot=maxB*.55+48;
   var irx=Math.min(w*(mob?.33:.30),330)*z,orx=Math.min(w*(mob?.45:.44),480)*z;
   var iry=irx*VIEW.tilt,ory=orx*Math.min(1,VIEW.tilt+.02);

@@ -257,31 +257,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .done-banner p{margin:2px 0 0;color:var(--muted);font-size:14px}
 @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
 
-/* ===== 小遊戲 ===== */
-.game{position:relative;margin-top:36px;padding:0;overflow:hidden;border-radius:24px}
-.g-hud{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(2,4,16,.6)}
-.g-stats{display:flex;gap:18px;font-size:14px;color:var(--muted)}
-.g-stats b{color:#fff;font-size:18px;margin-left:4px}
-.g-stats .t b{color:var(--gold)}
-.g-prompt{padding:14px 18px;font-size:clamp(16px,2vw,20px);font-weight:900;text-align:center;background:linear-gradient(90deg,rgba(124,58,237,.18),rgba(14,165,233,.14));border-bottom:1px solid var(--line);min-height:62px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
-.g-prompt .tg{font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:rgba(94,231,255,.15);border:1px solid rgba(94,231,255,.4);color:var(--cyan)}
-.g-prompt.shake{animation:shake .4s}
-@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-#gCanvas{display:block;width:100%;height:440px;touch-action:manipulation;cursor:crosshair;background:radial-gradient(120% 80% at 50% 120%,rgba(255,138,42,.12),transparent 60%)}
-.g-over{position:absolute;left:0;right:0;bottom:0;top:0;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(1,2,10,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:2}
-.g-over[hidden]{display:none}
-.g-box{max-width:460px;text-align:center}
-.g-box h3{font-size:clamp(24px,3.4vw,32px);font-weight:900;margin-bottom:10px}
-.g-box p{color:var(--muted);margin:0 0 6px;font-size:15px}
-.g-box ul{list-style:none;padding:0;margin:14px 0 18px;display:grid;gap:6px;font-size:14.5px;text-align:left}
-.g-box li{padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
-.g-box li b{color:var(--gold)}
-.g-box .score{font-size:64px;font-weight:900;line-height:1.1;margin:6px 0}
-.g-box .rank{display:inline-block;padding:5px 16px;border-radius:999px;font-weight:900;background:linear-gradient(135deg,rgba(255,209,102,.25),rgba(255,138,42,.2));border:1px solid rgba(255,209,102,.55);color:#ffe7a8;margin-bottom:10px}
-.g-box .best{font-size:13.5px;color:var(--dim);margin:8px 0 18px}
-.g-box .best b{color:var(--gold)}
-.g-box .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-
 /* ===== 單元／場次面板 ===== */
 .backdrop{position:fixed;inset:0;z-index:90;background:rgba(1,2,10,.66);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .35s}
 .backdrop.open{opacity:1;pointer-events:auto}
@@ -529,9 +504,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .p-foot .btn{padding:10px 14px;font-size:14px}
   .p-dots i{width:6px;height:6px}
   .p-dots i.on{width:14px}
-  #gCanvas{height:400px}
-  .g-stats{gap:12px;font-size:13px}
-  .g-stats b{font-size:16px}
   .info li{grid-template-columns:62px 1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -552,7 +524,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <a class="brand" href="#top" aria-label="回到頂部"><span class="brand-dot"></span><span>AI 幫你做<small>AutoCAD 顧問 · 實體課程</small></span></a>
     <nav class="topnav" aria-label="主選單">
       <a class="nl" href="#galaxy">課程星系</a>
-      <a class="nl" href="#game">小遊戲</a>
       <a class="nl" href="#sessions">上課場次</a>
       <a class="nl" href="#pricing">費用方案</a>
       <a class="btn btn-primary btn-sm" href="#sessions">立即報名</a>
@@ -564,7 +535,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   <a href="#top"><span>啟程</span></a>
   <a href="#brief"><span>課程簡介</span></a>
   <a href="#galaxy"><span>課程星系</span></a>
-  <a href="#game"><span>指令流星雨</span></a>
   <a href="#final-mission"><span>結業任務</span></a>
   <a href="#sessions"><span>上課場次</span></a>
   <a href="#pricing"><span>費用方案</span></a>
@@ -681,50 +651,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="done-banner" id="doneBanner" role="status">
       <div><b>🎉 恭喜！你已走完整個課程星系</b><p>9 個單元都看過了，下一站：挑一個週六下午，一起動手做。</p></div>
       <a class="btn btn-primary btn-sm" href="#sessions">查看上課場次 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 小遊戲 ===== -->
-<section id="game">
-  <div class="wrap">
-    <div class="center reveal">
-      <span class="eyebrow">Mini Game · 指令流星雨</span>
-      <h2>點中<span class="grad-fire">正確的指令流星</span></h2>
-      <p class="lead">上方會出現一個繪圖需求，流星帶著 AutoCAD 指令落下，點中正確的就得分。60 秒，看你能拿幾分！</p>
-    </div>
-    <div class="card game reveal" id="gameBox">
-      <div class="g-hud">
-        <div class="g-stats"><span>分數<b id="gScore">0</b></span><span>連擊<b id="gCombo">x1</b></span><span class="t">時間<b id="gTime">60</b></span></div>
-        <div class="g-stats"><span>最高<b id="gBestHud">0</b></span></div>
-      </div>
-      <div class="g-prompt" id="gPrompt"><span class="tg">任務</span>按「開始任務」，準備接住指令流星</div>
-      <canvas id="gCanvas" aria-label="指令流星雨遊戲畫面"></canvas>
-      <div class="g-over" id="gStart">
-        <div class="g-box">
-          <h3>☄️ 指令流星雨</h3>
-          <p>看懂需求，選對工具，就是和 AI 合作的第一步。</p>
-          <ul>
-            <li>上方出現需求，例如「把牆線往內複製一段距離」</li>
-            <li>點中寫著正確指令的流星 <b>＋10 分</b>，連續答對分數加倍</li>
-            <li>點錯 <b>－5 分</b>；讓正確的流星掉下去，連擊歸零</li>
-          </ul>
-          <button class="btn btn-primary" id="gGo" type="button">🚀 開始任務</button>
-        </div>
-      </div>
-      <div class="g-over" id="gEnd" hidden>
-        <div class="g-box">
-          <p>任務完成！你的分數</p>
-          <div class="score grad-fire" id="gFinal">0</div>
-          <div class="rank" id="gRank">見習繪圖員</div>
-          <p id="gRight">答對 0 題</p>
-          <p class="best" id="gBestTxt">最高分 <b>0</b></p>
-          <div class="row">
-            <button class="btn btn-ghost" id="gAgain" type="button">🔁 再玩一次</button>
-            <a class="btn btn-primary" href="#sessions">來上課練真功夫 →</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -967,7 +893,6 @@ var SESSIONS=[
 
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 function smooth(a,b,x){var t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)}
 var toastT;
 function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},1800)}
@@ -1167,8 +1092,7 @@ if(!reduce){
 }
 setTimeout(function(){renderSky();updateSkyShift()},30);
 var rsT;window.addEventListener('resize',function(){clearTimeout(rsT);rsT=setTimeout(function(){
-  var wChanged=Math.abs(window.innerWidth-skyW)>40;initStars();layoutStage();gResize();
-  if(wChanged)renderSky();else sky.style.height=(window.innerHeight+SKY_SHIFT)+'px';
+  var wChanged=Math.abs(window.innerWidth-skyW)>40;initStars();  if(wChanged)renderSky();else sky.style.height=(window.innerHeight+SKY_SHIFT)+'px';
   updateSkyShift();
 },180)});
 
@@ -1461,132 +1385,6 @@ function showCount(n){[].forEach.call(document.querySelectorAll('[data-dl-count]
   }).catch(function(){});
 })();
 [].forEach.call(document.querySelectorAll('[data-dl]'),function(a){a.addEventListener('click',function(){toast('開始下載課程大綱 PDF');try{sessionStorage.removeItem('aic-dl-count')}catch(e){}})});
-
-/* ---------- 小遊戲：指令流星雨 ---------- */
-var GQ=[
- {q:'把牆線往內複製一段固定距離',a:'OFFSET',zh:'偏移',c:'cmd'},
- {q:'把一張椅子排成 3 排 4 列',a:'ARRAY',zh:'陣列',c:'cmd'},
- {q:'在地坪區域填上材質圖樣',a:'HATCH',zh:'填充線',c:'cmd'},
- {q:'把常用家具存成可重複插入的物件',a:'BLOCK',zh:'圖塊',c:'cmd'},
- {q:'量出一個房間的面積',a:'AREA',zh:'面積',c:'cmd'},
- {q:'標註兩點之間的水平距離',a:'DIMLINEAR',zh:'線性標註',c:'cmd'},
- {q:'畫一條可設定寬度的連續線',a:'PLINE',zh:'聚合線',c:'cmd'},
- {q:'剪掉超出邊界的線段',a:'TRIM',zh:'修剪',c:'cmd'},
- {q:'把短少的線延伸到牆邊',a:'EXTEND',zh:'延伸',c:'cmd'},
- {q:'兩條牆線的轉角接成圓角',a:'FILLET',zh:'圓角',c:'cmd'},
- {q:'把左半邊平面對稱複製到右邊',a:'MIRROR',zh:'鏡射',c:'cmd'},
- {q:'把圖塊打散成一條條線',a:'EXPLODE',zh:'分解',c:'cmd'},
- {q:'設定圖層的開關與顏色',a:'LAYER',zh:'圖層',c:'cmd'},
- {q:'清掉沒用到的圖層與圖塊',a:'PURGE',zh:'清除',c:'cmd'},
- {q:'把 PDF 轉成可編輯的線與文字',a:'PDFIMPORT',zh:'PDF 匯入',c:'cmd'},
- {q:'把 2D 輪廓拉高成 3D 實體',a:'EXTRUDE',zh:'擠出',c:'cmd'},
- {q:'AutoLISP 裡定義一個新指令',a:'defun',zh:'定義函數',c:'lisp'},
- {q:'AutoLISP 裡把數值存進變數',a:'setq',zh:'設定變數',c:'lisp'},
- {q:'在 AutoCAD 載入 LSP 程式',a:'APPLOAD',zh:'載入應用程式',c:'lisp'},
- {q:'幫程式做出可輸入參數的對話框',a:'DCL',zh:'對話框語言',c:'lisp'},
- {q:'用程式直接建立一個新物件',a:'entmake',zh:'建立圖元',c:'lisp'},
- {q:'取得最後建立的那個物件',a:'entlast',zh:'最後圖元',c:'lisp'},
- {q:'告訴 AI 以哪份圖、哪個版本為準',a:'來源',zh:'提示詞重點 1',c:'prompt'},
- {q:'說清楚單位、尺寸與圖層參數',a:'條件',zh:'提示詞重點 2',c:'prompt'},
- {q:'指定要 DWG、LSP 還是 HTML',a:'輸出',zh:'提示詞重點 3',c:'prompt'},
- {q:'說明怎麼確認尺寸與物件正確',a:'驗收',zh:'提示詞重點 4',c:'prompt'}
-];
-var GTAG={cmd:'AutoCAD 指令',lisp:'AutoLISP',prompt:'提示詞四重點'};
-var gc=$('gCanvas'),gx=gc.getContext('2d'),GW=0,GH=0,gRun=false,gPaused=false,gLeft=60,gScore=0,gCombo=0,gRight=0,gMeteors=[],gParts=[],gFloats=[],gBag=[],gLast=0,gQ=null,gNextAt=0,gBgStars=[];
-var GFONT=getComputedStyle(document.body).fontFamily;
-var gBest=0;try{gBest=+localStorage.getItem('aic-meteor-best')||0}catch(e){}
-$('gBestHud').textContent=gBest;
-function gResize(){
-  var r=gc.getBoundingClientRect();if(!r.width)return;GW=r.width;GH=r.height;var d=Math.min(window.devicePixelRatio||1,2);
-  gc.width=GW*d;gc.height=GH*d;gx.setTransform(d,0,0,d,0,0);
-  gBgStars=[];for(var i=0;i<70;i++)gBgStars.push([Math.random()*GW,Math.random()*GH,Math.random()*1.2+.2,Math.random()*.6+.2]);
-  if(!gRun)gDraw();
-}
-function gPick(){if(!gBag.length)gBag=shuffle(GQ.slice());return gBag.pop()}
-function gRound(){
-  gQ=gPick();
-  var pool=shuffle(GQ.filter(function(q){return q.c===gQ.c&&q.a!==gQ.a}).map(function(q){return q.a}));
-  var opts=shuffle([gQ.a].concat(pool.slice(0,3))),n=opts.length,lw=GW/n,el=60-gLeft;
-  var sp=GH*(.15+.0055*el);
-  gMeteors=opts.map(function(w,i){return {x:lw*(i+.5)+(Math.random()-.5)*lw*.2,y:-24-Math.random()*GH*.32,vy:sp*(.85+Math.random()*.3),vx:(Math.random()-.5)*10,w:w,ok:w===gQ.a,dead:false,box:null}});
-  $('gPrompt').innerHTML='<span class="tg">'+GTAG[gQ.c]+'</span>'+esc(gQ.q);
-}
-function gBurst(x,y,col,n){for(var i=0;i<n;i++){var a=Math.random()*6.283,s=40+Math.random()*180;gParts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,col:col})}}
-function gFloat(x,y,txt,col){gFloats.push({x:x,y:y,txt:txt,col:col,life:1})}
-function gHud(){$('gScore').textContent=gScore;$('gCombo').textContent='x'+Math.min(gCombo+1,5);$('gTime').textContent=Math.max(0,Math.ceil(gLeft))}
-function gStart(){
-  gResize();gRun=true;gPaused=false;gLeft=60;gScore=0;gCombo=0;gRight=0;gParts=[];gFloats=[];gNextAt=0;gBag=[];
-  $('gStart').hidden=true;$('gEnd').hidden=true;gHud();gRound();gLast=performance.now();requestAnimationFrame(gLoop);
-}
-function gEnd(){
-  gRun=false;gMeteors=[];
-  var isBest=gScore>gBest;if(isBest){gBest=gScore;try{localStorage.setItem('aic-meteor-best',gBest)}catch(e){}}
-  $('gFinal').textContent=gScore;
-  $('gRank').textContent=gScore<80?'🛰 見習繪圖員':gScore<180?'🚀 CAD 領航員':gScore<300?'🤖 AI 副駕駛':'👑 AI 艦長';
-  $('gRight').textContent='答對 '+gRight+' 題';
-  $('gBestTxt').innerHTML=(isBest&&gScore>0?'🎉 新紀錄！':'')+'最高分 <b>'+gBest+'</b>';
-  $('gBestHud').textContent=gBest;
-  $('gPrompt').innerHTML='<span class="tg">任務完成</span>想把這些指令交給 AI 幫你做？來上課吧！';
-  $('gEnd').hidden=false;gDraw();
-}
-function gLoop(t){
-  if(!gRun)return;
-  var dt=Math.min((t-gLast)/1000,.05);gLast=t;
-  if(!gPaused){
-    gLeft-=dt;if(gLeft<=0){gLeft=0;gHud();gEnd();return}
-    for(var i=0;i<gMeteors.length;i++){var m=gMeteors[i];if(m.dead)continue;m.y+=m.vy*dt;m.x+=m.vx*dt;
-      if(m.y>GH+30){m.dead=true;if(m.ok&&!gNextAt){gCombo=0;gFloat(GW/2,GH-40,'錯過了！答案是 '+gQ.a+' '+gQ.zh,'#ffb3c1');gNextAt=t+700}}}
-    if(gNextAt&&t>=gNextAt){gNextAt=0;gRound()}
-    for(var j=gParts.length-1;j>=0;j--){var p=gParts[j];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=120*dt;p.life-=dt*1.6;if(p.life<=0)gParts.splice(j,1)}
-    for(var k=gFloats.length-1;k>=0;k--){var f=gFloats[k];f.y-=30*dt;f.life-=dt*.8;if(f.life<=0)gFloats.splice(k,1)}
-    gHud();
-  }
-  gDraw();requestAnimationFrame(gLoop);
-}
-function gDraw(){
-  gx.clearRect(0,0,GW,GH);
-  for(var i=0;i<gBgStars.length;i++){var s=gBgStars[i];gx.fillStyle='rgba(255,255,255,'+s[3]+')';gx.beginPath();gx.arc(s[0],s[1],s[2],0,6.283);gx.fill()}
-  gx.font='700 '+(GW<500?12:14)+'px '+GFONT;gx.textAlign='center';gx.textBaseline='middle';
-  gMeteors.forEach(function(m){
-    if(m.dead)return;
-    var tl=70,tx2=m.x-m.vx*.5,ty2=m.y-tl;
-    var g=gx.createLinearGradient(m.x,m.y,tx2,ty2);g.addColorStop(0,'rgba(255,190,110,.75)');g.addColorStop(1,'rgba(255,120,40,0)');
-    gx.strokeStyle=g;gx.lineCap='round';gx.lineWidth=10;gx.beginPath();gx.moveTo(m.x,m.y);gx.lineTo(tx2,ty2);gx.stroke();
-    gx.lineWidth=3;gx.strokeStyle='rgba(255,240,200,.8)';gx.beginPath();gx.moveTo(m.x,m.y);gx.lineTo(m.x-m.vx*.3,m.y-tl*.6);gx.stroke();
-    var hg=gx.createRadialGradient(m.x,m.y,0,m.x,m.y,18);hg.addColorStop(0,'rgba(255,250,230,1)');hg.addColorStop(.35,'rgba(255,170,70,.9)');hg.addColorStop(1,'rgba(255,90,20,0)');
-    gx.fillStyle=hg;gx.beginPath();gx.arc(m.x,m.y,18,0,6.283);gx.fill();
-    var tw=gx.measureText(m.w).width,bw=tw+20,bh=26,bx=m.x-bw/2,by=m.y+14;
-    gx.fillStyle='rgba(6,9,30,.9)';gx.strokeStyle='rgba(255,200,130,.75)';gx.lineWidth=1.2;
-    gx.beginPath();if(gx.roundRect)gx.roundRect(bx,by,bw,bh,13);else gx.rect(bx,by,bw,bh);gx.fill();gx.stroke();
-    gx.fillStyle='#fff';gx.fillText(m.w,m.x,by+bh/2+1);
-    m.box=[bx-10,m.y-24,bw+20,bh+46];
-  });
-  gParts.forEach(function(p){gx.fillStyle='rgba('+p.col+','+Math.max(0,p.life)+')';gx.beginPath();gx.arc(p.x,p.y,2.2,0,6.283);gx.fill()});
-  gx.font='900 '+(GW<500?15:18)+'px '+GFONT;
-  gFloats.forEach(function(f){gx.globalAlpha=Math.max(0,f.life);gx.fillStyle=f.col;gx.fillText(f.txt,Math.min(Math.max(f.x,120),GW-120),f.y);gx.globalAlpha=1});
-}
-gc.addEventListener('pointerdown',function(e){
-  if(!gRun||gPaused)return;
-  var r=gc.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
-  for(var i=0;i<gMeteors.length;i++){var m=gMeteors[i];if(m.dead||!m.box)continue;var b=m.box;
-    if(px>=b[0]&&px<=b[0]+b[2]&&py>=b[1]&&py<=b[1]+b[3]){
-      if(m.ok){
-        var mult=Math.min(gCombo+1,5),pts=10*mult;gScore+=pts;gCombo++;gRight++;
-        gBurst(m.x,m.y,'255,214,120',30);gFloat(m.x,m.y,'+'+pts+'  '+gQ.a+' '+gQ.zh+' ✓','#ffe7a8');
-        gMeteors.forEach(function(o){if(!o.dead&&o!==m)gBurst(o.x,o.y,'150,170,220',8);o.dead=true});
-        gNextAt=performance.now()+450;
-      }else{
-        gScore=Math.max(0,gScore-5);gCombo=0;m.dead=true;gBurst(m.x,m.y,'255,90,110',18);gFloat(m.x,m.y,'-5 不是 '+m.w,'#ff9fb0');
-        var pr=$('gPrompt');pr.classList.remove('shake');void pr.offsetWidth;pr.classList.add('shake');
-      }
-      gHud();return;
-    }
-  }
-});
-document.addEventListener('visibilitychange',function(){if(gRun){gPaused=document.hidden;gLast=performance.now()}});
-$('gGo').addEventListener('click',gStart);
-$('gAgain').addEventListener('click',gStart);
-gResize();
 
 /* ---------- 講師照片載入失敗時保留預設圖示 ---------- */
 var av=document.querySelector('.avatar img'),fb=document.querySelector('.avatar .fb');

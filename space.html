@@ -1565,15 +1565,15 @@ function bgmStop(){
   m.gain.cancelScheduledValues(a.currentTime);m.gain.setValueAtTime(m.gain.value,a.currentTime);m.gain.linearRampToValueAtTime(0,a.currentTime+.6);
   setTimeout(function(){ns.forEach(function(n){try{n.stop()}catch(e){}});try{m.disconnect()}catch(e){}},700);
 }
-/* 背景音樂速度：慢 0.75x／正常 1x／快 1.25x／超快 1.5x，記住選擇 */
-var RATES=[.75,1,1.25,1.5],BGM_RATE=1,spdBtn=$('spdBtn');
+/* 背景音樂速度：正常 1x／快 1.5x／超快 2x，記住選擇 */
+var RATES=[1,1.5,2],BGM_RATE=1,spdBtn=$('spdBtn');
 try{var rr=parseFloat(localStorage.getItem('aic-bgm-rate'));if(RATES.indexOf(rr)>=0)BGM_RATE=rr}catch(e){}
 function bgmSchedule(a){clearInterval(BGM.timer);BGM.timer=setInterval(function(){if(!document.hidden)try{bgmTick(a)}catch(e){}},BGM_STEP/BGM_RATE)}
 function spdUI(){spdBtn.textContent='⏱ '+BGM_RATE+'x'}
 spdBtn.addEventListener('click',function(){
   BGM_RATE=RATES[(RATES.indexOf(BGM_RATE)+1)%RATES.length];
   try{localStorage.setItem('aic-bgm-rate',BGM_RATE)}catch(e){}
-  spdUI();toast('背景音樂速度 '+BGM_RATE+'x（'+['慢','正常','快','超快'][RATES.indexOf(BGM_RATE)]+'）');
+  spdUI();toast('背景音樂速度 '+BGM_RATE+'x（'+['正常','快','超快'][RATES.indexOf(BGM_RATE)]+'）');
   if(BGM.on)bgmSchedule(AC);
 });
 spdUI();

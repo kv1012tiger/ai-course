@@ -283,7 +283,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .planet.bounce .pl{animation:fxBounce .7s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 0 16px var(--atm))}
 @keyframes fxBounce{0%{transform:scale(1)}30%{transform:scale(1.55)}55%{transform:scale(.9)}75%{transform:scale(1.25)}100%{transform:scale(1)}}
 /* 音效開關 */
-.sfx-btn{position:fixed;left:16px;bottom:16px;z-index:76;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,138,42,.75);background:rgba(44,14,62,.9);color:#fff;font-size:21px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:transform .2s,background .2s}
+.sfx-btn{position:fixed;left:16px;bottom:16px;z-index:76;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,138,42,.75);background:rgba(44,14,62,.9);color:#fff;font-size:21px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:transform .2s,background .2s,opacity .35s;opacity:0;pointer-events:none}
+.sfx-btn.show{opacity:1;pointer-events:auto}
 .sfx-btn:hover{transform:scale(1.08);background:rgba(255,138,42,.2)}
 /* 點星球的隨機特效 */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
@@ -1422,7 +1423,7 @@ UNITS.forEach(function(u,i){
   planets.push({el:b,pl:b.querySelector('.pl'),lbl:b.querySelector('.lbl'),u:u,base:u.moon?(i-6)*(Math.PI*2/3)+Math.PI/6:i*(Math.PI*2/6)});
   var r=document.createElement('button');r.type='button';r.className='ri';
   r.innerHTML=planetHTML(u)+'<span class="txt"><b><em>'+u.id+'</em>'+esc(u.name)+'</b><span>'+esc(u.desc)+'</span></span><span class="ok">✓ 已看</span>';
-  r.addEventListener('click',function(e){openPanel('unit',i,r,e.detail===0)});
+  r.addEventListener('click',function(e){playSfx(Math.floor(Math.random()*5));openPanel('unit',i,r,e.detail===0)});
   (u.moon?$('listMoon'):$('listCore')).appendChild(r);routeItems.push(r);
 });
 var VIEW={tilt:null,target:null,zoom:null,vel:0,drag:null,moved:false};
@@ -1545,6 +1546,9 @@ var sfxBtn=$('sfxBtn');
 function sfxUI(){sfxBtn.textContent=SFX_ON?'🔊':'🔇';sfxBtn.setAttribute('aria-label',SFX_ON?'關閉音效':'開啟音效');sfxBtn.setAttribute('aria-pressed',SFX_ON?'false':'true')}
 sfxBtn.addEventListener('click',function(){SFX_ON=!SFX_ON;try{localStorage.setItem('aic-sfx',SFX_ON?'on':'off')}catch(e){}sfxUI();toast(SFX_ON?'已開啟音效':'已關閉音效');if(SFX_ON)tone(1046,0,.18,'sine',.12)});
 sfxUI();
+/* 音效開關只在「學什麼」段落（星系＋單元清單）出現 */
+if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){sfxBtn.classList.toggle('show',e.isIntersecting)})},{threshold:0,rootMargin:'-20% 0px -20% 0px'}).observe($('galaxy'))}
+else sfxBtn.classList.add('show');
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;

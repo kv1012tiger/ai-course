@@ -372,9 +372,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .forum{display:inline-block;margin-top:16px;font-size:13.5px;color:var(--cyan)}
 
 /* ===== 課前準備 ===== */
-.prep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:18px;margin-top:40px}
+.prep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:16px;margin-top:40px}
 .pc{padding:24px 24px 22px}
-.pc h3{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;margin-bottom:14px}
+.pc h3{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;margin-bottom:10px}
+.pc p{margin:0;font-size:19px;line-height:1.6;color:var(--ink)}
+.pdl-txt{font-size:19px;font-weight:900;color:#fff}
 .pc h3 i{font-style:normal;font-size:26px}
 .pc ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .pc li{font-size:17px;line-height:1.6;color:var(--ink)}
@@ -484,6 +486,13 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .prep li::before{content:"";flex:none;width:8px;height:8px;margin-top:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
 .prep li span{color:var(--muted)}
 
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lk{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;background:rgba(10,14,40,.85);border:1.5px solid rgba(255,138,42,.7);text-decoration:none;color:#fff;transition:transform .2s,background .2s,box-shadow .2s}
+.lk:hover{transform:translateY(-2px);background:rgba(255,138,42,.16);box-shadow:0 8px 24px rgba(255,122,26,.25)}
+.lk i{font-style:normal;font-size:26px;flex:none}
+.lk b{display:block;font-size:16px;font-weight:900;line-height:1.35}
+.lk small{display:block;font-size:13px;color:var(--muted);line-height:1.45}
+
 /* ===== 最終召喚 ===== */
 .launch{padding:120px 0 150px;text-align:center;overflow:hidden}
 .launch-planet{position:absolute;left:50%;bottom:-70vw;width:130vw;max-width:1700px;aspect-ratio:1/1;transform:translateX(-50%);border-radius:50%;z-index:-1;
@@ -522,6 +531,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .topnav a.nl{font-size:13px;padding:4px 8px}
 }
 @media (max-width:1100px){
+  .links{grid-template-columns:repeat(2,1fr)}
   .dots{display:none}
   .sessions{grid-template-columns:repeat(3,1fr)}
   .media{grid-template-columns:1fr 1fr}
@@ -562,6 +572,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .p-body{padding:6px 18px 24px}
   .p-globe .pl{--b:140px}
   .pc h3{font-size:19px}
+  .pc p{font-size:17px}
+  .pdl-txt{font-size:17px}
   .pc li{font-size:15.5px}
   .pc li b{font-size:15px}
   .prep-dl .btn{font-size:16px;padding:14px 22px;white-space:normal}
@@ -595,6 +607,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .p-dots i{width:6px;height:6px}
   .p-dots i.on{width:14px}
   .info li{grid-template-columns:62px 1fr}
+  .links{grid-template-columns:1fr}
   .cst .st{width:40px;height:40px;font-size:20px}
 }
 /* 手機版：維持原字級（章節標籤除外） */
@@ -828,48 +841,14 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <p class="lead">上課前確認這幾件事，當天就能直接開始練習。</p>
     </div>
     <div class="prep-grid">
-      <article class="card pc reveal">
-        <h3><i>💻</i>電腦與 CAD</h3>
-        <ul>
-          <li><b>CAD 軟體</b>建議 Windows 版 AutoCAD。</li>
-          <li><b>其他 CAD</b>先確認支援 LISP 與課程所需功能，並告訴 AI 軟體名稱、版本。</li>
-          <li><b>上課設備</b>筆電、滑鼠、充電器、網路，先確認軟體能開啟。</li>
-        </ul>
-      </article>
-      <article class="card pc reveal">
-        <h3><i>🔑</i>AI 帳號</h3>
-        <ul>
-          <li><b>事先登入</b>準備 Google、ChatGPT 帳號；預先安裝並登入 Codex。</li>
-          <li><b>付費方案</b>建議使用；免費版可能有用量及功能限制。授課使用付費訂閱版 AI 工具。</li>
-        </ul>
-        <p class="tip2">🍎 蘋果爸小提醒：請先登入帳號，確認 Codex 可以正常開啟！</p>
-      </article>
-      <article class="card pc reveal">
-        <h3><i>🗂️</i>練習資料</h3>
-        <ul>
-          <li><b>帶一份圖</b>平面圖、手繪圖或 DWG，有尺寸更好練習。</li>
-          <li><b>建立資料夾</b>把練習檔放進去，指定 Codex 在此作業。</li>
-          <li><b>保留原稿</b>先複製圖檔，再核對程式、尺寸與成果。</li>
-        </ul>
-      </article>
-      <article class="card pc reveal">
-        <h3><i>⚙️</i>Visual LISP 設定</h3>
-        <ul>
-          <li><b>Windows 版 AutoCAD</b>輸入 LISPSYS → 設為 0 → 重新啟動 AutoCAD → 輸入 VLIDE 開啟編輯器。</li>
-          <li><b>請先確認</b>VL IDE 不適用 AutoCAD LT；其他 CAD 請先確認相容性。</li>
-        </ul>
-        <p class="tip2">🍎 蘋果爸小提醒：LISPSYS 設為 0 時，留意中文程式檔編碼。</p>
-      </article>
-      <article class="card pc reveal">
-        <h3><i>🎒</i>上課當天</h3>
-        <ul>
-          <li><b>沒有筆電也沒關係</b>可以旁聽、做筆記，回去看上課錄影重播。</li>
-          <li><b>報到與教室</b>軟體準備與報到資訊，依課前通知。</li>
-          <li><b>教材</b>教材副本、可用 AI 工具、Windows 與 AutoCAD；本機工具單元另依教材確認字型、Core Console 與 Python 套件。</li>
-        </ul>
-      </article>
+      <article class="card pc reveal"><h3><i>💻</i>電腦與 CAD</h3><p>Windows 版 AutoCAD・筆電、滑鼠、充電器</p></article>
+      <article class="card pc reveal"><h3><i>🔑</i>AI 帳號</h3><p>先登入 Google、ChatGPT・安裝並登入 Codex</p></article>
+      <article class="card pc reveal"><h3><i>🗂️</i>練習資料</h3><p>帶一張平面圖、手繪圖或 DWG</p></article>
+      <article class="card pc reveal"><h3><i>⚙️</i>Visual LISP</h3><p>LISPSYS 設 0 → 重開 AutoCAD → 輸入 VLIDE</p></article>
+      <article class="card pc reveal"><h3><i>🎒</i>沒有筆電？</h3><p>可旁聽做筆記，回家看錄影重播</p></article>
     </div>
     <div class="card prep-dl reveal">
+      <span class="pdl-txt">完整說明都在 PDF 👉</span>
       <a class="btn btn-primary" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF（4 頁）</a>
       <span class="count" data-dl-count="prep"></span>
     </div>
@@ -963,10 +942,17 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       </div>
     </div>
     <div class="cap-txt reveal">
-      <span class="eyebrow">Captain · 講師與課前準備</span>
+      <span class="eyebrow">Captain · 講師介紹</span>
       <h2>我是<span class="grad-fire">蘋果爸</span></h2>
       <p class="bio">AutoCAD 實務 30 年以上，長期經營 AutoCAD 顧問論壇。把繪圖經驗與 AI 協作流程，帶到實體課一起練習。</p>
-      <div class="tools"><span>Gemini Pro 網頁版</span><span>ChatGPT Codex 單機版</span><span>AutoCAD</span></div>
+      <div class="links">
+        <a class="lk" href="https://autocad-tw.1shop.tw" target="_blank" rel="noopener"><i>🎓</i><span><b>蘋果爸課程百寶箱</b><small>所有 AutoCAD 課程一次看</small></span></a>
+        <a class="lk" href="https://www.youtube.com/user/kv1012tiger" target="_blank" rel="noopener"><i>🍄</i><span><b>蘋果爸愛分享頻道</b><small>免費教學影片看到飽</small></span></a>
+        <a class="lk" href="http://www.autocad-tw.com/" target="_blank" rel="noopener"><i>🚀</i><span><b>AutoCAD 顧問基地</b><small>問題、範例、程式都在這</small></span></a>
+        <a class="lk" href="https://www.facebook.com/groups/autocad.tw/" target="_blank" rel="noopener"><i>📢</i><span><b>CAD 同好交流圈</b><small>一起討論、互相幫忙</small></span></a>
+        <a class="lk" href="https://www.facebook.com/autocad.tw/" target="_blank" rel="noopener"><i>🍤</i><span><b>最新消息快報站</b><small>開課與活動第一手</small></span></a>
+        <a class="lk" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener"><i>🎁</i><span><b>LINE 一對一問蘋果爸</b><small>報名、課程問題直接問・@sni5329r</small></span></a>
+      </div>
     </div>
   </div>
 </section>

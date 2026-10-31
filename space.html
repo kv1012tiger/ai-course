@@ -761,9 +761,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="orbit outer" id="orbitOuter"></div>
       <div class="orbit inner" id="orbitInner"></div>
       <div class="core" id="core" aria-hidden="true"><span class="sun-surf"></span><span class="sun-limb"></span><div class="ct"><b>AI</b><small>幫你做</small></div></div>
-      <div class="stage-tip" id="stageTip">拖曳旋轉星系 · 點擊星球看內容</div>
+      <div class="stage-tip" id="stageTip">拖曳旋轉・上下拖換角度・滾輪縮放・點擊星球看內容</div>
     </div>
-    <div class="st-ctrl" role="group" aria-label="星系視角"><button type="button" id="vTilt">🔭 俯視</button><button type="button" id="vIn" aria-label="放大">＋</button><button type="button" id="vOut" aria-label="縮小">－</button><button type="button" id="vReset">重設</button></div>
     <div class="route-groups reveal">
       <div class="rg"><h4>核心主題 · 6 個實作範例</h4><div class="rg-list" id="listCore"></div></div>
       <div class="rg gold"><h4>加碼贈送 · 3 個附錄</h4><div class="rg-list" id="listMoon"></div></div>
@@ -1369,27 +1368,25 @@ UNITS.forEach(function(u,i){
 });
 var VIEW={tilt:null,target:null,zoom:1,vel:0,drag:null,moved:false};
 var TOUCH=window.matchMedia('(hover:none)').matches;
-function baseTilt(mob){return mob?.62:.36}
-function layoutStage(keepH){
-  var w=stage.clientWidth,mob=w<640,bt=baseTilt(mob);
+var DEF_TILT=.85,TILT_MIN=.08,TILT_MAX=1,ZOOM_MIN=.6,ZOOM_MAX=1.6;
+function clampT(v){return Math.max(TILT_MIN,Math.min(TILT_MAX,v))}
+function clampZ(v){return Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,v))}
+function layoutStage(){
+  var w=stage.clientWidth,mob=w<640;
   $('core').classList.toggle('sm',mob);
-  if(VIEW.tilt===null||G.mob!==mob){VIEW.tilt=VIEW.target=bt}
-  var sc0=mob?.66:1,maxB=82*sc0*1.3;/* 依最大星球（含放大上限）預留上下空間 */
+  if(VIEW.tilt===null){VIEW.tilt=VIEW.target=DEF_TILT}
+  var z=VIEW.zoom,sc=(mob?.66:1)*z,maxB=82*sc;
   var top=34+maxB*.55,bot=maxB*.55+48;
-  var irx0=Math.min(w*(mob?.33:.30),330),orx0=Math.min(w*(mob?.45:.44),480);
-  var alloc=orx0*(bt+.02)*1.25;
-  var h=(keepH&&G.h)?G.h:Math.round(top+alloc*2+bot);
+  var irx=Math.min(w*(mob?.33:.30),330)*z,orx=Math.min(w*(mob?.45:.44),480)*z;
+  var iry=irx*VIEW.tilt,ory=orx*Math.min(1,VIEW.tilt+.02);
+  var h=Math.round(top+ory*2+bot);
   stage.style.height=h+'px';
-  var zMax=Math.max(.7,(w/2-maxB*.55)/orx0),z=Math.min(VIEW.zoom,zMax),sc=sc0*z;
-  var irx=irx0*z,orx=orx0*z,iry=irx*VIEW.tilt,ory=orx*(VIEW.tilt+.02),maxOry=(h-top-bot)/2;
-  if(ory>maxOry){var f=maxOry/ory;iry*=f;ory*=f}
-  G={cx:w/2,cy:top+maxOry,irx:irx,iry:iry,orx:orx,ory:ory,mob:mob,h:h};
+  G={cx:w/2,cy:top+ory,irx:irx,iry:iry,orx:orx,ory:ory,mob:mob,h:h};
   var oi=$('orbitInner').style,oo=$('orbitOuter').style;
   oi.width=irx*2+'px';oi.height=iry*2+'px';oi.top=G.cy+'px';
   oo.width=orx*2+'px';oo.height=ory*2+'px';oo.top=G.cy+'px';
   $('core').style.top=G.cy+'px';
-  $('stageTip').textContent=(mob||TOUCH)?'左右滑動旋轉星系 · 點擊星球看內容':'拖曳旋轉星系（上下拖換角度）· 點擊星球看內容';
-  $('vTilt').textContent=VIEW.target>bt+.15?'🪐 側視':'🔭 俯視';
+  $('stageTip').textContent=(mob||TOUCH)?'左右滑旋轉・雙指縮放／上下滑換角度・點擊星球看內容':'拖曳旋轉・上下拖換角度・滾輪縮放・點擊星球看內容';
   planets.forEach(function(p){p.b=Math.round(p.u.size*sc);p.pl.style.setProperty('--b',p.b+'px')});
   placePlanets();
 }
@@ -1416,7 +1413,7 @@ stage.addEventListener('pointerdown',function(e){
   VIEW.vel=0;
 });
 stage.addEventListener('pointermove',function(e){
-  var d=VIEW.drag;if(!d||e.pointerId!==d.id)return;
+  var d=VIEW.drag;if(!d||e.pointerId!==d.id||PINCH)return;
   if(!d.on){
     var tx=e.clientX-d.x,ty=e.clientY-d.y;
     if(Math.abs(tx)<6&&Math.abs(ty)<6)return;
@@ -1427,7 +1424,7 @@ stage.addEventListener('pointermove',function(e){
   }
   var now=performance.now(),dx=e.clientX-d.lx,dy=e.clientY-d.ly,k=.009/Math.max(VIEW.zoom,.6);
   ang-=dx*k;VIEW.vel=-dx*k/Math.max(now-d.lt,8);
-  if(d.type==='mouse'&&dy){VIEW.target=VIEW.tilt=Math.max(.16,Math.min(.92,VIEW.tilt+dy*.004));layoutStage(true)}else placePlanets();
+  if(d.type==='mouse'&&dy){VIEW.target=VIEW.tilt=clampT(VIEW.tilt+dy*.004);layoutStage()}else placePlanets();
   d.lx=e.clientX;d.ly=e.clientY;d.lt=now;
 });
 function endDrag(e){
@@ -1438,13 +1435,26 @@ function endDrag(e){
 }
 stage.addEventListener('pointerup',endDrag);
 stage.addEventListener('pointercancel',endDrag);
-$('vTilt').addEventListener('click',function(){var bt=baseTilt(G.mob);VIEW.target=VIEW.target>bt+.15?bt:(G.mob?.95:.85);layoutStage(true)});
-$('vIn').addEventListener('click',function(){VIEW.zoom=Math.min(1.3,+(VIEW.zoom+.1).toFixed(2));layoutStage(true)});
-$('vOut').addEventListener('click',function(){VIEW.zoom=Math.max(.7,+(VIEW.zoom-.1).toFixed(2));layoutStage(true)});
-$('vReset').addEventListener('click',function(){VIEW.zoom=1;VIEW.vel=0;VIEW.target=baseTilt(G.mob);layoutStage(true)});
+stage.addEventListener('wheel',function(e){
+  var nz=clampZ(VIEW.zoom*(e.deltaY<0?1.08:1/1.08));
+  if(Math.abs(nz-VIEW.zoom)<.001)return;
+  e.preventDefault();VIEW.zoom=nz;layoutStage();
+},{passive:false});
+var PINCH=null;
+function touchInfo(t){var a=t[0],b=t[1];return {d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)||1,y:(a.clientY+b.clientY)/2}}
+stage.addEventListener('touchstart',function(e){
+  if(e.touches.length===2){var i=touchInfo(e.touches);PINCH={d:i.d,y:i.y,z:VIEW.zoom,t:VIEW.tilt};VIEW.drag=null;VIEW.moved=true;VIEW.vel=0}
+},{passive:true});
+stage.addEventListener('touchmove',function(e){
+  if(!PINCH||e.touches.length<2)return;
+  e.preventDefault();
+  var i=touchInfo(e.touches);
+  VIEW.zoom=clampZ(PINCH.z*i.d/PINCH.d);VIEW.target=VIEW.tilt=clampT(PINCH.t+(i.y-PINCH.y)*.004);layoutStage();
+},{passive:false});
+stage.addEventListener('touchend',function(e){if(PINCH&&e.touches.length<2){PINCH=null;setTimeout(function(){VIEW.moved=false},80)}},{passive:true});
 function stageLoop(t){
   var dt=lastT?Math.min(t-lastT,50):16;lastT=t;
-  if(Math.abs(VIEW.target-VIEW.tilt)>.002&&!VIEW.drag){VIEW.tilt+=(VIEW.target-VIEW.tilt)*.12;layoutStage(true)}
+  if(Math.abs(VIEW.target-VIEW.tilt)>.002&&!VIEW.drag){VIEW.tilt+=(VIEW.target-VIEW.tilt)*.12;layoutStage()}
   else if(!VIEW.drag&&!document.hidden){
     if(Math.abs(VIEW.vel)>.00002){ang+=VIEW.vel*dt;VIEW.vel*=Math.pow(.94,dt/16);placePlanets()}
     else if(!paused&&!hoverPause&&!reduce){ang+=dt*.0001;placePlanets()}

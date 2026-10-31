@@ -299,7 +299,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @keyframes fxFlash{from{transform:scale(.5);opacity:1}to{transform:scale(5);opacity:0}}
 /* 旋轉浮島輪播 */
 .orbit.inner{display:none}
-.car-bar{position:relative;z-index:120;display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 26px}
+.car-bar{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 26px}
 .car-go{font-size:19px;padding:15px 30px;min-width:260px}
 .car-arw{width:52px;height:52px;flex:none;border-radius:50%;border:1.5px solid rgba(255,138,42,.75);background:rgba(44,14,62,.9);color:#fff;font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center;padding-bottom:4px;transition:transform .2s,background .2s}
 .car-arw:hover{transform:scale(1.08);background:rgba(255,138,42,.22)}
@@ -1114,7 +1114,7 @@ var UNITS=[
  {id:'03',fig:[['圖片／手稿','已知尺寸'],['分層 CAD 圖面','原生標註、圖層分類、可編輯物件']],moon:false,name:'手繪圖轉 DWG',short:'手繪轉 DWG',star:'手稿星',tagline:'把草圖中的構件關係，整理成清楚線條',desc:'從草圖開始，整理成 CAD 圖面。',
   points:[['辨圖意','輪廓、符號、構件與方向'],['補條件','模糊尺寸先問，不憑比例猜'],['分圖層','完成 2D 後逐項對照原稿']],
   flow:['整理手繪圖','說明圖意','生成 2D','逐項比對'],outs:['分層 2D 圖','可修改線條','來源對照'],
-  tip:'以 240228 手繪案例練習；未提供的構造不可直接當成定案。',cheer:'看不懂的地方，圈起來問就對了！',c1:'#f0a070',c2:'#7a2e10',
+  tip:'以手繪案例練習；未提供的構造不可直接當成定案。',cheer:'看不懂的地方，圈起來問就對了！',c1:'#f0a070',c2:'#7a2e10',
   tex:{t:'rock',pal:[[70,28,14],[140,62,30],[196,108,58],[226,158,104]],polar:true,craters:14,seed:37},size:54},
  {id:'04',fig:[['圖片／手稿','已知尺寸'],['分層 CAD 圖面','原生標註、圖層分類、可編輯物件']],moon:false,name:'丈量手稿轉 DWG',short:'丈量轉 DWG',star:'丈量星',tagline:'讓現場筆記，成為可核對的圖說',desc:'整理現場尺寸，建立與修正圖面。',
   points:[['對尺寸','仰視、內外立面要一致'],['做圖說','原生標註、面積表與 3D 示意'],['分計量','投影、立面、下料面積不混用']],

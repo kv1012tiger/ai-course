@@ -255,6 +255,20 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @keyframes ripple{from{transform:scale(.9);opacity:1}to{transform:scale(1.6);opacity:0}}
 .planet.bounce .pl{animation:fxBounce .7s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 0 16px var(--atm))}
 @keyframes fxBounce{0%{transform:scale(1)}30%{transform:scale(1.55)}55%{transform:scale(.9)}75%{transform:scale(1.25)}100%{transform:scale(1)}}
+/* 開場畫面（點一下進入並開始播放背景音樂） */
+.intro{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(circle at 50% 38%,rgba(48,36,110,.92),rgba(2,3,14,.97) 70%);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:opacity .6s ease}
+.intro.hide{opacity:0;pointer-events:none}
+.intro[hidden]{display:none}
+.intro-box{text-align:center;max-width:560px}
+.intro-art{position:relative;width:150px;height:150px;margin:0 auto 22px}
+.ia-core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 30%,#fffbe8 0%,#ffe08a 18%,#ffb03a 42%,#ff6a1a 70%,#b33a06 100%);
+  box-shadow:0 0 50px 16px rgba(255,138,42,.55),0 0 140px 60px rgba(255,90,30,.2);animation:introPulse 2.4s ease-in-out infinite}
+@keyframes introPulse{50%{transform:scale(1.06);box-shadow:0 0 70px 24px rgba(255,150,50,.7),0 0 170px 80px rgba(255,90,30,.26)}}
+.intro-title{font-size:clamp(38px,8vw,64px);font-weight:900;line-height:1.15}
+.intro-sub{margin:10px 0 0;color:var(--muted);font-size:clamp(15px,2vw,18px)}
+.intro-go{margin-top:26px;font-size:20px;padding:18px 34px}
+.intro-mute{display:block;margin:18px auto 0;padding:6px 12px;background:none;border:0;color:var(--muted);font-size:15px;text-decoration:underline;cursor:pointer}
 /* 推薦好友優惠 */
 .refer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;margin-top:20px;padding:16px 20px;border-radius:18px;
   background:linear-gradient(135deg,rgba(255,179,71,.18),rgba(255,77,109,.12));box-shadow:0 0 0 1.5px rgba(255,190,90,.8),0 10px 30px rgba(255,120,40,.2);text-align:left}
@@ -1034,6 +1048,15 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="row2"><button class="btn btn-primary btn-sm" id="dlCopy" type="button">📋 複製下載連結</button><button class="btn btn-ghost btn-sm" id="dlClose" type="button">關閉</button></div>
   </div>
 </div>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introT">
+  <div class="intro-box">
+    <div class="intro-art" aria-hidden="true"><span class="ia-core"></span></div>
+    <h2 class="intro-title" id="introT"><span class="grad-fire">AI</span> <span class="grad">幫你做什麼</span></h2>
+    <p class="intro-sub">AutoCAD × AI 實體課程・週六下午 5 小時實作</p>
+    <button class="btn btn-primary intro-go" id="introGo" type="button">🚀 點一下，開始航行</button>
+    <button class="intro-mute" id="introMute" type="button">靜音進入</button>
+  </div>
+</div>
 <div id="fx" aria-hidden="true"></div>
 <button class="sfx-btn" id="sfxBtn" type="button" aria-label="關閉音效">🔊</button>
 <div class="toast" id="toast" role="status"></div>
@@ -1536,10 +1559,25 @@ function bgmStop(){
   setTimeout(function(){ns.forEach(function(n){try{n.stop()}catch(e){}});try{m.disconnect()}catch(e){}},700);
 }
 /* 瀏覽器規定需使用者先點擊或按鍵，才能開始播放 */
-function firstGesture(){if(SFX_ON)bgmStart()}
+function firstGesture(){if(intro&&!intro.hidden)return;if(SFX_ON)bgmStart()}
 document.addEventListener('pointerdown',firstGesture,{once:true});
 document.addEventListener('keydown',firstGesture,{once:true});
 document.addEventListener('visibilitychange',function(){if(!AC)return;if(document.hidden)AC.suspend();else if(SFX_ON)AC.resume()});
+/* ---------- 開場畫面：同一次瀏覽只出現一次 ---------- */
+var intro=$('intro'),introSeen=false;
+try{introSeen=sessionStorage.getItem('aic-intro')==='1'}catch(e){}
+if(introSeen)intro.hidden=true;
+else{document.documentElement.style.overflow='hidden';setTimeout(function(){$('introGo').focus({preventScroll:true})},120)}
+function closeIntro(withSound){
+  try{sessionStorage.setItem('aic-intro','1')}catch(e){}
+  SFX_ON=withSound;try{localStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
+  sfxUI();
+  if(withSound){tone(1046,0,.2,'sine',.12);bgmStart()}else bgmStop();
+  intro.classList.add('hide');document.documentElement.style.overflow='';
+  setTimeout(function(){intro.hidden=true},650);
+}
+$('introGo').addEventListener('click',function(){closeIntro(true)});
+$('introMute').addEventListener('click',function(){closeIntro(false)});
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;

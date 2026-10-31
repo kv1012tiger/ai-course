@@ -441,6 +441,12 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .foot a{color:var(--muted)}
 .foot p{margin:4px 0}
 
+.dltip{position:fixed;inset:0;z-index:125;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
+.dltip[hidden]{display:none}
+.dltip-box{max-width:380px;padding:24px 22px;background:var(--card-strong)}
+.dltip-box h3{font-size:18px;font-weight:900;margin-bottom:10px}
+.dltip-box p{margin:0 0 8px;font-size:15px;color:var(--ink)}
+.dltip-box p.sm{font-size:13.5px;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:96px;z-index:130;transform:translate(-50%,20px);padding:10px 20px;border-radius:999px;background:rgba(10,14,40,.95);border:1px solid rgba(94,231,255,.5);font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:all .3s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
@@ -817,6 +823,14 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="正式招生海報">
   <img id="lbImg" alt="AI 幫你做什麼 正式招生海報">
   <button class="p-close" id="lbClose" type="button" aria-label="關閉">×</button>
+</div>
+<div class="dltip" id="dlTip" role="dialog" aria-modal="true" aria-labelledby="dlTipT" hidden>
+  <div class="card dltip-box">
+    <h3 id="dlTipT">這個 App 無法直接下載檔案</h3>
+    <p>請點畫面右上角「⋯」，選擇「以瀏覽器開啟」，再按一次「下載」。</p>
+    <p class="sm">也可以複製下載連結，貼到 Safari 或 Chrome 開啟。</p>
+    <div class="row2"><button class="btn btn-primary btn-sm" id="dlCopy" type="button">📋 複製下載連結</button><button class="btn btn-ghost btn-sm" id="dlClose" type="button">關閉</button></div>
+  </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -1339,6 +1353,7 @@ backdrop.addEventListener('click',closePanel);
 $('pPrev').addEventListener('click',function(){go(-1)});
 $('pNext').addEventListener('click',function(){go(1)});
 document.addEventListener('keydown',function(e){
+  if(!dlTip.hidden){if(e.key==='Escape')closeDlTip();return}
   if(lb.classList.contains('open')){if(e.key==='Escape')closeLb();return}
   if(cur<0)return;
   if(e.key==='Escape'){closePanel()}
@@ -1387,7 +1402,22 @@ function showCount(n){[].forEach.call(document.querySelectorAll('[data-dl-count]
     showCount(a.download_count);try{sessionStorage.setItem(ck,JSON.stringify({t:Date.now(),n:a.download_count}))}catch(e){}
   }).catch(function(){});
 })();
-[].forEach.call(document.querySelectorAll('[data-dl]'),function(a){a.addEventListener('click',function(){toast('開始下載課程大綱 PDF');try{sessionStorage.removeItem('aic-dl-count')}catch(e){}})});
+/* App 內建瀏覽器（LINE、Facebook、Instagram 等）不支援下載檔案：
+   LINE 改用官方的 openExternalBrowser 參數跳到手機瀏覽器；其他 App 提示改用瀏覽器開啟 */
+var UA=navigator.userAgent||'',IN_LINE=/\bLine\//i.test(UA),IN_APP=!IN_LINE&&/FBAN|FBAV|FB_IAB|Instagram|Messenger|MicroMessenger|KAKAOTALK/i.test(UA);
+var dlLinks=document.querySelectorAll('[data-dl]'),PDF_HREF=dlLinks.length?dlLinks[0].href:'',dlTip=$('dlTip');
+function closeDlTip(){dlTip.hidden=true}
+[].forEach.call(dlLinks,function(a){
+  if(IN_LINE)a.href=PDF_HREF+(PDF_HREF.indexOf('?')<0?'?':'&')+'openExternalBrowser=1';
+  a.addEventListener('click',function(e){
+    if(IN_APP){e.preventDefault();dlTip.hidden=false;$('dlCopy').focus({preventScroll:true});return}
+    toast(IN_LINE?'將用手機瀏覽器開啟並下載 PDF':'開始下載課程大綱 PDF');
+    try{sessionStorage.removeItem('aic-dl-count')}catch(err){}
+  });
+});
+$('dlCopy').addEventListener('click',function(){copyText(PDF_HREF,'已複製下載連結')});
+$('dlClose').addEventListener('click',closeDlTip);
+dlTip.addEventListener('click',function(e){if(e.target===dlTip)closeDlTip()});
 
 })();
 </script>

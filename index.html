@@ -1092,7 +1092,8 @@ if(!reduce){
 }
 setTimeout(function(){renderSky();updateSkyShift()},30);
 var rsT;window.addEventListener('resize',function(){clearTimeout(rsT);rsT=setTimeout(function(){
-  var wChanged=Math.abs(window.innerWidth-skyW)>40;initStars();  if(wChanged)renderSky();else sky.style.height=(window.innerHeight+SKY_SHIFT)+'px';
+  var wChanged=Math.abs(window.innerWidth-skyW)>40;initStars();layoutStage();
+  if(wChanged)renderSky();else sky.style.height=(window.innerHeight+SKY_SHIFT)+'px';
   updateSkyShift();
 },180)});
 

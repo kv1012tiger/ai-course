@@ -1076,7 +1076,9 @@ function runTexQueue(){
 var sky=$('sky'),SKY_SHIFT=420,skyW=0;
 function bandAt(fx,fy){var a=-.42,nx=-Math.sin(a),ny=Math.cos(a),d=((fx-.5)*nx+(fy-.48)*ny*.62)/.2;return Math.exp(-d*d*1.4)}
 function renderSky(){
-  var vw=window.innerWidth,vh=window.innerHeight;skyW=vw;
+  var vw=window.innerWidth,vh=window.innerHeight;
+  if(!vw||!vh){setTimeout(renderSky,400);return}/* 背景分頁載入時視窗尺寸可能為 0 */
+  skyW=vw;
   var w=Math.ceil(vw/4),h=Math.ceil((vh+SKY_SHIFT)/4);
   sky.width=w;sky.height=h;sky.style.height=(vh+SKY_SHIFT)+'px';
   var x=sky.getContext('2d'),img=x.createImageData(w,h),D=img.data,N=mkNoise(5),N2=mkNoise(9);

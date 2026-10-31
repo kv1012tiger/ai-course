@@ -325,6 +325,20 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @keyframes fxMet{from{transform:translate(var(--fx),var(--fy)) rotate(var(--r));opacity:0}20%{opacity:1}90%{opacity:1}to{transform:translate(0,0) rotate(var(--r));opacity:0}}
 .fx-flash{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:radial-gradient(circle,#fff,var(--c) 40%,transparent 70%);animation:fxFlash .55s ease-out forwards}
 @keyframes fxFlash{from{transform:scale(.5);opacity:1}to{transform:scale(5);opacity:0}}
+/* 旋轉浮島輪播 */
+.orbit.inner{display:none}
+.car-bar{position:relative;z-index:120;display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 26px}
+.car-go{font-size:19px;padding:15px 30px;min-width:260px}
+.car-arw{width:52px;height:52px;flex:none;border-radius:50%;border:1.5px solid rgba(255,138,42,.75);background:rgba(44,14,62,.9);color:#fff;font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center;padding-bottom:4px;transition:transform .2s,background .2s}
+.car-arw:hover{transform:scale(1.08);background:rgba(255,138,42,.22)}
+.planet .lbl{transition:font-size .25s,padding .25s,background .25s}
+.planet.front .lbl{font-size:22px;padding:5px 16px;background:linear-gradient(135deg,#ffb347,#ff6a3d);border-color:#ffd9a0;color:#fff;box-shadow:0 6px 20px rgba(255,120,40,.45)}
+.planet.front .lbl em{color:#fff}
+@media (max-width:640px){
+  .car-go{font-size:16px;padding:13px 18px;min-width:0;flex:1}
+  .car-arw{width:44px;height:44px;font-size:26px}
+  .planet.front .lbl{font-size:16px;padding:4px 12px}
+}
 .stage-tip{position:absolute;left:50%;top:0;transform:translateX(-50%);font-size:15px;color:var(--dim);white-space:nowrap;pointer-events:none}
 .route-groups{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:26px}
 .rg h4{font-size:21px;color:var(--muted);font-weight:700;margin:0 0 10px;letter-spacing:.06em}
@@ -862,6 +876,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="orbit inner" id="orbitInner"></div>
       <div class="core" id="core" aria-hidden="true"><span class="sun-surf"></span><span class="sun-limb"></span><div class="ct"><b>AI</b><small>幫你做</small></div></div>
       <div class="stage-tip" id="stageTip">拖曳旋轉・點擊島嶼看內容</div>
+    </div>
+    <div class="car-bar">
+      <button class="car-arw" id="carPrev" type="button" aria-label="上一個">‹</button>
+      <button class="btn btn-primary car-go" id="carGo" type="button">進入 →</button>
+      <button class="car-arw" id="carNext" type="button" aria-label="下一個">›</button>
     </div>
     <div class="route-groups reveal">
       <div class="rg"><h4>核心主題 · 6 個實作範例</h4><div class="rg-list" id="listCore"></div></div>
@@ -1457,64 +1476,66 @@ UNITS.forEach(function(u,i){
   b.setAttribute('aria-label',u.id+' '+u.name);
   b.innerHTML=planetHTML(u)+'<span class="lbl"><em>'+u.id+'</em>'+esc(u.short)+'</span>';
   b.querySelector('.pl').insertAdjacentHTML('beforeend','<span class="chk">✓</span>');
-  b.addEventListener('click',function(e){if(VIEW.moved||fxBusy)return;var kb=e.detail===0;fxBusy=true;paused=true;playFx(planets[i],u,function(){fxBusy=false;openPanel('unit',i,b,kb)})});
+  b.addEventListener('click',function(e){if(VIEW.moved||fxBusy)return;var kb=e.detail===0;goTo(i);fxBusy=true;paused=true;playFx(planets[i],u,function(){fxBusy=false;openPanel('unit',i,b,kb)})});
   b.addEventListener('pointerenter',function(){hoverPause=true});
   b.addEventListener('pointerleave',function(){hoverPause=false});
   b.addEventListener('focus',function(){hoverPause=true});
   b.addEventListener('blur',function(){hoverPause=false});
   stage.appendChild(b);
-  planets.push({el:b,pl:b.querySelector('.pl'),lbl:b.querySelector('.lbl'),u:u,base:u.moon?(i-6)*(Math.PI*2/3)+Math.PI/6:i*(Math.PI*2/6)});
+  planets.push({el:b,pl:b.querySelector('.pl'),lbl:b.querySelector('.lbl'),u:u,idx:i});
   var r=document.createElement('button');r.type='button';r.className='ri';
   r.innerHTML=planetHTML(u)+'<span class="txt"><b><em>'+u.id+'</em>'+esc(u.name)+'</b><span>'+esc(u.desc)+'</span></span><span class="ok">✓ 已看</span>';
   r.addEventListener('click',function(e){playSfx(Math.floor(Math.random()*5));openPanel('unit',i,r,e.detail===0)});
   (u.moon?$('listMoon'):$('listCore')).appendChild(r);routeItems.push(r);
 });
-var VIEW={tilt:null,target:null,zoom:null,vel:0,drag:null,moved:false};
+var VIEW={vel:0,drag:null,moved:false};
 var TOUCH=window.matchMedia('(hover:none)').matches;
-var DEF_TILT=.85,TILT_MIN=.08,TILT_MAX=1,ZOOM_MIN=.4,ZOOM_MAX=1.6;
-function clampT(v){return Math.max(TILT_MIN,Math.min(TILT_MAX,v))}
-function clampZ(v){return Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,v))}
+/* 旋轉浮島輪播：9 座島排成一圈，轉到最前面（畫面下方）的那座放大，下方按鈕同步 */
+var N=UNITS.length,STEP=Math.PI*2/N,goal=0,front=-1,autoT=0,AUTO_MS=2000;
+function wrapA(v){v%=Math.PI*2;if(v>Math.PI)v-=Math.PI*2;if(v<-Math.PI)v+=Math.PI*2;return v}
 function layoutStage(){
   var w=stage.clientWidth,mob=w<640;
-  $('core').classList.toggle('sm',mob);
-  if(VIEW.tilt===null){VIEW.tilt=VIEW.target=DEF_TILT}
-  /* 第一次排版：縮放到整個星系剛好放進一個畫面（一目了然） */
-  if(VIEW.zoom===null){var r0=Math.min(w*(mob?.45:.44),480),pad0=34+82*(mob?.66:1)*1.1+48;VIEW.zoom=clampZ(Math.min(1,(window.innerHeight-170-pad0)/(2*r0*(DEF_TILT+.02))))}
-  var z=VIEW.zoom,sc=(mob?.66:1)*Math.sqrt(z),maxB=82*sc;
-  var top=34+maxB*.55,bot=maxB*.55+48;
-  var irx=Math.min(w*(mob?.33:.30),330)*z,orx=Math.min(w*(mob?.45:.44),480)*z;
-  var iry=irx*VIEW.tilt,ory=orx*Math.min(1,VIEW.tilt+.02);
-  var h=Math.round(top+ory*2+bot);
+  $('core').classList.add('sm');
+  var b0=mob?62:88,rx=Math.min(w*(mob?.42:.40),440),ry=rx*(mob?.72:.36);
+  var top=46+b0*.3,bot=b0*.8+(mob?96:110);
+  var h=Math.round(top+ry*2+bot);
   stage.style.height=h+'px';
-  G={cx:w/2,cy:top+ory,irx:irx,iry:iry,orx:orx,ory:ory,mob:mob,h:h};
-  var oi=$('orbitInner').style,oo=$('orbitOuter').style;
-  oi.width=irx*2+'px';oi.height=iry*2+'px';oi.top=G.cy+'px';
-  oo.width=orx*2+'px';oo.height=ory*2+'px';oo.top=G.cy+'px';
+  G={cx:w/2,cy:top+ry,rx:rx,ry:ry,mob:mob,h:h,b0:b0};
+  var oo=$('orbitOuter').style;
+  oo.width=rx*2+'px';oo.height=ry*2+'px';oo.top=G.cy+'px';
   $('core').style.top=G.cy+'px';
-  $('stageTip').textContent=(mob||TOUCH)?'左右滑旋轉・點擊島嶼看內容':'拖曳旋轉・點擊島嶼看內容';
-  planets.forEach(function(p){p.b=Math.round(p.u.size*sc);p.pl.style.setProperty('--b',p.b+'px')});
+  $('stageTip').textContent=(mob||TOUCH)?'自動輪播・左右滑動切換・點島嶼看內容':'自動輪播・拖曳或按 ‹ › 切換・點島嶼看內容';
+  planets.forEach(function(p){p.b=b0;p.pl.style.setProperty('--b',p.b+'px')});
   placePlanets();
 }
 function placePlanets(){
+  var f=((Math.round(ang/STEP)%N)+N)%N;
   planets.forEach(function(p){
-    var a=p.base+ang;
-    var rx=p.u.moon?G.orx:G.irx,ry=p.u.moon?G.ory:G.iry;
-    var x=G.cx+rx*Math.cos(a),y=G.cy+ry*Math.sin(a);
-    var depth=(Math.sin(a)+1)/2,s=.76+.32*depth;
+    var a=ang-p.idx*STEP+Math.PI/2;
+    var x=G.cx+G.rx*Math.cos(a),y=G.cy+G.ry*Math.sin(a);
+    var depth=(Math.sin(a)+1)/2,d2=depth*depth,s=.45+.85*d2*d2;
     p.el.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) translate(-50%,-'+(p.b/2)+'px) scale('+s.toFixed(3)+')';
     p.el.style.transformOrigin='50% '+(p.b/2)+'px';
     p.el.style.zIndex=depth>.5?60+Math.round(depth*40):10+Math.round(depth*30);
-    p.el.style.opacity=(.66+.34*depth).toFixed(2);
-    p.lbl.style.transform=G.mob?'':'scale('+((1+s)/2/s).toFixed(3)+')';
-    /* 光源方向：指向中央恆星 */
+    p.el.style.opacity=(.5+.5*depth).toFixed(2);
+    /* 名牌：只有最前面那座放大，其他維持小名牌，避免互相壓到 */
+    var ls=G.mob?1:Math.min(1.6,(1+s)/2/s);if(p.idx!==f)ls=Math.min(ls,(G.mob?.7:.85)/s);
+    p.lbl.style.transform=ls===1?'':'scale('+ls.toFixed(3)+')';
     var lx=G.cx-x,ly=G.cy-y,ln=Math.sqrt(lx*lx+ly*ly)||1;
     p.pl.style.setProperty('--lx',(lx/ln).toFixed(3));p.pl.style.setProperty('--ly',(ly/ln*.8-.2).toFixed(3));
   });
+  if(f!==front){
+    front=f;var u=UNITS[f];
+    planets.forEach(function(p,k){p.el.classList.toggle('front',k===f)});
+    $('carGo').textContent='進入 '+u.id+' '+u.short+' →';
+  }
 }
-/* 拖曳環轉：左右拖旋轉、滑鼠上下拖改俯視角度；放開後有慣性 */
+function goTo(i){goal=ang+wrapA(i*STEP-ang);autoT=0}
+function stepBy(d){goal=Math.round(goal/STEP)*STEP+d*STEP;autoT=0}
+/* 拖曳切換：左右拖曳，放開後停在最近的一座島 */
 stage.addEventListener('pointerdown',function(e){
-  if(e.button>0||e.target.closest('.st-ctrl'))return;
-  VIEW.drag={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,lt:performance.now(),id:e.pointerId,on:false,type:e.pointerType};
+  if(e.button>0)return;
+  VIEW.drag={x:e.clientX,y:e.clientY,lx:e.clientX,lt:performance.now(),id:e.pointerId,on:false,type:e.pointerType};
   VIEW.vel=0;
 });
 stage.addEventListener('pointermove',function(e){
@@ -1523,33 +1544,39 @@ stage.addEventListener('pointermove',function(e){
     var tx=e.clientX-d.x,ty=e.clientY-d.y;
     if(Math.abs(tx)<6&&Math.abs(ty)<6)return;
     if(d.type!=='mouse'&&Math.abs(ty)>Math.abs(tx)){VIEW.drag=null;return}/* 手機上下滑＝捲動網頁 */
-    d.on=true;VIEW.moved=true;d.lx=e.clientX;d.ly=e.clientY;
+    d.on=true;VIEW.moved=true;d.lx=e.clientX;
     try{stage.setPointerCapture(d.id)}catch(err){}
     stage.classList.add('dragging');return;
   }
-  var now=performance.now(),dx=e.clientX-d.lx,dy=e.clientY-d.ly,k=.009/Math.max(VIEW.zoom,.6);
+  var now=performance.now(),dx=e.clientX-d.lx,k=2.4/Math.max(G.rx*2,200);
   ang-=dx*k;VIEW.vel=-dx*k/Math.max(now-d.lt,8);
   placePlanets();
-  d.lx=e.clientX;d.ly=e.clientY;d.lt=now;
+  d.lx=e.clientX;d.lt=now;
 });
 function endDrag(e){
   var d=VIEW.drag;if(!d||(e&&e.pointerId!==d.id))return;
   VIEW.drag=null;stage.classList.remove('dragging');
-  if(performance.now()-d.lt>80||reduce)VIEW.vel=0;
-  if(d.on)setTimeout(function(){VIEW.moved=false},60);else VIEW.moved=false;
+  var v=(performance.now()-d.lt>80||reduce)?0:VIEW.vel;VIEW.vel=0;
+  if(d.on){goal=Math.round((ang+v*220)/STEP)*STEP;autoT=0;setTimeout(function(){VIEW.moved=false},60)}else VIEW.moved=false;
 }
 stage.addEventListener('pointerup',endDrag);
 stage.addEventListener('pointercancel',endDrag);
 function stageLoop(t){
   var dt=lastT?Math.min(t-lastT,50):16;lastT=t;
-  if(Math.abs(VIEW.target-VIEW.tilt)>.002&&!VIEW.drag){VIEW.tilt+=(VIEW.target-VIEW.tilt)*.12;layoutStage()}
-  else if(!VIEW.drag&&!document.hidden){
-    if(Math.abs(VIEW.vel)>.00002){ang+=VIEW.vel*dt;VIEW.vel*=Math.pow(.94,dt/16);placePlanets()}
-    else if(!paused&&!hoverPause&&!reduce){ang+=dt*.0001;placePlanets()}
+  if(!VIEW.drag&&!document.hidden){
+    if(!paused&&!hoverPause&&!reduce){autoT+=dt;if(autoT>AUTO_MS){autoT=0;goal=Math.round(goal/STEP)*STEP+STEP}}
+    if(Math.abs(goal-ang)>.0005){ang+=(goal-ang)*(reduce?1:Math.min(1,dt*.006));placePlanets()}
   }
   globeTick(dt);
   requestAnimationFrame(stageLoop);
 }
+$('carPrev').addEventListener('click',function(){stepBy(-1)});
+$('carNext').addEventListener('click',function(){stepBy(1)});
+$('carGo').addEventListener('click',function(e){
+  if(fxBusy)return;var i=front,kb=e.detail===0,btn=this;goal=ang=Math.round(ang/STEP)*STEP;placePlanets();
+  fxBusy=true;paused=true;playFx(planets[i],UNITS[i],function(){fxBusy=false;openPanel('unit',i,btn,kb)});
+});
+stage.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){stepBy(-1);e.preventDefault()}else if(e.key==='ArrowRight'){stepBy(1);e.preventDefault()}});
 layoutStage();
 requestAnimationFrame(stageLoop);
 refreshVisited();

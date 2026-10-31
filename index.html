@@ -43,7 +43,8 @@ button{font:inherit;color:inherit}
 #sky.on{opacity:1}
 .vignette{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-/* 萬聖夜海島背景 */
+/* 萬聖夜海島背景：全部裝飾放在裁切外框內，避免移出畫面而被手機模擬誤判為網頁變寬 */
+.hw-deco{position:fixed;inset:0;contain:paint;overflow:hidden;pointer-events:none;z-index:-1}
 .hw-moon{position:fixed;top:96px;right:7vw;width:150px;height:150px;border-radius:50%;z-index:-1;pointer-events:none;
   background:radial-gradient(circle at 40% 38%,#fffbe6 0%,#ffeeb5 40%,#f5c86b 72%,#d99a3a 100%);
   box-shadow:0 0 60px 20px rgba(255,220,140,.35),0 0 180px 70px rgba(255,160,70,.16)}
@@ -712,6 +713,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="vignette" aria-hidden="true"></div>
+<div class="hw-deco" aria-hidden="true">
 <div class="hw-moon" aria-hidden="true"></div>
 <div class="hw-sea" aria-hidden="true">
   <svg class="wv w1" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 30 Q75 0 150 30 T300 30 T450 30 T600 30 T750 30 T900 30 T1050 30 T1200 30 V60 H0Z"/></svg>
@@ -722,6 +724,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 <div class="hw-pumpkins" aria-hidden="true">🎃<span>🎃</span></div>
 <div class="hw-bats" aria-hidden="true"><span>🦇</span><span>🦇</span><span>🦇</span></div>
 <div class="hw-ghost" aria-hidden="true">👻</div>
+</div>
 <canvas id="stars" aria-hidden="true"></canvas>
 <div class="progress" id="progress" aria-hidden="true"></div>
 

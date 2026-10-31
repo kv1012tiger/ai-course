@@ -821,7 +821,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="orbit outer" id="orbitOuter"></div>
       <div class="orbit inner" id="orbitInner"></div>
       <div class="core" id="core" aria-hidden="true"><span class="sun-surf"></span><span class="sun-limb"></span><div class="ct"><b>AI</b><small>幫你做</small></div></div>
-      <div class="stage-tip" id="stageTip">拖曳旋轉・上下拖換角度・滾輪縮放・點擊島嶼看內容</div>
+      <div class="stage-tip" id="stageTip">拖曳旋轉・點擊島嶼看內容</div>
     </div>
     <div class="route-groups reveal">
       <div class="rg"><h4>核心主題 · 6 個實作範例</h4><div class="rg-list" id="listCore"></div></div>
@@ -1439,7 +1439,7 @@ function layoutStage(){
   oi.width=irx*2+'px';oi.height=iry*2+'px';oi.top=G.cy+'px';
   oo.width=orx*2+'px';oo.height=ory*2+'px';oo.top=G.cy+'px';
   $('core').style.top=G.cy+'px';
-  $('stageTip').textContent=(mob||TOUCH)?'左右滑旋轉・雙指縮放／上下滑換角度・點擊島嶼看內容':'拖曳旋轉・上下拖換角度・滾輪縮放・點擊島嶼看內容';
+  $('stageTip').textContent=(mob||TOUCH)?'左右滑旋轉・點擊島嶼看內容':'拖曳旋轉・點擊島嶼看內容';
   planets.forEach(function(p){p.b=Math.round(p.u.size*sc);p.pl.style.setProperty('--b',p.b+'px')});
   placePlanets();
 }
@@ -1466,7 +1466,7 @@ stage.addEventListener('pointerdown',function(e){
   VIEW.vel=0;
 });
 stage.addEventListener('pointermove',function(e){
-  var d=VIEW.drag;if(!d||e.pointerId!==d.id||PINCH)return;
+  var d=VIEW.drag;if(!d||e.pointerId!==d.id)return;
   if(!d.on){
     var tx=e.clientX-d.x,ty=e.clientY-d.y;
     if(Math.abs(tx)<6&&Math.abs(ty)<6)return;
@@ -1477,7 +1477,7 @@ stage.addEventListener('pointermove',function(e){
   }
   var now=performance.now(),dx=e.clientX-d.lx,dy=e.clientY-d.ly,k=.009/Math.max(VIEW.zoom,.6);
   ang-=dx*k;VIEW.vel=-dx*k/Math.max(now-d.lt,8);
-  if(d.type==='mouse'&&dy){VIEW.target=VIEW.tilt=clampT(VIEW.tilt+dy*.004);layoutStage()}else placePlanets();
+  placePlanets();
   d.lx=e.clientX;d.ly=e.clientY;d.lt=now;
 });
 function endDrag(e){
@@ -1488,23 +1488,6 @@ function endDrag(e){
 }
 stage.addEventListener('pointerup',endDrag);
 stage.addEventListener('pointercancel',endDrag);
-stage.addEventListener('wheel',function(e){
-  var nz=clampZ(VIEW.zoom*(e.deltaY<0?1.08:1/1.08));
-  if(Math.abs(nz-VIEW.zoom)<.001)return;
-  e.preventDefault();VIEW.zoom=nz;layoutStage();
-},{passive:false});
-var PINCH=null;
-function touchInfo(t){var a=t[0],b=t[1];return {d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)||1,y:(a.clientY+b.clientY)/2}}
-stage.addEventListener('touchstart',function(e){
-  if(e.touches.length===2){var i=touchInfo(e.touches);PINCH={d:i.d,y:i.y,z:VIEW.zoom,t:VIEW.tilt};VIEW.drag=null;VIEW.moved=true;VIEW.vel=0}
-},{passive:true});
-stage.addEventListener('touchmove',function(e){
-  if(!PINCH||e.touches.length<2)return;
-  e.preventDefault();
-  var i=touchInfo(e.touches);
-  VIEW.zoom=clampZ(PINCH.z*i.d/PINCH.d);VIEW.target=VIEW.tilt=clampT(PINCH.t+(i.y-PINCH.y)*.004);layoutStage();
-},{passive:false});
-stage.addEventListener('touchend',function(e){if(PINCH&&e.touches.length<2){PINCH=null;setTimeout(function(){VIEW.moved=false},80)}},{passive:true});
 function stageLoop(t){
   var dt=lastT?Math.min(t-lastT,50):16;lastT=t;
   if(Math.abs(VIEW.target-VIEW.tilt)>.002&&!VIEW.drag){VIEW.tilt+=(VIEW.target-VIEW.tilt)*.12;layoutStage()}

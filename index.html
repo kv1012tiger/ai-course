@@ -75,13 +75,15 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .topbar{position:fixed;top:0;left:0;right:0;z-index:70;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
 .topbar.solid{background:rgba(1,2,10,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-size:19px;letter-spacing:.02em}
-.brand-dot{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffbe8,#ffd166 30%,#ff8a2a 65%,#b4400a);box-shadow:0 0 16px rgba(255,138,42,.7)}
-.brand small{display:block;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.06em}
-.topnav{display:flex;align-items:center;gap:16px}
-.topnav .btn{font-size:16px;padding:10px 22px}
-.topnav a.nl{text-decoration:none;color:var(--muted);font-size:17px;font-weight:500;transition:color .2s}
-.topnav a.nl:hover{color:#fff}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;font-size:23px;line-height:1.25;letter-spacing:.02em}
+.brand-dot{flex:none;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffbe8,#ffd166 30%,#ff8a2a 65%,#b4400a);box-shadow:0 0 16px rgba(255,138,42,.7)}
+.brand small{display:block;font-size:15px;font-weight:500;color:var(--muted);letter-spacing:.06em}
+.topnav{display:flex;align-items:center;gap:8px}
+.topnav .btn{font-size:16px;padding:10px 22px;margin-left:6px}
+.topnav a.nl{text-decoration:none;color:#fff;font-size:16px;font-weight:700;padding:6px 12px;border-radius:999px;background:rgba(10,14,40,.85);border:1.5px solid rgba(255,138,42,.7);transition:all .2s;white-space:nowrap}
+.topnav a.nl:hover{background:rgba(255,138,42,.2);transform:translateY(-1px)}
+.topnav a.nl.on{background:linear-gradient(135deg,#ffb347,#ff7a1a 50%,#ff4d6d);border-color:transparent;box-shadow:0 0 14px rgba(255,122,26,.55)}
+.topnav a.nl.dl{border-color:rgba(255,209,102,.85);color:#ffe7a8}
 
 /* ===== 章節標籤 ===== */
 .chap{display:flex;align-items:center;gap:14px;margin:0 0 28px;font-size:22px;font-weight:900;letter-spacing:.06em;color:#fff}
@@ -165,14 +167,14 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 
 /* ===== 課程簡介 ===== */
 .route-line{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:44px 0 0;position:relative}
-.route-line::before{content:"";position:absolute;left:12.5%;right:12.5%;top:31px;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--gold),var(--orange));opacity:.7}
+.route-line::before{content:"";position:absolute;left:12.5%;right:12.5%;top:39px;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--gold),var(--orange));opacity:.7}
 .rl-node{position:relative;text-align:center;padding:0 8px}
-.rl-node .orb{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:22px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),var(--c) 30%,rgba(6,9,30,.95) 100%);box-shadow:0 0 26px var(--c);position:relative;z-index:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.rl-node .orb{width:80px;height:80px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:32px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),var(--c) 30%,rgba(6,9,30,.95) 100%);box-shadow:0 0 26px var(--c);position:relative;z-index:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
 .rl-node b{display:inline-block;font-size:20px;font-weight:900;color:#fff;padding:6px 16px;border-radius:999px;background:rgba(2,4,16,.82);border:1px solid rgba(255,255,255,.18)}
 .outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
 .outcome{padding:28px 24px;position:relative;overflow:hidden}
 .outcome::before{content:"";position:absolute;right:-40px;top:-40px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,var(--c),transparent 70%);opacity:.3}
-.outcome .num{font-size:15px;font-weight:900;color:var(--c);letter-spacing:.1em}
+.outcome .num{font-size:19px;font-weight:900;color:var(--c);letter-spacing:.1em}
 .outcome h3{font-size:22px;font-weight:900;margin:8px 0 8px}
 .outcome p{margin:0;color:var(--muted)}
 .fit{margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:22px 26px}
@@ -212,7 +214,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .counter .meter{width:150px;height:8px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
 .counter .meter i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .counter b{color:#fff}
-.stage{position:relative;height:580px;margin-top:10px;user-select:none;-webkit-user-select:none;isolation:isolate}
+.stage{position:relative;height:620px;margin-top:10px;user-select:none;-webkit-user-select:none;isolation:isolate;touch-action:pan-y;cursor:grab}
+.stage.dragging{cursor:grabbing}
+.st-ctrl{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);z-index:150;display:flex;gap:8px}
+.st-ctrl button{padding:6px 14px;border-radius:999px;border:1.5px solid rgba(255,138,42,.7);background:rgba(10,14,40,.88);color:#fff;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.st-ctrl button:hover{background:rgba(255,138,42,.2)}
 .orbit{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
 .orbit.inner{border:1px solid rgba(190,200,255,.16)}
 .orbit.outer{border:1px solid rgba(255,220,160,.14)}
@@ -247,9 +253,9 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @keyframes ripple{from{transform:scale(.9);opacity:1}to{transform:scale(1.6);opacity:0}}
 .planet.launch .pl{animation:launch .5s ease}
 @keyframes launch{40%{transform:scale(1.4)}100%{transform:scale(1)}}
-.stage-tip{position:absolute;left:50%;top:0;transform:translateX(-50%);font-size:13px;color:var(--dim);white-space:nowrap;pointer-events:none}
+.stage-tip{position:absolute;left:50%;top:0;transform:translateX(-50%);font-size:15px;color:var(--dim);white-space:nowrap;pointer-events:none}
 .route-groups{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:26px}
-.rg h4{font-size:17px;color:var(--muted);font-weight:700;margin:0 0 10px;letter-spacing:.06em}
+.rg h4{font-size:21px;color:var(--muted);font-weight:700;margin:0 0 10px;letter-spacing:.06em}
 .rg.gold h4{color:var(--gold)}
 .rg-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .rg.gold .rg-list{grid-template-columns:1fr}
@@ -284,6 +290,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @keyframes swapIn{from{opacity:0;transform:translateX(var(--dir,24px))}to{opacity:1;transform:none}}
 .p-head{display:flex;gap:16px;align-items:center;margin:6px 0 18px}
 .p-head .pl{--b:78px}
+.p-globe{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 20px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.p-globe.dragging{cursor:grabbing}
+.p-globe .pl{--b:170px}
+.p-globe .surf{animation:none}
+.g-hint{font-size:14px;color:var(--dim)}
 .p-kicker{font-size:14px;font-weight:700;color:var(--cyan);letter-spacing:.06em}
 .p-kicker.gold{color:var(--gold)}
 .p-head h3{font-size:clamp(22px,3vw,28px);font-weight:900;margin:2px 0 4px}
@@ -355,7 +366,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .fm h3 i{font-style:normal;font-size:14px;padding:3px 10px;border-radius:999px;background:rgba(94,231,255,.14);border:1px solid rgba(94,231,255,.4);color:var(--cyan)}
 .constel{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
 .cst{position:relative;padding:16px 16px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
-.cst .st{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;margin-bottom:8px;font-size:14px;font-weight:900;color:#0a0d2a;background:radial-gradient(circle at 35% 30%,#fff,var(--c) 55%);box-shadow:0 0 16px var(--c)}
+.cst .st{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;margin-bottom:10px;font-size:22px;font-weight:900;color:#0a0d2a;background:radial-gradient(circle at 35% 30%,#fff,var(--c) 55%);box-shadow:0 0 16px var(--c)}
 .cst b{display:block;font-size:17px}
 .cst span{font-size:13.5px;color:var(--muted)}
 .checks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
@@ -378,6 +389,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .ss .yr{font-size:14px;color:var(--dim)}
 .ss .city{font-size:21px;font-weight:900}
 .ss .tm{font-size:15px;color:var(--muted)}
+.ss .seat{font-size:16px;font-weight:700;color:#fff;margin-top:2px}
+.ss .seat b{color:var(--gold);font-size:21px;margin:0 2px}
+.ss .seat.hot{color:#ffb3c1}
+.ss .seat.hot b{color:#ff6b81}
+.ss .seat.full{color:var(--dim)}
 .ss .dl{font-size:15px;color:#ffc58f}
 .ss .go{margin-top:auto;padding-top:12px;font-size:16px;font-weight:700;color:var(--cyan)}
 .ss .flag{position:absolute;top:14px;right:14px;font-size:13px;font-weight:900;padding:3px 10px;border-radius:999px;background:linear-gradient(135deg,#ffb347,#ff4d6d);color:#fff;display:none}
@@ -465,8 +481,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 
 /* ===== RWD ===== */
 @media (max-width:1180px){
-  .topnav{gap:12px}
-  .topnav a.nl{font-size:15px}
+  .topnav{gap:6px}
+  .topnav a.nl{font-size:14px;padding:5px 10px}
+}
+@media (max-width:1040px){
+  .topnav a.nl.dl{display:none}
 }
 @media (max-width:1100px){
   .dots{display:none}
@@ -477,7 +496,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 @media (max-width:900px){
   section{padding:80px 0}
   .topnav a.nl{display:none}
-  .hero{padding:140px 0 70px}
+  .hero{padding:146px 0 70px}
   .hero-grid{grid-template-columns:1fr;gap:56px}
   .hero-visual{max-width:360px;width:78%}
   .outcomes{grid-template-columns:1fr}
@@ -490,11 +509,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .mbar .btn{padding:11px 22px;font-size:15px}
   body{padding-bottom:72px}
   .scroll-hint{display:none}
-  html{scroll-padding-top:118px}
-  .mtabs{display:flex;position:fixed;left:0;right:0;top:64px;z-index:69;gap:8px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(135deg,#ffb347 0%,#ff7a1a 50%,#ff4d6d 100%);box-shadow:0 6px 20px rgba(0,0,0,.45)}
+  html{scroll-padding-top:124px}
+  .mtabs{display:flex;position:fixed;left:0;right:0;top:68px;z-index:69;gap:8px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;background:#0b1030;border-bottom:2px solid #ff7a1a;box-shadow:0 6px 20px rgba(0,0,0,.5)}
   .mtabs::-webkit-scrollbar{display:none}
-  .mtabs a{flex:none;padding:6px 14px;border-radius:999px;font-size:14px;font-weight:900;text-decoration:none;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.45);white-space:nowrap;text-shadow:0 1px 2px rgba(120,30,0,.5)}
-  .mtabs a.on{color:#d9480f;background:#fff;border-color:#fff;text-shadow:none}
+  .mtabs a{flex:none;padding:6px 14px;border-radius:999px;font-size:14px;font-weight:900;text-decoration:none;color:#fff;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,138,42,.8);white-space:nowrap}
+  .mtabs a.on{background:linear-gradient(135deg,#ffb347,#ff7a1a 50%,#ff4d6d);border-color:transparent;box-shadow:0 0 12px rgba(255,122,26,.6)}
   /* 手機版：段落清楚分界、減少花俏 */
   main>section:nth-of-type(even){background:rgba(2,3,14,.6)}
   main>section{border-top:1px solid rgba(170,185,255,.1)}
@@ -507,6 +526,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .grab{display:block;width:44px;height:5px;border-radius:5px;background:rgba(255,255,255,.25);margin:10px auto 0}
   .p-top{padding-top:6px}
   .p-body{padding:6px 18px 24px}
+  .p-globe .pl{--b:140px}
   .flow{grid-template-columns:1fr 1fr;gap:10px}
   .flow li:nth-child(2)::after{display:none}
   .media{grid-template-columns:1fr}
@@ -518,7 +538,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .stats{grid-template-columns:repeat(2,1fr)}
   .route-line{grid-template-columns:1fr 1fr;row-gap:26px}
   .route-line::before{display:none}
-  .rl-node .orb{width:54px;height:54px;font-size:15px}
+  .rl-node .orb{width:68px;height:68px;font-size:28px}
   .sessions{grid-template-columns:1fr 1fr}
   .sessions .ss:last-child{grid-column:1/-1}
   .constel{grid-template-columns:1fr 1fr}
@@ -535,12 +555,14 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .p-dots i{width:6px;height:6px}
   .p-dots i.on{width:14px}
   .info li{grid-template-columns:62px 1fr}
+  .cst .st{width:40px;height:40px;font-size:20px}
 }
 /* 手機版：維持原字級（章節標籤除外） */
 @media (max-width:900px){
-  .topbar .wrap{height:64px}
-  .brand{font-size:15px}
-  .brand small{font-size:11px}
+  .topbar .wrap{height:68px}
+  .brand{font-size:19px;gap:10px}
+  .brand small{font-size:13px}
+  .brand-dot{width:30px;height:30px}
   .topnav .btn{font-size:14px;padding:9px 18px}
   .eyebrow{font-size:13px;gap:10px}
   .eyebrow::before{width:28px}
@@ -549,11 +571,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .hero-dl,.pdf .count{font-size:13.5px}
   .stat span{font-size:12px}
   .rl-node b{font-size:15px;padding:5px 12px}
-  .outcome .num{font-size:13px}
+  .outcome .num{font-size:17px}
   .rhythm{font-size:15px;gap:10px}
   .rhythm b{padding:6px 14px}
   .legend span{font-size:13px;padding:7px 14px}
-  .rg h4{font-size:14px}
+  .rg h4{font-size:18px}
   .ri .pl{--b:38px}
   .ri .txt b{font-size:15px}
   .ri .txt b em{font-size:13px}
@@ -567,6 +589,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .ss .city{font-size:17px}
   .ss .tm{font-size:13px}
   .ss .dl{font-size:12.5px}
+  .ss .seat{font-size:13.5px}
+  .ss .seat b{font-size:17px}
   .ss .go{font-size:14px}
   .ss .flag{font-size:11.5px}
 }
@@ -593,7 +617,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <a class="nl" href="#final-mission">結業任務</a>
       <a class="nl" href="#pricing">費用方案</a>
       <a class="nl" href="#captain">講師介紹</a>
-      <a class="nl" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載 PDF</a>
+      <a class="nl dl" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載 PDF</a>
       <a class="btn btn-primary btn-sm" href="#sessions">立即報名</a>
     </nav>
   </div>
@@ -676,7 +700,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="orbit outer" id="orbitOuter"></div>
       <div class="orbit inner" id="orbitInner"></div>
       <div class="core" id="core" aria-hidden="true"><span class="sun-surf"></span><span class="sun-limb"></span><div class="ct"><b>AI</b><small>幫你做</small></div></div>
-      <div class="stage-tip">點擊星球 查看單元內容</div>
+      <div class="stage-tip" id="stageTip">拖曳旋轉星系 · 點擊星球看內容</div>
+      <div class="st-ctrl" role="group" aria-label="星系視角"><button type="button" id="vTilt">🔭 俯視</button><button type="button" id="vIn" aria-label="放大">＋</button><button type="button" id="vOut" aria-label="縮小">－</button><button type="button" id="vReset">重設</button></div>
     </div>
     <div class="route-groups reveal">
       <div class="rg"><h4>核心主題 · 6 個實作範例</h4><div class="rg-list" id="listCore"></div></div>
@@ -913,7 +938,7 @@ document.documentElement.classList.add('js');
 'use strict';
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var LINE='https://lin.ee/4xw8yKI';
-var PDF_FILE='AI幫你做_課程大綱與主題介紹.pdf',COUNT_API='https://abacus.jasoncameron.dev/{op}/kv1012tiger-ai-course/outline-pdf';
+var PDF_FILE='AI幫你做_課程大綱與主題介紹.pdf',COUNT_API='https://abacus.jasoncameron.dev/{op}/kv1012tiger-ai-course/outline-pdf-v2';
 var SHOP='https://autocad-tw.my1shop.com/la4v2u#Type=Product&ID=';
 var PAY={
   taipei:{b:'ZrLgxyBe1OoymBdQ1RGDQb9n',n:'eobJKaG21M0jZPOpzA4BqnwO'},
@@ -973,11 +998,11 @@ var UNITS=[
 ];
 
 var SESSIONS=[
- {d:'2026-11-07',dl:'2026-11-04',name:'台北場 1',tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30749-topic',c:'#5ee7ff',u:3},
- {d:'2026-11-21',dl:'2026-11-18',name:'台北場 2',tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30751-topic',c:'#a78bfa',u:0},
- {d:'2026-12-05',dl:'2026-11-19',name:'高雄場',tm:'13:00–18:00',place:'高雄市（輕軌或車站附近）',room:'高雄輕軌籬仔內站附近',pay:'kaohsiung',url:'https://www.autocad-tw.com/t30752-topic',c:'#f5c6a8',u:4},
- {d:'2026-12-19',dl:'2026-12-03',name:'台南場',tm:'13:00–18:00',place:'台南市（車站附近）',room:'台南火車站附近',pay:'tainan',url:'https://www.autocad-tw.com/t30753-topic',c:'#f0a070',u:2},
- {d:'2027-01-02',dl:'2026-12-17',name:'台中場',tm:'13:00–18:00',place:'台中市（捷運或車站附近）',room:'台中場教室準備中，稍後提供',pay:'taichung',url:'https://www.autocad-tw.com/t30754-topic',c:'#9ee8f0',u:1}
+ {d:'2026-11-07',dl:'2026-11-04',name:'台北場 1',left:3,tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30749-topic',c:'#5ee7ff',u:3},
+ {d:'2026-11-21',dl:'2026-11-18',name:'台北場 2',left:6,tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30751-topic',c:'#a78bfa',u:0},
+ {d:'2026-12-05',dl:'2026-11-19',name:'高雄場',left:7,tm:'13:00–18:00',place:'高雄市（輕軌或車站附近）',room:'高雄輕軌籬仔內站附近',pay:'kaohsiung',url:'https://www.autocad-tw.com/t30752-topic',c:'#f5c6a8',u:4},
+ {d:'2026-12-19',dl:'2026-12-03',name:'台南場',left:6,tm:'13:00–18:00',place:'台南市（車站附近）',room:'台南火車站附近',pay:'tainan',url:'https://www.autocad-tw.com/t30753-topic',c:'#f0a070',u:2},
+ {d:'2027-01-02',dl:'2026-12-17',name:'台中場',left:7,tm:'13:00–18:00',place:'台中市（捷運或車站附近）',room:'台中場教室準備中，稍後提供',pay:'taichung',url:'https://www.autocad-tw.com/t30754-topic',c:'#9ee8f0',u:1}
 ];
 
 function $(id){return document.getElementById(id)}
@@ -1188,7 +1213,7 @@ var rsT;window.addEventListener('resize',function(){clearTimeout(rsT);rsT=setTim
 
 /* ---------- 頂部列、進度、側邊點 ---------- */
 var topbar=$('topbar'),prog=$('progress'),dotLinks=[].slice.call(document.querySelectorAll('#dots a'));
-var mtabs=$('mtabs'),tabLinks=[].slice.call(mtabs.querySelectorAll('a'));
+var mtabs=$('mtabs'),tabLinks=[].slice.call(mtabs.querySelectorAll('a')),navLinks=[].slice.call(document.querySelectorAll('.topnav a.nl[href^="#"]'));
 var secIds=dotLinks.map(function(a){return a.getAttribute('href').slice(1)});
 function onScroll(){
   var y=window.scrollY,max=document.documentElement.scrollHeight-window.innerHeight;
@@ -1198,6 +1223,7 @@ function onScroll(){
   for(var i=0;i<secIds.length;i++){var el=$(secIds[i]);if(el&&el.getBoundingClientRect().top<window.innerHeight*.45)cur=i}
   dotLinks.forEach(function(a,i){a.classList.toggle('on',i===cur);a.classList.toggle('past',i<cur)});
   var curId=secIds[cur];
+  navLinks.forEach(function(a){a.classList.toggle('on',a.getAttribute('href').slice(1)===curId)});
   tabLinks.forEach(function(a){
     var on=a.getAttribute('href').slice(1)===curId;
     if(on&&!a.classList.contains('on')){a.classList.add('on');mtabs.scrollTo({left:a.offsetLeft-mtabs.clientWidth/2+a.offsetWidth/2,behavior:reduce?'auto':'smooth'})}
@@ -1243,7 +1269,7 @@ UNITS.forEach(function(u,i){
   b.setAttribute('aria-label',u.id+' '+u.name);
   b.innerHTML=planetHTML(u)+'<span class="lbl"><em>'+u.id+'</em>'+esc(u.short)+'</span>';
   b.querySelector('.pl').insertAdjacentHTML('beforeend','<span class="chk">✓</span>');
-  b.addEventListener('click',function(){openPanel('unit',i,b)});
+  b.addEventListener('click',function(){if(VIEW.moved)return;openPanel('unit',i,b)});
   b.addEventListener('pointerenter',function(){hoverPause=true});
   b.addEventListener('pointerleave',function(){hoverPause=false});
   b.addEventListener('focus',function(){hoverPause=true});
@@ -1255,24 +1281,32 @@ UNITS.forEach(function(u,i){
   r.addEventListener('click',function(){openPanel('unit',i,r)});
   (u.moon?$('listMoon'):$('listCore')).appendChild(r);routeItems.push(r);
 });
-function layoutStage(){
-  var w=stage.clientWidth,mob=w<640,sc=mob?.66:1;
+var VIEW={tilt:null,target:null,zoom:1,vel:0,drag:null,moved:false};
+var TOUCH=window.matchMedia('(hover:none)').matches;
+function baseTilt(mob){return mob?.62:.36}
+function layoutStage(keepH){
+  var w=stage.clientWidth,mob=w<640,pad=mob?196:230;
   $('core').classList.toggle('sm',mob);
-  var irx=Math.min(w*(mob?.33:.30),330),iry=irx*(mob?.62:.36);
-  var orx=Math.min(w*(mob?.45:.44),480),ory=orx*(mob?.64:.38);
-  var h=Math.round(ory*2+(mob?160:190));
+  if(VIEW.tilt===null||G.mob!==mob){VIEW.tilt=VIEW.target=baseTilt(mob)}
+  var irx0=Math.min(w*(mob?.33:.30),330),orx0=Math.min(w*(mob?.45:.44),480);
+  var h=(keepH&&G.h)?G.h:Math.round(orx0*(baseTilt(mob)+.02)*2+pad);
   stage.style.height=h+'px';
-  G={cx:w/2,cy:h/2-4,irx:irx,iry:iry,orx:orx,ory:ory,mob:mob};
+  var z=Math.min(VIEW.zoom,(w*.49)/orx0),sc=(mob?.66:1)*z;
+  var irx=irx0*z,orx=orx0*z,iry=irx*VIEW.tilt,ory=orx*(VIEW.tilt+.02),maxOry=(h-pad)/2*1.3;
+  if(ory>maxOry){var f=maxOry/ory;iry*=f;ory*=f}
+  G={cx:w/2,cy:h/2-4,irx:irx,iry:iry,orx:orx,ory:ory,mob:mob,h:h};
   var oi=$('orbitInner').style,oo=$('orbitOuter').style;
   oi.width=irx*2+'px';oi.height=iry*2+'px';oi.top=G.cy+'px';
   oo.width=orx*2+'px';oo.height=ory*2+'px';oo.top=G.cy+'px';
   $('core').style.top=G.cy+'px';
+  $('stageTip').textContent=(mob||TOUCH)?'左右滑動旋轉星系 · 點擊星球看內容':'拖曳旋轉星系（上下拖換角度）· 點擊星球看內容';
+  $('vTilt').textContent=VIEW.target>baseTilt(mob)+.15?'🪐 側視':'🔭 俯視';
   planets.forEach(function(p){p.b=Math.round(p.u.size*sc);p.pl.style.setProperty('--b',p.b+'px')});
   placePlanets();
 }
 function placePlanets(){
   planets.forEach(function(p){
-    var a=p.u.moon?p.base-ang*.62:p.base+ang;
+    var a=p.u.moon?p.base+ang*.62:p.base+ang;
     var rx=p.u.moon?G.orx:G.irx,ry=p.u.moon?G.ory:G.iry;
     var x=G.cx+rx*Math.cos(a),y=G.cy+ry*Math.sin(a);
     var depth=(Math.sin(a)+1)/2,s=.76+.32*depth;
@@ -1286,13 +1320,51 @@ function placePlanets(){
     p.pl.style.setProperty('--lx',(lx/ln).toFixed(3));p.pl.style.setProperty('--ly',(ly/ln*.8-.2).toFixed(3));
   });
 }
+/* 拖曳環轉：左右拖旋轉、滑鼠上下拖改俯視角度；放開後有慣性 */
+stage.addEventListener('pointerdown',function(e){
+  if(e.button>0||e.target.closest('.st-ctrl'))return;
+  VIEW.drag={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,lt:performance.now(),id:e.pointerId,on:false,type:e.pointerType};
+  VIEW.vel=0;
+});
+stage.addEventListener('pointermove',function(e){
+  var d=VIEW.drag;if(!d||e.pointerId!==d.id)return;
+  if(!d.on){
+    var tx=e.clientX-d.x,ty=e.clientY-d.y;
+    if(Math.abs(tx)<6&&Math.abs(ty)<6)return;
+    if(d.type!=='mouse'&&Math.abs(ty)>Math.abs(tx)){VIEW.drag=null;return}/* 手機上下滑＝捲動網頁 */
+    d.on=true;VIEW.moved=true;d.lx=e.clientX;d.ly=e.clientY;
+    try{stage.setPointerCapture(d.id)}catch(err){}
+    stage.classList.add('dragging');return;
+  }
+  var now=performance.now(),dx=e.clientX-d.lx,dy=e.clientY-d.ly,k=.009/Math.max(VIEW.zoom,.6);
+  ang+=dx*k;VIEW.vel=dx*k/Math.max(now-d.lt,8);
+  if(d.type==='mouse'&&dy){VIEW.target=VIEW.tilt=Math.max(.16,Math.min(.92,VIEW.tilt+dy*.004));layoutStage(true)}else placePlanets();
+  d.lx=e.clientX;d.ly=e.clientY;d.lt=now;
+});
+function endDrag(e){
+  var d=VIEW.drag;if(!d||(e&&e.pointerId!==d.id))return;
+  VIEW.drag=null;stage.classList.remove('dragging');
+  if(performance.now()-d.lt>80||reduce)VIEW.vel=0;
+  if(d.on)setTimeout(function(){VIEW.moved=false},60);else VIEW.moved=false;
+}
+stage.addEventListener('pointerup',endDrag);
+stage.addEventListener('pointercancel',endDrag);
+$('vTilt').addEventListener('click',function(){var bt=baseTilt(G.mob);VIEW.target=VIEW.target>bt+.15?bt:(G.mob?.95:.85);layoutStage(true)});
+$('vIn').addEventListener('click',function(){VIEW.zoom=Math.min(1.3,+(VIEW.zoom+.1).toFixed(2));layoutStage(true)});
+$('vOut').addEventListener('click',function(){VIEW.zoom=Math.max(.7,+(VIEW.zoom-.1).toFixed(2));layoutStage(true)});
+$('vReset').addEventListener('click',function(){VIEW.zoom=1;VIEW.vel=0;VIEW.target=baseTilt(G.mob);layoutStage(true)});
 function stageLoop(t){
   var dt=lastT?Math.min(t-lastT,50):16;lastT=t;
-  if(!paused&&!hoverPause&&!document.hidden){ang+=dt*.0001;placePlanets()}
+  if(Math.abs(VIEW.target-VIEW.tilt)>.002&&!VIEW.drag){VIEW.tilt+=(VIEW.target-VIEW.tilt)*.12;layoutStage(true)}
+  else if(!VIEW.drag&&!document.hidden){
+    if(Math.abs(VIEW.vel)>.00002){ang+=VIEW.vel*dt;VIEW.vel*=Math.pow(.94,dt/16);placePlanets()}
+    else if(!paused&&!hoverPause&&!reduce){ang+=dt*.0001;placePlanets()}
+  }
+  globeTick(dt);
   requestAnimationFrame(stageLoop);
 }
 layoutStage();
-if(!reduce)requestAnimationFrame(stageLoop);
+requestAnimationFrame(stageLoop);
 refreshVisited();
 $('startTour').addEventListener('click',function(){
   var n=0;for(var i=0;i<UNITS.length;i++){if(!visited[UNITS[i].id]){n=i;break}}
@@ -1319,6 +1391,7 @@ SESSIONS.forEach(function(s,i){
   el.innerHTML='<span class="flag">'+(past?'已結束':'最近場次')+'</span>'+planetHTML(u)+
     '<span class="yr">'+dt.getFullYear()+'</span><span class="date">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<small>（'+WD[dt.getDay()]+'）</small></span>'+
     '<span class="city">'+esc(s.name)+'</span><span class="tm">'+esc(s.tm)+' · 5 小時</span>'+
+    '<span class="seat'+(s.left<=0?' full':s.left<=3?' hot':'')+'">'+(s.left<=0?'已額滿':'剩餘名額<b>'+s.left+'</b>位'+(s.left<=3?' · 名額將滿':''))+'</span>'+
     '<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>'+
     '<span class="go">詳情與付款 →</span>';
   el.addEventListener('click',function(){openPanel('session',i,el)});
@@ -1337,6 +1410,7 @@ function renderUnit(i){
     '<div class="p-head">'+planetHTML(u,';--lx:-.6;--ly:-.55')+
     '<div><div class="p-kicker'+(u.moon?' gold':'')+'">'+(u.moon?'加碼附錄 '+u.id:'實作範例 '+u.id)+' · '+esc(u.star)+(u.tag?' · '+esc(u.tag):'')+'</div>'+
     '<h3 id="pTitle">'+esc(u.name)+'</h3><p>'+esc(u.tagline)+'</p></div></div>'+
+    '<div class="p-globe">'+planetHTML(u,';--lx:-.55;--ly:-.5')+'<span class="g-hint">← 拖曳轉動星球 →</span></div>'+
     '<figure class="p-fig"><img src="'+u.img+'" alt="'+esc(u.name)+' 教學概念示意圖" width="960" height="298"></figure>'+
     '<p class="p-cap">插圖為教學概念示意，非原始工程圖。</p>'+
     '<p class="p-desc">'+esc(u.desc)+'</p>'+
@@ -1353,13 +1427,13 @@ function renderUnit(i){
 }
 function tplFor(s){return '報名場次：'+s.name+'（'+fmtDate(s.d)+'）\n方案：4,200（含專屬B）／3,600（無專屬B）\n姓名：\n電話：\n論壇會員名稱：\nGmail 信箱：\n銀行帳號後5碼（轉帳者填寫）：'}
 function renderSession(i){
-  var s=SESSIONS[i],dt=toDate(s.d),past=dt<today,left=daysTo(s.dl),closed=past||left<0,pay=PAY[s.pay];
+  var s=SESSIONS[i],dt=toDate(s.d),past=dt<today,left=daysTo(s.dl),full=s.left<=0,closed=past||left<0||full,pay=PAY[s.pay];
   var status=past?'<span class="off">課程已結束</span>':left<0?'<span class="off">已截止報名</span>':'<span class="hot">報名截止 '+fmtDate(s.dl)+' · '+(left===0?'今天截止':'倒數 '+left+' 天')+'</span>';
   var dis=closed?' aria-disabled="true" tabindex="-1"':'';
   pBody.innerHTML=
     '<div class="p-head"><span class="s-date" style="--sc:'+s.c+'"><b>'+(dt.getMonth()+1)+'/'+dt.getDate()+'</b><span>週'+WD[dt.getDay()]+'</span></span>'+
     '<div><div class="p-kicker">LANDING SITE '+(i+1)+' · 實體課程</div><h3 id="pTitle">'+esc(s.name)+'</h3><p>'+fmtDate(s.d)+' '+esc(s.tm)+'</p></div></div>'+
-    '<div class="s-status">'+status+'<span>小班制 · 先繳費先確定名額</span></div>'+
+    '<div class="s-status">'+status+(full?'<span class="off">本場已額滿</span>':'<span class="'+(s.left<=3?'hot':'')+'">剩餘名額 '+s.left+' 位</span>')+'<span>每場 10 名 · 先繳費先確定名額</span></div>'+
     '<ul class="info">'+
       '<li><b>地點</b><span>'+esc(s.place)+'</span></li>'+
       '<li><b>教室</b><span>'+esc(s.room)+'</span></li>'+
@@ -1371,6 +1445,7 @@ function renderSession(i){
       '<span class="orig"><s>原價 NT$7,000</s>早鳥優惠中</span>'+
       '<a class="btn btn-primary" href="'+SHOP+pay.b+'" target="_blank" rel="noopener"'+dis+'><span>含專屬 B 會員一年<small>價值 1,500 元 · 信用卡付款 ↗</small></span><b>NT$4,200</b></a>'+
       '<a class="btn btn-ghost" href="'+SHOP+pay.n+'" target="_blank" rel="noopener"'+dis+'><span>無專屬 B 會員<small>信用卡付款 ↗</small></span><b>NT$3,600</b></a>'+
+      (full?'<p class="warn">本場已額滿，請用 LINE@ 登記候補。</p>':'')+
       (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（11/07 或 11/21）。</p>':'')+
       '<p class="hint">付款完成後，請用 LINE@ 告知姓名與論壇會員名稱。</p>'+
     '</div></div>'+
@@ -1394,12 +1469,35 @@ function renderSession(i){
   $('pStep').textContent='LANDING SITE '+(i+1)+' / '+SESSIONS.length;
   var nx=$('pNext');nx.textContent='下一場 →';nx.style.visibility=i===SESSIONS.length-1?'hidden':'visible';
 }
+/* 單顆星球拖曳轉動 */
+var GL={el:null,pos:0,vel:0,drag:null};
+function globeTick(dt){
+  if(!GL.el||cur<0)return;
+  if(!GL.drag){if(Math.abs(GL.vel)>.01){GL.pos+=GL.vel*dt;GL.vel*=Math.pow(.94,dt/16)}else if(!reduce)GL.pos-=dt*.02}
+  GL.el.style.backgroundPosition=GL.pos.toFixed(1)+'px 0';
+}
+pBody.addEventListener('pointerdown',function(e){
+  var g=e.target.closest('.p-globe');if(!g||e.button>0)return;
+  GL.drag={x:e.clientX,lx:e.clientX,y:e.clientY,lt:performance.now(),id:e.pointerId,on:false,g:g,type:e.pointerType};GL.vel=0;
+});
+pBody.addEventListener('pointermove',function(e){
+  var d=GL.drag;if(!d||e.pointerId!==d.id)return;
+  if(!d.on){var tx=e.clientX-d.x,ty=e.clientY-d.y;if(Math.abs(tx)<5&&Math.abs(ty)<5)return;
+    if(d.type!=='mouse'&&Math.abs(ty)>Math.abs(tx)){GL.drag=null;return}
+    d.on=true;d.lx=e.clientX;try{d.g.setPointerCapture(d.id)}catch(err){}d.g.classList.add('dragging');return}
+  var now=performance.now(),dx=e.clientX-d.lx;GL.pos+=dx;GL.vel=dx/Math.max(now-d.lt,8);d.lx=e.clientX;d.lt=now;
+  GL.el.style.backgroundPosition=GL.pos.toFixed(1)+'px 0';
+});
+function endGlobe(e){var d=GL.drag;if(!d||(e&&e.pointerId!==d.id))return;GL.drag=null;d.g.classList.remove('dragging');if(performance.now()-d.lt>80||reduce)GL.vel=0}
+pBody.addEventListener('pointerup',endGlobe);
+pBody.addEventListener('pointercancel',endGlobe);
 pBody.addEventListener('click',function(e){
   var c=e.target.closest('[data-copy]');if(c){copyText(c.getAttribute('data-copy'),c.getAttribute('data-msg'));return}
   var t=e.target.closest('[data-tpl]');if(t)copyText(tplFor(SESSIONS[+t.getAttribute('data-tpl')]),'已複製報名資料，貼到 LINE@ 即可');
 });
 function render(i,dir){
   if(mode==='unit')renderUnit(i);else renderSession(i);
+  GL.el=pBody.querySelector('.p-globe .surf');GL.pos=0;GL.vel=0;GL.drag=null;
   pBody.scrollTop=0;pBody.classList.remove('swap');void pBody.offsetWidth;
   pBody.style.setProperty('--dir',(dir||1)*24+'px');pBody.classList.add('swap');
   [].forEach.call(pDots.children,function(d,k){d.classList.toggle('on',k===i);d.classList.toggle('v',mode==='unit'&&!!visited[UNITS[k].id])});
@@ -1448,10 +1546,11 @@ document.addEventListener('keydown',function(e){
   }
 });
 var tx=0,ty=0,tt=0;
-panel.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;tt=Date.now()},{passive:true});
+var swipeOk=true;
+panel.addEventListener('touchstart',function(e){swipeOk=!e.target.closest('.p-globe');tx=e.touches[0].clientX;ty=e.touches[0].clientY;tt=Date.now()},{passive:true});
 panel.addEventListener('touchend',function(e){
   var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
-  if(Date.now()-tt>700)return;
+  if(!swipeOk||Date.now()-tt>700)return;
   if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){go(dx<0?1:-1)}
   else if(dy>90&&Math.abs(dy)>Math.abs(dx)*1.5&&pBody.scrollTop<=0&&window.innerWidth<=720){closePanel()}
 },{passive:true});
@@ -1472,7 +1571,7 @@ lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
 });
 
 /* ---------- PDF 下載與次數（按下載按鈕即 +1） ---------- */
-var CK='aic-dl-count2';
+var CK='aic-dl-count3';
 function showCount(n){[].forEach.call(document.querySelectorAll('[data-dl-count]'),function(el){el.textContent='📥 已下載 '+n.toLocaleString()+' 次'})}
 function saveCount(n){showCount(n);try{sessionStorage.setItem(CK,JSON.stringify({t:Date.now(),n:n}))}catch(e){}}
 function getCount(path,opt){

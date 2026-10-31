@@ -314,7 +314,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .refer.end{max-width:860px;margin:28px auto 0}
 /* 音效開關 */
 .sfx-btn{position:fixed;left:16px;bottom:16px;z-index:76;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,138,42,.75);background:rgba(44,14,62,.9);color:#fff;font-size:21px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:transform .2s,background .2s}
-.spd-btn{left:72px;width:auto;padding:0 14px;border-radius:999px;font-size:15px;font-weight:900;white-space:nowrap}
 .sfx-btn:hover{transform:scale(1.08);background:rgba(255,138,42,.2)}
 /* 點星球的隨機特效 */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
@@ -634,7 +633,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .mbar .btn{padding:11px 22px;font-size:15px}
   body{padding-bottom:72px}
   .sfx-btn{bottom:84px;left:12px;width:44px;height:44px;font-size:19px}
-  .spd-btn{left:62px;width:auto;font-size:14px;padding:0 12px}
   .rf-txt b{font-size:16px}
   .rf-txt span{font-size:14px}
   .scroll-hint{display:none}
@@ -1129,7 +1127,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 </div>
 <div id="fx" aria-hidden="true"></div>
 <button class="sfx-btn" id="sfxBtn" type="button" aria-label="關閉音效">🔊</button>
-<button class="sfx-btn spd-btn" id="spdBtn" type="button" aria-label="背景音樂速度">⏱ 1x</button>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -1625,18 +1622,7 @@ function bgmStop(){
   m.gain.cancelScheduledValues(a.currentTime);m.gain.setValueAtTime(m.gain.value,a.currentTime);m.gain.linearRampToValueAtTime(0,a.currentTime+.6);
   setTimeout(function(){ns.forEach(function(n){try{n.stop()}catch(e){}});try{m.disconnect()}catch(e){}},700);
 }
-/* 背景音樂速度：正常 1x／快 1.5x／超快 2x，記住選擇 */
-var RATES=[1,1.5,2],BGM_RATE=1,spdBtn=$('spdBtn');
-try{var rr=parseFloat(localStorage.getItem('aic-bgm-rate'));if(RATES.indexOf(rr)>=0)BGM_RATE=rr}catch(e){}
-function bgmSchedule(a){clearInterval(BGM.timer);BGM.timer=setInterval(function(){if(!document.hidden)try{bgmTick(a)}catch(e){}},BGM_STEP/BGM_RATE)}
-function spdUI(){spdBtn.textContent='⏱ '+BGM_RATE+'x'}
-spdBtn.addEventListener('click',function(){
-  BGM_RATE=RATES[(RATES.indexOf(BGM_RATE)+1)%RATES.length];
-  try{localStorage.setItem('aic-bgm-rate',BGM_RATE)}catch(e){}
-  spdUI();toast('背景音樂速度 '+BGM_RATE+'x（'+['正常','快','超快'][RATES.indexOf(BGM_RATE)]+'）');
-  if(BGM.on)bgmSchedule(AC);
-});
-spdUI();
+function bgmSchedule(a){clearInterval(BGM.timer);BGM.timer=setInterval(function(){if(!document.hidden)try{bgmTick(a)}catch(e){}},BGM_STEP)}
 /* 瀏覽器規定需使用者先點擊或按鍵，才能開始播放 */
 function firstGesture(){if(intro&&!intro.hidden)return;if(SFX_ON)bgmStart()}
 document.addEventListener('pointerdown',firstGesture,{once:true});

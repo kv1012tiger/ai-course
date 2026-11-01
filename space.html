@@ -272,6 +272,15 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .intro-title{font-size:clamp(38px,8vw,64px);font-weight:900;line-height:1.15}
 .intro-sub{margin:10px 0 0;color:var(--muted);font-size:clamp(15px,2vw,18px)}
 .intro-go{margin-top:26px;font-size:20px;padding:18px 34px}
+.intro-pick{margin:22px 0 0;color:var(--gold);font-weight:900;font-size:16px;letter-spacing:.08em}
+.intro-choices{display:flex;flex-direction:column;align-items:stretch;gap:12px;max-width:440px;margin:12px auto 0}
+.intro-choices .intro-go{margin-top:0;flex-direction:column;gap:2px;padding:14px 26px;white-space:normal;line-height:1.35}
+.intro-choices .intro-go small{font-size:13.5px;font-weight:500;opacity:.92}
+.intro-kb{color:#fff;background:rgba(255,209,102,.16);border:2px solid var(--gold);box-shadow:0 0 22px rgba(255,209,102,.35)}
+.intro-kb:hover{background:rgba(255,209,102,.28);transform:translateY(-2px)}
+.kb-go{margin:28px auto 0;max-width:440px}
+.kb-go .intro-kb{display:flex;flex-direction:column;gap:2px;width:100%;font-size:20px;padding:15px 26px;white-space:normal;line-height:1.35}
+.kb-go .intro-kb small{font-size:13.5px;font-weight:500;opacity:.92}
 .intro-mute{display:block;margin:18px auto 0;padding:6px 12px;background:none;border:0;color:var(--muted);font-size:15px;text-decoration:underline;cursor:pointer}
 /* 推薦好友優惠 */
 .refer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;margin-top:20px;padding:16px 20px;border-radius:18px;
@@ -554,6 +563,28 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .foot a{color:var(--muted)}
 .foot p{margin:4px 0}
 
+.btn-share{color:#fff;background:rgba(255,209,102,.16);border:1.5px solid var(--gold)}
+.btn-share:hover{background:rgba(255,209,102,.28);transform:translateY(-2px)}
+.share-sheet{position:fixed;inset:0;z-index:125;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
+.share-sheet[hidden]{display:none}
+.share-box{position:relative;width:100%;max-width:420px;padding:24px 20px 20px;background:var(--card-strong)}
+.share-box h3{font-size:19px;font-weight:900;margin-bottom:6px}
+.share-box p{margin:0 0 16px;font-size:14.5px;color:var(--ink);padding-right:30px}
+.share-box em{font-style:normal;color:var(--gold);font-weight:900}
+.share-x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;font-size:17px;cursor:pointer}
+.share-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+#shareNative{grid-column:1/-1;flex-direction:row;justify-content:center;gap:10px;background:rgba(255,209,102,.16);border-color:var(--gold)}
+.share-it{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;transition:background .2s,transform .2s}
+.share-it:hover{background:rgba(255,209,102,.18);transform:translateY(-2px)}
+.share-it[hidden]{display:none}
+.share-it i{font-style:normal;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:rgba(255,255,255,.1)}
+.share-it i.si-line{background:#06c755;font-size:11.5px;font-weight:900;color:#fff}
+.share-it i.si-fb{background:#1877f2;font:900 26px/1 Arial,sans-serif;color:#fff}
+.share-url{margin-top:14px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,.3);font-size:12.5px;color:var(--muted);word-break:break-all;text-align:center}
+@media (max-width:640px){
+  .share-sheet{align-items:flex-end;padding:0}
+  .share-box{max-width:none;border-radius:22px 22px 0 0;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+}
 .dltip{position:fixed;inset:0;z-index:125;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
 .dltip[hidden]{display:none}
 .dltip-box{max-width:380px;padding:24px 22px;background:var(--card-strong)}
@@ -984,7 +1015,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <div class="card gift reveal"><span class="gi">🎬</span><div><b>上課錄影回看</b><span>兩種方案皆贈送 · 觀看 4 個月</span></div></div>
       <div class="card gift reveal"><span class="gi">💻</span><div><b>AI 程式入門線上課程</b><span>價值 4,200 元 · 兩種方案皆贈送 · 觀看 4 個月</span></div></div>
     </div>
-    <div class="refer mid reveal"><div class="rf-txt"><b>🎁 特別優惠｜推薦好友一起報名 4,200 元方案</b><span>推薦成功，你和朋友各多送 <em>1 年專屬 B 會員</em>！報名時請用 LINE@ 告知推薦人姓名與論壇會員名稱。</span></div><div class="rf-btns"><a class="btn btn-ghost btn-sm" href="https://autocad-tw.my1shop.com/qm62pc" target="_blank" rel="noopener">了解專屬 B 會員 ↗</a><a class="btn btn-line btn-sm" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">LINE@ 登記推薦 ↗</a></div></div>
+    <div class="refer mid reveal"><div class="rf-txt"><b>🎁 特別優惠｜推薦好友一起報名 4,200 元方案</b><span>推薦成功，你和朋友各多送 <em>1 年專屬 B 會員</em>！報名時請用 LINE@ 告知推薦人姓名與論壇會員名稱。</span></div><div class="rf-btns"><a class="btn btn-ghost btn-sm" href="https://autocad-tw.my1shop.com/qm62pc" target="_blank" rel="noopener">了解專屬 B 會員 ↗</a><a class="btn btn-line btn-sm" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">LINE@ 登記推薦 ↗</a><button class="btn btn-share btn-sm" type="button" data-share>📤 分享給朋友</button></div></div>
   </div>
 </section>
 
@@ -1028,7 +1059,8 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
       <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
     </div>
-    <div class="refer end"><div class="rf-txt"><b>🎁 特別優惠｜推薦好友一起報名 4,200 元方案</b><span>推薦成功，你和朋友各多送 <em>1 年專屬 B 會員</em>！報名時請用 LINE@ 告知推薦人姓名與論壇會員名稱。</span></div><div class="rf-btns"><a class="btn btn-ghost btn-sm" href="https://autocad-tw.my1shop.com/qm62pc" target="_blank" rel="noopener">了解專屬 B 會員 ↗</a><a class="btn btn-line btn-sm" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">LINE@ 登記推薦 ↗</a></div></div>
+    <div class="refer end"><div class="rf-txt"><b>🎁 特別優惠｜推薦好友一起報名 4,200 元方案</b><span>推薦成功，你和朋友各多送 <em>1 年專屬 B 會員</em>！報名時請用 LINE@ 告知推薦人姓名與論壇會員名稱。</span></div><div class="rf-btns"><a class="btn btn-ghost btn-sm" href="https://autocad-tw.my1shop.com/qm62pc" target="_blank" rel="noopener">了解專屬 B 會員 ↗</a><a class="btn btn-line btn-sm" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">LINE@ 登記推薦 ↗</a><button class="btn btn-share btn-sm" type="button" data-share>📤 分享給朋友</button></div></div>
+    <div class="kb-go"><a class="btn intro-kb" id="endKb" href="galaxy.html?from=std"><span>🪐 前往AI知識星系</span><small>遊戲互動招生・學員問答大探險</small></a></div>
   </div>
 </section>
 </main>
@@ -1075,12 +1107,31 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="intro-art" aria-hidden="true"><span class="ia-core"></span></div>
     <h2 class="intro-title" id="introT"><span class="grad-fire">AI</span> <span class="grad">幫你做什麼</span></h2>
     <p class="intro-sub">AutoCAD × AI 實體課程・週六下午 5 小時實作</p>
-    <button class="btn btn-primary intro-go" id="introGo" type="button">🚀 點一下，開始航行</button>
+    <p class="intro-pick">有兩個星系可以選擇</p>
+    <div class="intro-choices">
+      <button class="btn btn-primary intro-go" id="introGo" type="button"><span>🚀 按一下，進入AI探索星系</span><small>標準招生頁・課程與報名一次看</small></button>
+      <a class="btn intro-go intro-kb" id="introKb" href="galaxy.html?from=std"><span>🪐 按一下，進入AI知識星系</span><small>遊戲互動招生・學員問答大探險</small></a>
+    </div>
     
   </div>
 </div>
 <div id="fx" aria-hidden="true"></div>
 <button class="sfx-btn" id="sfxBtn" type="button" aria-label="關閉音效">🔊</button>
+<div class="share-sheet" id="shareSheet" role="dialog" aria-modal="true" aria-labelledby="shareT" hidden>
+  <div class="card share-box">
+    <button class="share-x" id="shareX" type="button" aria-label="關閉">✕</button>
+    <h3 id="shareT">📤 分享給朋友</h3>
+    <p>推薦好友一起報名 4,200 元方案，兩人各多送 <em>1 年專屬 B 會員</em></p>
+    <div class="share-grid">
+      <button class="share-it" id="shareNative" type="button" hidden><i>📱</i>手機分享選單</button>
+      <a class="share-it" id="shareLine" target="_blank" rel="noopener"><i class="si-line">LINE</i>LINE</a>
+      <a class="share-it" id="shareFb" target="_blank" rel="noopener"><i class="si-fb">f</i>Facebook</a>
+      <button class="share-it" id="shareLink" type="button"><i>🔗</i>複製連結</button>
+      <button class="share-it" id="shareText" type="button"><i>📝</i>複製推薦文案</button>
+    </div>
+    <div class="share-url" id="shareUrl"></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -1611,6 +1662,8 @@ function closeIntro(withSound){
   setTimeout(function(){intro.hidden=true},650);
 }
 $('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
+/* 選 AI知識星系：到那邊直接開始，不再出現開場畫面 */
+$('introKb').addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1')}catch(e){}});
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;
@@ -1859,6 +1912,26 @@ function closeDlTip(){dlTip.hidden=true}
 $('dlCopy').addEventListener('click',function(){copyText(PDF_HREF,'已複製下載連結')});
 $('dlClose').addEventListener('click',closeDlTip);
 dlTip.addEventListener('click',function(e){if(e.target===dlTip)closeDlTip()});
+/* 特別優惠「分享給朋友」：手機有內建分享選單就多一顆「手機分享選單」，其他方式都可用 */
+var SHARE_URL='https://kv1012tiger.github.io/ai-course/space.html',
+    SHARE_TXT='我報名了蘋果爸的「AI 幫你做什麼」實體課，推薦你一起來，兩人各多送 1 年專屬 B 會員！',
+    shareSheet=$('shareSheet'),shareFrom=null;
+$('shareUrl').textContent=SHARE_URL;
+$('shareLine').href='https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(SHARE_URL)+'&text='+encodeURIComponent(SHARE_TXT);
+$('shareFb').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(SHARE_URL);
+if(navigator.share)$('shareNative').hidden=false;
+function closeShare(){shareSheet.hidden=true;if(shareFrom)shareFrom.focus({preventScroll:true})}
+[].forEach.call(document.querySelectorAll('[data-share]'),function(b){
+  b.addEventListener('click',function(){shareFrom=b;shareSheet.hidden=false;$('shareX').focus({preventScroll:true})});
+});
+$('shareNative').addEventListener('click',function(){
+  navigator.share({title:document.title,text:SHARE_TXT,url:SHARE_URL}).then(closeShare,function(){});
+});
+$('shareLink').addEventListener('click',function(){copyText(SHARE_URL,'已複製連結，貼給朋友就可以了')});
+$('shareText').addEventListener('click',function(){copyText(SHARE_TXT+'\n'+SHARE_URL,'已複製推薦文案＋連結')});
+$('shareX').addEventListener('click',closeShare);
+shareSheet.addEventListener('click',function(e){if(e.target===shareSheet)closeShare()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!shareSheet.hidden)closeShare()});
 
 })();
 </script>

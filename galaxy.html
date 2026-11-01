@@ -534,6 +534,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
   <div class="wrap">
     <p>AutoCAD 顧問論壇 · 蘋果爸　<a href="https://www.autocad-tw.com/" target="_blank" rel="noopener">www.autocad-tw.com ↗</a>　<a href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">官方 LINE@ ↗</a></p>
     <p>問答整理自「學員許願與課程建議留言板」，學員姓名已遮罩。</p>
+    <p class="views" id="viewCnt" style="margin-top:8px;min-height:1.4em;color:#ffd166;font-weight:700;font-size:14px"></p>
   </div>
 </footer>
 
@@ -1184,6 +1185,21 @@ $('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
 var rzT;
 window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(function(){initStars();layout()},120)});
 layout();refresh();
+})();
+</script>
+<script>
+/* 瀏覽人次：四頁各自計數；同一台裝置只算一次；只有正式網址會累加 */
+(function(){
+  var el=document.getElementById('viewCnt');if(!el||!window.fetch||!window.Promise)return;
+  var API='https://abacus.jasoncameron.dev/{op}/kv1012tiger-ai-course/{key}',ME='views-galaxy',ALL=['views-halloween','views-space','views-island','views-galaxy'];
+  function call(op,k){return fetch(API.replace('{op}',op).replace('{key}',k)).then(function(r){return r.ok?r.json():null}).then(function(j){return j&&typeof j.value==='number'?j.value:0}).catch(function(){return 0})}
+  var seen=false;try{seen=localStorage.getItem('aic-seen-'+ME)==='1'}catch(e){}
+  var live=location.hostname==='kv1012tiger.github.io';
+  var mine=(seen||!live)?call('get',ME):call('hit',ME).then(function(v){try{localStorage.setItem('aic-seen-'+ME,'1')}catch(e){}return v});
+  Promise.all([mine].concat(ALL.filter(function(k){return k!==ME}).map(function(k){return call('get',k)}))).then(function(a){
+    var t=a.reduce(function(s,v){return s+v},0);
+    el.textContent='👀 本頁瀏覽 '+a[0].toLocaleString()+' 人次｜全站 '+t.toLocaleString()+' 人次';
+  });
 })();
 </script>
 </body>

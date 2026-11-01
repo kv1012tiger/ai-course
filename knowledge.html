@@ -365,6 +365,16 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 .sbox input::placeholder{color:var(--dim)}
 .s-count{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
 
+/* ===== PDF 下載 ===== */
+.dl-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.dl-cnt{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 20px;margin:10px 0 0;min-height:20px;font-size:14.5px;font-weight:700;color:var(--gold)}
+.dltip{position:fixed;inset:0;z-index:145;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
+.dltip[hidden]{display:none}
+.dltip-box{max-width:380px;padding:24px 22px;background:var(--card-strong)}
+.dltip-box h3{font-size:18px;font-weight:900;margin-bottom:10px}
+.dltip-box p{margin:0 0 8px;font-size:15px}
+.dltip-box p.sm{font-size:13.5px;color:var(--muted)}
+
 /* ===== 寶箱、提示、特效 ===== */
 .chest{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(4,0,12,.78)}
 .chest[hidden]{display:none}
@@ -467,6 +477,11 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
       <button class="qbtn" type="button" data-open="castle">🏰 課程城堡</button>
       <button class="qbtn" type="button" data-open="dock">⛵ 報名碼頭</button>
     </div>
+    <div class="dl-row">
+      <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+      <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
+    </div>
+    <p class="dl-cnt"><span>課程大綱 <span data-dl-count></span></span><span>課前準備 <span data-dl-count="prep"></span></span></p>
     <div class="stats"><span><b id="stQ">0</b>則學員提問</span><span><b>9</b>座問答島</span><span><b>6</b>隻毛孩陪你逛</span></div>
   </div>
 </section>
@@ -499,6 +514,11 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
         <button class="btn btn-ghost" type="button" data-open="castle">🏰 看課程城堡</button>
         <a class="btn btn-ghost" href="./" data-std>📘 標準招生頁（AI探索島）</a>
       </div>
+      <div class="dl-row">
+        <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
+        <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
+      </div>
+      <p class="dl-cnt"><span>課程大綱 <span data-dl-count></span></span><span>課前準備 <span data-dl-count="prep"></span></span></p>
     </div>
   </div>
 </section>
@@ -547,6 +567,14 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
     <a class="intro-back" href="./" data-std>← 改去 AI探索島（標準招生頁）</a>
   </div>
 </div>
+<div class="dltip" id="dlTip" role="dialog" aria-modal="true" aria-labelledby="dlTipT" hidden>
+  <div class="card dltip-box">
+    <h3 id="dlTipT">這個 App 無法直接下載檔案</h3>
+    <p>請點畫面右上角「⋯」，選擇「以瀏覽器開啟」，再按一次「下載」。</p>
+    <p class="sm">也可以複製下載連結，貼到 Safari 或 Chrome 開啟。</p>
+    <div class="row2"><button class="btn btn-primary btn-sm" id="dlCopy" type="button">📋 複製下載連結</button><button class="btn btn-ghost btn-sm" id="dlClose" type="button">關閉</button></div>
+  </div>
+</div>
 <div id="fx" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -554,7 +582,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 (function(){
 'use strict';
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var LINE='https://lin.ee/4xw8yKI',PDF_URL='AI幫你做_課程大綱與主題介紹.pdf',PREP_FILE='AI幫你做_課前準備.pdf';
+var LINE='https://lin.ee/4xw8yKI',PDF_URL='AI幫你做_課程大綱與主題介紹.pdf',PREP_FILE='AI幫你做_課前準備.pdf',COUNT_API='https://abacus.jasoncameron.dev/{op}/kv1012tiger-ai-course/{key}';
 var SHOP='https://autocad-tw.my1shop.com/la4v2u#Type=Product&ID=';
 var PAY={
   taipei:{b:'ZrLgxyBe1OoymBdQ1RGDQb9n',n:'eobJKaG21M0jZPOpzA4BqnwO'},
@@ -867,7 +895,7 @@ function renderCastle(){
       '<a class="vid" href="https://www.youtube.com/watch?v=bj2FKTcKO8s" target="_blank" rel="noopener"><i style="background-image:url(https://i.ytimg.com/vi/bj2FKTcKO8s/hqdefault.jpg)"></i><span>課程初步講解 ↗</span></a>'+
     '</div></div>'+
     '<div class="p-sec"><h4>課前準備</h4><ul class="prep"><li>💻 Windows 版 AutoCAD・筆電、滑鼠、充電器</li><li>🔑 先登入 Google、ChatGPT・安裝並登入 Codex</li><li>🗂️ 帶一張平面圖、手繪圖或 DWG</li><li>⚙️ LISPSYS 設 0 → 重開 AutoCAD → 輸入 VLIDE</li><li>🎒 沒有筆電？可旁聽做筆記，回家看錄影重播</li></ul></div>'+
-    '<div class="p-sec"><h4>下載資料</h4><div class="dls"><a class="btn btn-ghost" href="'+PDF_URL+'">⬇ 課程大綱 PDF（12 頁）</a><a class="btn btn-ghost" href="'+PREP_FILE+'">⬇ 課前準備 PDF（4 頁）</a></div></div>';
+    '<div class="p-sec"><h4>下載資料</h4><div class="dls"><a class="btn btn-ghost" href="'+PDF_URL+'" data-dl>⬇ 課程大綱 PDF（12 頁）</a><a class="btn btn-ghost" href="'+PREP_FILE+'" data-dl="prep">⬇ 課前準備 PDF（4 頁）</a></div></div>';
   $('pStep').textContent='🏰 課程城堡';
   footSimple('← 回地圖','⛵ 去報名碼頭 →');
 }
@@ -1037,6 +1065,37 @@ function burst(x,y,em){
     e.style.setProperty('--dx',(Math.cos(a)*d).toFixed(0)+'px');e.style.setProperty('--dy',(Math.sin(a)*d-40).toFixed(0)+'px');e.style.setProperty('--r',(Math.random()*120-60).toFixed(0)+'deg');
     fx.appendChild(e);setTimeout(function(el){return function(){el.remove()}}(e),1200)}
 }
+
+/* ---------- PDF 下載與次數（與標準招生頁共用計數；按下載 +1） ---------- */
+var DLS={outline:{key:'outline-pdf-v2',file:PDF_URL},prep:{key:'prep-pdf',file:PREP_FILE}};
+function dlId(el,attr){var v=el.getAttribute(attr);return DLS[v]?v:'outline'}
+function showCount(id,n){[].forEach.call(document.querySelectorAll('[data-dl-count]'),function(el){if(dlId(el,'data-dl-count')===id)el.textContent='📥 已下載 '+n.toLocaleString()+' 次'})}
+function saveCount(id,n){showCount(id,n);try{sessionStorage.setItem('aic-dl-'+id+'-v3',JSON.stringify({t:Date.now(),n:n}))}catch(e){}}
+function getCount(id,op,opt){
+  if(!window.fetch||(op==='hit'&&location.protocol==='file:'))return;/* 本機開啟只顯示次數、不累加 */
+  fetch(COUNT_API.replace('{op}',op).replace('{key}',DLS[id].key),opt||{}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&typeof j.value==='number')saveCount(id,j.value)}).catch(function(){});
+}
+Object.keys(DLS).forEach(function(id){
+  var cached=null;try{cached=JSON.parse(sessionStorage.getItem('aic-dl-'+id+'-v3')||'null')}catch(e){}
+  if(cached&&Date.now()-cached.t<60000)showCount(id,cached.n);else getCount(id,'get');
+});
+/* App 內建瀏覽器（LINE、Facebook、Instagram 等）不支援下載檔案：
+   LINE 改用官方的 openExternalBrowser 參數跳到手機瀏覽器；其他 App 提示改用瀏覽器開啟 */
+var UA=navigator.userAgent||'',IN_LINE=/\bLine\//i.test(UA),IN_APP=!IN_LINE&&/FBAN|FBAV|FB_IAB|Instagram|Messenger|MicroMessenger|KAKAOTALK/i.test(UA);
+var PDF_HREF='',dlTip=$('dlTip');
+function closeDlTip(){dlTip.hidden=true}
+document.addEventListener('click',function(e){
+  var a=e.target.closest('[data-dl]');if(!a)return;
+  var id=dlId(a,'data-dl'),href=a.href;PDF_HREF=href;
+  if(IN_APP){e.preventDefault();dlTip.hidden=false;$('dlCopy').focus({preventScroll:true});return}
+  if(IN_LINE){e.preventDefault();location.href=href+(href.indexOf('?')<0?'?':'&')+'openExternalBrowser=1'}
+  else a.setAttribute('download',DLS[id].file);
+  toast(IN_LINE?'將用手機瀏覽器開啟 PDF':'開始下載 PDF');
+  getCount(id,'hit',{keepalive:true});
+});
+$('dlCopy').addEventListener('click',function(){copyText(PDF_HREF,'已複製下載連結')});
+$('dlClose').addEventListener('click',closeDlTip);
+dlTip.addEventListener('click',function(e){if(e.target===dlTip)closeDlTip()});
 
 /* ---------- 音效與背景音樂（瀏覽器即時合成） ---------- */
 /* 預設靜音：每次新來都從靜音開始；按喇叭打開後，同一個分頁內換頁沿用 */

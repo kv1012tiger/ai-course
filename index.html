@@ -302,6 +302,15 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .intro-title{font-size:clamp(38px,8vw,64px);font-weight:900;line-height:1.15}
 .intro-sub{margin:10px 0 0;color:var(--muted);font-size:clamp(15px,2vw,18px)}
 .intro-go{margin-top:26px;font-size:20px;padding:18px 34px}
+.intro-pick{margin:22px 0 0;color:var(--gold);font-weight:900;font-size:16px;letter-spacing:.08em}
+.intro-choices{display:flex;flex-direction:column;align-items:stretch;gap:12px;max-width:440px;margin:12px auto 0}
+.intro-choices .intro-go{margin-top:0;flex-direction:column;gap:2px;padding:14px 26px;white-space:normal;line-height:1.35}
+.intro-choices .intro-go small{font-size:13.5px;font-weight:500;opacity:.92}
+.intro-kb{color:#fff;background:rgba(255,209,102,.16);border:2px solid var(--gold);box-shadow:0 0 22px rgba(255,209,102,.35)}
+.intro-kb:hover{background:rgba(255,209,102,.28);transform:translateY(-2px)}
+.kb-go{margin:28px auto 0;max-width:440px}
+.kb-go .intro-kb{display:flex;flex-direction:column;gap:2px;width:100%;font-size:20px;padding:15px 26px;white-space:normal;line-height:1.35}
+.kb-go .intro-kb small{font-size:13.5px;font-weight:500;opacity:.92}
 .intro-mute{display:block;margin:18px auto 0;padding:6px 12px;background:none;border:0;color:var(--muted);font-size:15px;text-decoration:underline;cursor:pointer}
 /* 推薦好友優惠 */
 .refer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;margin-top:20px;padding:16px 20px;border-radius:18px;
@@ -1095,6 +1104,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
     </div>
     <div class="refer end"><div class="rf-txt"><b>🎁 特別優惠｜推薦好友一起報名 4,200 元方案</b><span>推薦成功，你和朋友各多送 <em>1 年專屬 B 會員</em>！報名時請用 LINE@ 告知推薦人姓名與論壇會員名稱。</span></div><div class="rf-btns"><a class="btn btn-ghost btn-sm" href="https://autocad-tw.my1shop.com/qm62pc" target="_blank" rel="noopener">了解專屬 B 會員 ↗</a><a class="btn btn-line btn-sm" href="https://lin.ee/4xw8yKI" target="_blank" rel="noopener">LINE@ 登記推薦 ↗</a></div></div>
+    <div class="kb-go"><a class="btn intro-kb" id="endKb" href="knowledge.html?from=std"><span>🏝️ 前往AI知識島</span><small>遊戲互動招生・學員問答大探險</small></a></div>
   </div>
 </section>
 </main>
@@ -1141,7 +1151,11 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="intro-art" aria-hidden="true"><span class="ia-core"></span><span class="ia-pk">🎃</span><span class="ia-bat">🦇</span></div>
     <h2 class="intro-title" id="introT"><span class="grad-fire">AI</span> <span class="grad">幫你做什麼</span></h2>
     <p class="intro-sub">AutoCAD × AI 實體課程・週六下午 5 小時實作</p>
-    <button class="btn btn-primary intro-go" id="introGo" type="button">🎃 點一下，進入萬聖夜</button>
+    <p class="intro-pick">有兩座島可以選擇</p>
+    <div class="intro-choices">
+      <button class="btn btn-primary intro-go" id="introGo" type="button"><span>🎃 按一下，進入AI探索島</span><small>標準招生頁・課程與報名一次看</small></button>
+      <a class="btn intro-go intro-kb" id="introKb" href="knowledge.html?from=std"><span>🏝️ 按一下，進入AI知識島</span><small>遊戲互動招生・學員問答大探險</small></a>
+    </div>
     <button class="intro-mute" id="introMute" type="button">靜音進入</button>
   </div>
 </div>
@@ -1671,6 +1685,8 @@ function closeIntro(withSound){
 }
 $('introGo').addEventListener('click',function(){closeIntro(true)});
 $('introMute').addEventListener('click',function(){closeIntro(false)});
+/* 選 AI知識島：記住「要聲音」，到那邊直接開始，不再出現開場畫面 */
+$('introKb').addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1');localStorage.setItem('aic-sfx','on')}catch(e){}});
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;

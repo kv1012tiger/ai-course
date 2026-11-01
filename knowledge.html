@@ -543,7 +543,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
     <h2 class="intro-title" id="introT"><span class="grad-fire">AI</span> <span class="grad">知識島</span></h2>
     <p class="intro-sub">學員問答大探險・蘋果爸親自回答</p>
     <button class="btn btn-primary intro-go" id="introGo" type="button">🎃 按一下，登上AI知識島</button>
-    <button class="intro-mute" id="introMute" type="button">靜音進入</button>
+    
     <a class="intro-back" href="./" data-std>← 改去 AI探索島（標準招生頁）</a>
   </div>
 </div>
@@ -1039,7 +1039,8 @@ function burst(x,y,em){
 }
 
 /* ---------- 音效與背景音樂（瀏覽器即時合成） ---------- */
-var AC=null,SFX_ON=true;try{SFX_ON=localStorage.getItem('aic-sfx')!=='off'}catch(e){}
+/* 預設靜音：每次新來都從靜音開始；按喇叭打開後，同一個分頁內換頁沿用 */
+var AC=null,SFX_ON=false;try{SFX_ON=sessionStorage.getItem('aic-sfx')==='on'}catch(e){}
 function ac(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}
 function tone(f0,f1,dur,type,vol,delay){
   var a=ac();if(!a)return;var t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();
@@ -1065,7 +1066,7 @@ var SFX={
 function playSfx(t){if(!SFX_ON)return;try{SFX[t]()}catch(e){}}
 var sfxBtn=$('sfxBtn');
 function sfxUI(){sfxBtn.textContent=SFX_ON?'🔊':'🔇';sfxBtn.setAttribute('aria-label',SFX_ON?'關閉音效':'開啟音效')}
-sfxBtn.addEventListener('click',function(){SFX_ON=!SFX_ON;try{localStorage.setItem('aic-sfx',SFX_ON?'on':'off')}catch(e){}sfxUI();toast(SFX_ON?'已開啟音效與背景音樂':'已關閉音效與背景音樂');if(SFX_ON){tone(1046,0,.18,'sine',.12);bgmStart()}else bgmStop()});
+sfxBtn.addEventListener('click',function(){SFX_ON=!SFX_ON;try{sessionStorage.setItem('aic-sfx',SFX_ON?'on':'off')}catch(e){}sfxUI();toast(SFX_ON?'已開啟音效與背景音樂':'已關閉音效與背景音樂');if(SFX_ON){tone(1046,0,.18,'sine',.12);bgmStart()}else bgmStop()});
 sfxUI();
 var BGM={on:false,timer:null,nodes:[],step:0,master:null};
 function bnote(a,f,t,dur,type,vol){var o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(BGM.master);o.start(t);o.stop(t+dur+.05)}
@@ -1112,14 +1113,13 @@ if(seen)intro.hidden=true;
 else{document.documentElement.classList.add('lock');setTimeout(function(){$('introGo').focus({preventScroll:true})},120)}
 function closeIntro(withSound){
   try{sessionStorage.setItem('aikb-intro','1')}catch(e){}
-  SFX_ON=withSound;try{localStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
+  SFX_ON=withSound;try{sessionStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
   sfxUI();
   if(withSound){tone(1046,0,.2,'sine',.12);bgmStart()}else bgmStop();
   intro.classList.add('hide');document.documentElement.classList.remove('lock');
   setTimeout(function(){intro.hidden=true},650);
 }
-$('introGo').addEventListener('click',function(){closeIntro(true)});
-$('introMute').addEventListener('click',function(){closeIntro(false)});
+$('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
 /* 回標準招生頁時，略過那邊的開場畫面 */
 [].forEach.call(document.querySelectorAll('[data-std]'),function(a){a.addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1')}catch(e){}})});
 

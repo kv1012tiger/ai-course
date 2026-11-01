@@ -1178,7 +1178,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
       <button class="btn btn-primary intro-go" id="introGo" type="button"><span>🎃 按一下，進入AI探索島</span><small>標準招生頁・課程與報名一次看</small></button>
       <a class="btn intro-go intro-kb" id="introKb" href="knowledge.html?from=std"><span>🏝️ 按一下，進入AI知識島</span><small>遊戲互動招生・學員問答大探險</small></a>
     </div>
-    <button class="intro-mute" id="introMute" type="button">靜音進入</button>
+    
   </div>
 </div>
 <div id="fx" aria-hidden="true"></div>
@@ -1640,7 +1640,8 @@ $('startTour').addEventListener('click',function(e){
 
 
 /* ---------- 點擊音效（瀏覽器即時合成，不需音效檔） ---------- */
-var AC=null,SFX_ON=true;try{SFX_ON=localStorage.getItem('aic-sfx')!=='off'}catch(e){}
+/* 預設靜音：每次新來都從靜音開始；按喇叭打開後，同一個分頁內換頁沿用 */
+var AC=null,SFX_ON=false;try{SFX_ON=sessionStorage.getItem('aic-sfx')==='on'}catch(e){}
 function ac(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}
 function tone(f0,f1,dur,type,vol,delay){
   var a=ac();if(!a)return;var t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();
@@ -1666,7 +1667,7 @@ var SFX=[
 function playSfx(t){if(!SFX_ON)return;try{SFX[t]()}catch(e){}}
 var sfxBtn=$('sfxBtn');
 function sfxUI(){sfxBtn.textContent=SFX_ON?'🔊':'🔇';sfxBtn.setAttribute('aria-label',SFX_ON?'關閉音效':'開啟音效');sfxBtn.setAttribute('aria-pressed',SFX_ON?'false':'true')}
-sfxBtn.addEventListener('click',function(){SFX_ON=!SFX_ON;try{localStorage.setItem('aic-sfx',SFX_ON?'on':'off')}catch(e){}sfxUI();toast(SFX_ON?'已開啟音效與背景音樂':'已關閉音效與背景音樂');if(SFX_ON){tone(1046,0,.18,'sine',.12);bgmStart()}else bgmStop()});
+sfxBtn.addEventListener('click',function(){SFX_ON=!SFX_ON;try{sessionStorage.setItem('aic-sfx',SFX_ON?'on':'off')}catch(e){}sfxUI();toast(SFX_ON?'已開啟音效與背景音樂':'已關閉音效與背景音樂');if(SFX_ON){tone(1046,0,.18,'sine',.12);bgmStart()}else bgmStop()});
 sfxUI();
 /* ---------- 背景音樂 ---------- */
 var BGM={on:false,timer:null,nodes:[],step:0,master:null};
@@ -1714,16 +1715,15 @@ if(introSeen)intro.hidden=true;
 else{document.documentElement.style.overflow='hidden';setTimeout(function(){$('introGo').focus({preventScroll:true})},120)}
 function closeIntro(withSound){
   try{sessionStorage.setItem('aic-intro','1')}catch(e){}
-  SFX_ON=withSound;try{localStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
+  SFX_ON=withSound;try{sessionStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
   sfxUI();
   if(withSound){tone(1046,0,.2,'sine',.12);bgmStart()}else bgmStop();
   intro.classList.add('hide');document.documentElement.style.overflow='';
   setTimeout(function(){intro.hidden=true},650);
 }
-$('introGo').addEventListener('click',function(){closeIntro(true)});
-$('introMute').addEventListener('click',function(){closeIntro(false)});
-/* 選 AI知識島：記住「要聲音」，到那邊直接開始，不再出現開場畫面 */
-$('introKb').addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1');localStorage.setItem('aic-sfx','on')}catch(e){}});
+$('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
+/* 選 AI知識島：到那邊直接開始，不再出現開場畫面 */
+$('introKb').addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1')}catch(e){}});
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;

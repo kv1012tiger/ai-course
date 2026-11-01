@@ -944,7 +944,7 @@ function renderSession(i){
       '<a class="btn btn-primary" href="'+SHOP+pay.b+'" target="_blank" rel="noopener"'+dis+'><span>含專屬 B 會員一年<small>價值 1,500 元 · 信用卡付款 ↗</small></span><b>NT$4,200</b></a>'+
       '<a class="btn btn-ghost" href="'+SHOP+pay.n+'" target="_blank" rel="noopener"'+dis+'><span>無專屬 B 會員<small>信用卡付款 ↗</small></span><b>NT$3,600</b></a>'+
       (full?'<p class="warn">本場已額滿，請用 LINE@ 登記候補。</p>':'')+
-      (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（11/07 或 11/21）。</p>':'')+
+      (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（'+SESSIONS.filter(function(o){return o.pay===s.pay&&o.left>0}).map(function(o){return o.d.slice(5).replace('-','/')}).join(' 或 ')+'）。</p>':'')+
       '<p class="hint">付款完成後，請用 LINE@ 告知姓名與論壇會員名稱。</p></div></div>'+
     '<div class="p-sec"><h4>銀行轉帳（ATM／臨櫃）</h4><div class="bank">'+
       '<div><b>銀行</b><span>'+BANK.bank+'</span></div><div><b>代號</b><span>'+BANK.code+'</span></div>'+
@@ -1031,7 +1031,7 @@ pBody.addEventListener('click',function(e){
   if(t.classList.contains('qa-flip')){flip(t.closest('.qa'));return}
   if(t.dataset.isle!=null){openPanel('isle',+t.dataset.isle);return}
   if(t.dataset.unit){openPanel('castle');var d=pBody.querySelector('[data-u="'+t.dataset.unit+'"]');if(d){d.open=true;setTimeout(function(){d.scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})},80)}return}
-  if(t.dataset.ss!=null){openPanel('session',+t.dataset.ss);return}
+  if(t.dataset.ss!=null){var sx=SESSIONS[+t.dataset.ss];if(sx&&sx.left<=0){toast(sx.name+' 線上已經額滿');return}openPanel('session',+t.dataset.ss);return}
   if(t.dataset.pet!=null){var p=PETS[+t.dataset.pet],ps=$('petSay');if(ps){ps.textContent=p.n+'：'+p.say;ps.classList.remove('pop');void ps.offsetWidth;ps.classList.add('pop')}playSfx(p.kind);return}
   if(t.dataset.kw){var inp=$('qIn');inp.value=t.dataset.kw;doSearch(inp.value);return}
   if(t.dataset.copy){copyText(t.dataset.copy,t.dataset.msg);return}

@@ -541,6 +541,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .ss.next .flag{display:block}
 .ss.past{opacity:.45}
 .ss.past .flag{display:block;background:rgba(255,255,255,.15)}
+.ss.soldout .go{color:var(--dim)}
 .s-note{margin-top:18px;color:var(--muted);font-size:14px;text-align:center}
 .poster2{margin:34px auto 0;max-width:760px;display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center;padding:18px;cursor:pointer;text-align:left;transition:border-color .25s}
 .poster2:hover{border-color:rgba(255,255,255,.35)}
@@ -1766,16 +1767,16 @@ function fmtDate(s){var d=toDate(s);return d.getFullYear()+'/'+(d.getMonth()+1)+
 function daysTo(s){return Math.round((toDate(s)-today)/86400000)}
 var nextFound=false,sl=$('sessionList');
 SESSIONS.forEach(function(s,i){
-  var dt=toDate(s.d),past=dt<today,isNext=!past&&!nextFound;if(isNext)nextFound=true;
+  var dt=toDate(s.d),past=dt<today,sold=!past&&s.left<=0,isNext=!past&&!sold&&!nextFound;if(isNext)nextFound=true;
   var left=daysTo(s.dl),u=UNITS[s.u];
-  var el=document.createElement('button');el.type='button';el.className='card ss reveal in'+(past?' past':'')+(isNext?' next':'');
+  var el=document.createElement('button');el.type='button';el.className='card ss reveal in'+(past?' past':'')+(isNext?' next':'')+(sold?' soldout':'');
   el.innerHTML='<span class="flag">'+(past?'已結束':'最近場次')+'</span>'+planetHTML(u)+
     '<span class="yr">'+dt.getFullYear()+'</span><span class="date">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<small>（'+WD[dt.getDay()]+'）</small></span>'+
     '<span class="city">'+esc(s.name)+'</span><span class="tm">'+esc(s.tm)+' · 5 小時</span>'+
     seatHTML(s,'span')+
     '<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>'+
-    '<span class="go">詳情與付款 →</span>';
-  el.addEventListener('click',function(e){openPanel('session',i,el,e.detail===0)});
+    '<span class="go">'+(sold?'線上已額滿':'詳情與付款 →')+'</span>';
+  el.addEventListener('click',function(e){if(sold){toast(s.name+' 線上已經額滿');return}openPanel('session',i,el,e.detail===0)});
   sl.appendChild(el);
 });
 
@@ -1827,7 +1828,7 @@ function renderSession(i){
       '<a class="btn btn-primary" href="'+SHOP+pay.b+'" target="_blank" rel="noopener"'+dis+'><span>含專屬 B 會員一年<small>價值 1,500 元 · 信用卡付款 ↗</small></span><b>NT$4,200</b></a>'+
       '<a class="btn btn-ghost" href="'+SHOP+pay.n+'" target="_blank" rel="noopener"'+dis+'><span>無專屬 B 會員<small>信用卡付款 ↗</small></span><b>NT$3,600</b></a>'+
       (full?'<p class="warn">本場已額滿，請用 LINE@ 登記候補。</p>':'')+
-      (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（11/07 或 11/21）。</p>':'')+
+      (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（'+SESSIONS.filter(function(o){return o.pay===s.pay&&o.left>0}).map(function(o){return o.d.slice(5).replace('-','/')}).join(' 或 ')+'）。</p>':'')+
       '<p class="hint">付款完成後，請用 LINE@ 告知姓名與論壇會員名稱。</p>'+
     '</div></div>'+
     '<div class="p-sec"><h4>銀行轉帳（ATM／臨櫃）</h4><div class="bank">'+
@@ -1848,7 +1849,7 @@ function renderSession(i){
       '<li>課後可觀看上課錄影與 AI 程式入門線上課程（各 4 個月）；附 DWG 範例與教學筆記。</li>'+
     '</ul><a class="forum" href="'+s.url+'" target="_blank" rel="noopener">論壇場次原文 ↗</a></div>';
   $('pStep').textContent='LANDING SITE '+(i+1)+' / '+SESSIONS.length;
-  var nx=$('pNext');nx.textContent='下一場 →';nx.style.visibility=i===SESSIONS.length-1?'hidden':'visible';
+  var nx=$('pNext');nx.textContent='下一場 →';nx.style.visibility=hasAdj(i,1)?'visible':'hidden';
 }
 /* 單顆星球拖曳轉動 */
 var GL={el:null,pos:0,vel:0,drag:null};
@@ -1882,7 +1883,7 @@ function render(i,dir){
   pBody.scrollTop=0;pBody.classList.remove('swap');void pBody.offsetWidth;
   pBody.style.setProperty('--dir',(dir||1)*24+'px');pBody.classList.add('swap');
   [].forEach.call(pDots.children,function(d,k){d.classList.toggle('on',k===i);d.classList.toggle('v',mode==='unit'&&!!visited[UNITS[k].id])});
-  var pv=$('pPrev');pv.textContent=mode==='unit'?'← 上一站':'← 上一場';pv.disabled=i===0;pv.style.visibility=i===0?'hidden':'visible';
+  var pv=$('pPrev');pv.textContent=mode==='unit'?'← 上一站':'← 上一場';var noPrev=!hasAdj(i,-1);pv.disabled=noPrev;pv.style.visibility=noPrev?'hidden':'visible';
 }
 function openPanel(m,i,from,kb){
   opener=from||null;openerKb=!!kb;var wasOpen=cur>=0;
@@ -1902,8 +1903,10 @@ function closePanel(){
   document.body.style.overflow='';
   if(openerKb&&opener&&opener.focus)opener.focus({preventScroll:true});else if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
 }
+function offerOk(k){return mode!=='session'||SESSIONS[k].left>0}
+function hasAdj(i,d){for(var k=i+d,L=listOf(mode).length;k>=0&&k<L;k+=d)if(offerOk(k))return true;return false}
 function go(d){
-  var n=cur+d,L=listOf(mode).length;
+  var n=cur+d,L=listOf(mode).length;while(n>=0&&n<L&&!offerOk(n))n+=d;
   if(n<0)return;
   if(n>=L){if(mode==='unit'){closePanel();$('sessions').scrollIntoView({behavior:reduce?'auto':'smooth'})}return}
   cur=n;if(!reduce)warp=.7;render(n,d);

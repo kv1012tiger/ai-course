@@ -1775,8 +1775,8 @@ SESSIONS.forEach(function(s,i){
     '<span class="city">'+esc(s.name)+'</span><span class="tm">'+esc(s.tm)+' · 5 小時</span>'+
     seatHTML(s,'span')+
     '<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>'+
-    '<span class="go">'+(sold?'線上已額滿':'詳情與付款 →')+'</span>';
-  el.addEventListener('click',function(e){if(sold){toast(s.name+' 線上已經額滿');return}openPanel('session',i,el,e.detail===0)});
+    '<span class="go">'+(sold?'實體課已額滿':'詳情與付款 →')+'</span>';
+  el.addEventListener('click',function(e){if(sold){toast(s.name+' 實體課已經額滿');return}openPanel('session',i,el,e.detail===0)});
   sl.appendChild(el);
 });
 

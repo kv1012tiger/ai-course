@@ -92,9 +92,6 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 .logo{display:flex;align-items:center;gap:6px;text-decoration:none;font-weight:900;font-size:18px;white-space:nowrap}
 .logo span{font-size:22px}
 .candy{display:flex;align-items:center;gap:8px;margin-left:auto;padding:6px 14px;border-radius:999px;border:1.5px solid rgba(255,209,102,.55);background:rgba(255,209,102,.1);cursor:pointer;font-weight:900;color:var(--gold);white-space:nowrap}
-.slots{display:flex;gap:3px}
-.slots i{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.08);border:1px dashed rgba(255,209,102,.4);font-style:normal;font-size:12px;line-height:16px;text-align:center}
-.slots i.on{background:rgba(255,209,102,.22);border-style:solid}
 .candy.bump{animation:bump .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes bump{40%{transform:scale(1.18)}}
 .hud-r{display:flex;align-items:center;gap:8px}
@@ -435,7 +432,6 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
   .logo{font-size:16px}
   .logo span{font-size:20px}
   .candy{padding:5px 10px}
-  .slots{display:none}
   .hb{width:38px;height:38px;font-size:17px}
   .hero{padding-top:96px}
   .guide .tav{width:56px;height:56px}
@@ -474,7 +470,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 
 <header class="hud">
   <a class="logo" href="#top"><span>🏝️</span>AI 知識島</a>
-  <button class="candy" id="candyBtn" type="button" aria-label="糖果收集進度"><span class="slots" id="slots"></span>🍬 <b id="candyN">0/9</b></button>
+  <button class="candy" id="candyBtn" type="button" aria-label="糖果收集進度">🍬 <b id="candyN">0</b></button>
   <div class="hud-r">
     <button class="hb" id="searchBtn" type="button" aria-label="搜尋問答">🔍</button>
     <button class="hb" id="sfxBtn" type="button" aria-label="關閉音效">🔊</button>
@@ -503,7 +499,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
       <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
     </div>
     <p class="dl-cnt"><span>課程大綱 <span data-dl-count></span></span><span>課前準備 <span data-dl-count="prep"></span></span></p>
-    <div class="stats"><span><b id="stQ">0</b>則學員提問</span><span><b>9</b>座問答島</span><span><b>6</b>隻毛孩陪你逛</span></div>
+    <div class="stats"><span><b id="stQ">0</b>則學員提問</span><span><b id="stI">9</b>座問答島</span><span><b>6</b>隻毛孩陪你逛</span></div>
   </div>
 </section>
 
@@ -518,7 +514,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 
 <section class="list-sec" id="isles">
   <div class="wrap">
-    <div class="sec-h"><span class="eyebrow">9 Islands</span><h2>九大問答島</h2><p>不想划船？直接點這裡。拿到糖果的島會亮起 🍬。</p></div>
+    <div class="sec-h"><span class="eyebrow">Islands</span><h2>問答島</h2><p>不想划船？直接點這裡。拿到糖果的島會亮起 🍬。</p></div>
     <div class="isle-list" id="isleList"></div>
     <button class="reset" type="button" id="resetBtn">↺ 清除進度，重新探險</button>
   </div>
@@ -766,7 +762,7 @@ function candyCount(){return ISLES.filter(function(s,i){return ST.c[i]}).length}
 var PETS=[
  {n:'三花貓',k:'貓',kind:'cat',base:'#fbf6ee',p:[['#f0a04b',30,44,17],['#2b2b2b',70,40,14]],say:'喵～我是三花貓，先點一座島看看吧！'},
  {n:'乳牛貓',k:'貓',kind:'cat',base:'#fbfbfb',p:[['#1f1f1f',68,42,19],['#1f1f1f',24,74,10],['#1f1f1f',34,30,8]],say:'黑白分明的我，最喜歡整整齊齊的圖層。'},
- {n:'橘貓',k:'貓',kind:'cat',base:'#f3a24a',stripe:'#c96f1e',say:'橘貓報到！集滿 9 顆糖果，記得分我一顆。'},
+ {n:'橘貓',k:'貓',kind:'cat',base:'#f3a24a',stripe:'#c96f1e',say:'橘貓報到！拿到糖果，記得分我一顆。'},
  {n:'小黑',k:'米克斯狗',kind:'dog',base:'#2a2a2a',ear:'#151515',snout:'#4a4a4a',say:'汪！我是小黑，帶你去報名碼頭看看。'},
  {n:'小白',k:'米克斯狗',kind:'dog',base:'#f6f2ea',ear:'#e0d2bc',snout:'#ffffff',say:'汪汪～我是小白，有問題都可以問蘋果爸喔！'},
  {n:'黑寶',k:'10 歲狗狗',kind:'dog',base:'#1f1f1f',ear:'#101010',snout:'#9a9a9a',old:1,say:'我是黑寶，今年 10 歲！慢慢逛，不用急。'}
@@ -883,8 +879,6 @@ function openSpot(i){var s=SP[i];if(s.k==='isle')openPanel('isle',s.n);else open
 function spotIdx(k){for(var i=0;i<SP.length;i++)if(SP[i].k===k)return i;return 0}
 
 /* ---------- 進度顯示 ---------- */
-var slots=$('slots');
-for(var si=0;si<9;si++){var it=document.createElement('i');slots.appendChild(it)}
 var isleList=$('isleList');
 ISLES.forEach(function(s,i){
   var b=document.createElement('button');b.type='button';b.className='card il';b.style.setProperty('--c',s.c);
@@ -893,17 +887,16 @@ ISLES.forEach(function(s,i){
   s.li=b;isleList.appendChild(b);
 });
 function refresh(){
-  var n=candyCount();var gf=n>=5;$('candyN').textContent=n+'/9'+(gf?' 🎁':'');$('candyBtn').classList.toggle('gift',gf);$('giftBtn').hidden=!gf;
-  [].forEach.call(slots.children,function(e,k){e.classList.toggle('on',k<n);e.textContent=k<n?'🍬':''});
+  var n=candyCount();var gf=n>=5;$('candyN').textContent=n+(gf?' 🎁':'');$('candyBtn').classList.toggle('gift',gf);$('giftBtn').hidden=!gf;
   var nextSet=false;
   ISLES.forEach(function(s,i){
     var done=!!ST.c[i];s.el.classList.toggle('done',done);
     var nx=!done&&!nextSet;if(nx)nextSet=true;s.el.classList.toggle('next',nx);
     s.li.classList.toggle('done',done);s.li.querySelector('.st').textContent=done?'🍬 已拿到':'翻開 '+flippedIn(i)+'/'+need(i);
   });
-  $('guideTxt').textContent=n===9?'太厲害了！9 顆糖果全拿到，送你一份 🎁 提示詞禮物包，再去報名碼頭找我吧 ⛵':n>=5?'已經拿到 '+n+' 顆糖果，🎁 提示詞禮物包送你了！繼續往下一座島前進！':n?'已經拿到 '+n+' 顆糖果，繼續往下一座島前進！':'嗨！我是蘋果爸。坐上小船，從第一座島出發吧 👇';
+  $('guideTxt').textContent=n===ISLES.length?'太厲害了！所有島的糖果都拿到了，送你一份 🎁 提示詞禮物包，再去報名碼頭找我吧 ⛵':n>=5?'已經拿到 '+n+' 顆糖果，🎁 提示詞禮物包送你了！繼續往下一座島前進！':n?'已經拿到 '+n+' 顆糖果，繼續往下一座島前進！':'嗨！我是蘋果爸。坐上小船，從第一座島出發吧 👇';
 }
-$('stQ').textContent=TOTAL;
+$('stQ').textContent=TOTAL;$('stI').textContent=ISLES.length;
 
 /* ---------- 面板 ---------- */
 var panel=$('panel'),backdrop=$('backdrop'),pBody=$('pBody'),pFoot=$('pFoot'),pPrev=$('pPrev'),pNext=$('pNext'),pDots=$('pDots');

@@ -398,6 +398,10 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 .chest-box.gift .row2{margin-top:12px}
 .candy.gift{background:rgba(255,138,42,.22);border-color:#ffb347}
 .qbtn[hidden]{display:none}
+.mission-box .chest-ico{font-size:60px}
+.mission-box h3{font-size:24px;margin:8px 0 4px}
+.mission-box .gift-steps{font-size:15.5px;line-height:1.8;margin-top:12px}
+.mission-box .gift-steps li{margin-bottom:6px}
 .toast{position:fixed;left:50%;bottom:96px;z-index:150;transform:translate(-50%,20px);padding:10px 20px;border-radius:999px;background:rgba(30,8,46,.96);border:1px solid rgba(255,209,102,.6);font-size:14.5px;font-weight:700;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 #fx{position:fixed;inset:0;z-index:160;pointer-events:none;overflow:hidden}
@@ -612,6 +616,15 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
     <div class="row2"><button class="btn btn-primary" type="button" id="giftCopy">📋 複製提示詞</button></div>
     <p>這些學員的願望，實體課帶你一起動手做出來。</p>
     <div class="row2"><button class="btn btn-primary" type="button" data-open="dock">⛵ 去報名碼頭</button><button class="btn btn-ghost" type="button" id="chestClose">繼續逛逛</button></div>
+  </div>
+</div>
+
+<div class="chest mission" id="mission" role="dialog" aria-modal="true" aria-labelledby="missionT" hidden>
+  <div class="card chest-box mission-box">
+    <div class="chest-ico">🎯</div>
+    <h3 id="missionT">探險任務</h3>
+    <ol class="gift-steps"><li>點一座島（或從下方島嶼列表點）</li><li>翻開 3 張問答卡，拿 1 顆 🍬 糖果</li><li>拿滿 5 顆，送你 🎁 <b>提示詞禮物包</b>（教你做出自己的知識島，主題與風格自己設定）</li></ol>
+    <div class="row2"><button class="btn btn-primary" type="button" id="missionGo">🍬 知道了，開始探險</button></div>
   </div>
 </div>
 
@@ -1114,7 +1127,7 @@ function openChest(){$('chest').hidden=false;$('chest').firstElementChild.scroll
 $('chestClose').addEventListener('click',function(){$('chest').hidden=true});
 $('giftBtn').addEventListener('click',openChest);
 $('giftCopy').addEventListener('click',function(){copyText($('giftPre').textContent,'已複製提示詞，去貼給 AI 吧！')});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!$('chest').hidden)$('chest').hidden=true;else if(panel.classList.contains('open'))closePanel()}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!$('mission').hidden)closeMission();else if(!$('chest').hidden)$('chest').hidden=true;else if(panel.classList.contains('open'))closePanel()}});
 
 /* ---------- 特效 ---------- */
 var fx=$('fx');
@@ -1230,13 +1243,19 @@ var seen=false;try{seen=sessionStorage.getItem('aikb-intro')==='1'}catch(e){}
 if(/[?&]from=std/.test(location.search))seen=true;
 if(seen)intro.hidden=true;
 else{document.documentElement.classList.add('lock');setTimeout(function(){$('introGo').focus({preventScroll:true})},120)}
+var mission=$('mission'),msSeen=false;try{msSeen=sessionStorage.getItem('aikb-mission')==='1'}catch(e){}
+function showMission(){if(msSeen)return;msSeen=true;try{sessionStorage.setItem('aikb-mission','1')}catch(e){}mission.hidden=false;$('missionGo').focus({preventScroll:true})}
+function closeMission(){mission.hidden=true}
+$('missionGo').addEventListener('click',closeMission);
+mission.addEventListener('click',function(e){if(e.target===mission)closeMission()});
+if(seen)setTimeout(showMission,700);
 function closeIntro(withSound){
   try{sessionStorage.setItem('aikb-intro','1')}catch(e){}
   SFX_ON=withSound;try{sessionStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
   sfxUI();
   if(withSound){tone(1046,0,.2,'sine',.12);bgmStart()}else bgmStop();
   intro.classList.add('hide');document.documentElement.classList.remove('lock');
-  setTimeout(function(){intro.hidden=true},650);
+  setTimeout(function(){intro.hidden=true},650);setTimeout(showMission,800);
 }
 $('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
 /* 回標準招生頁時，略過那邊的開場畫面 */

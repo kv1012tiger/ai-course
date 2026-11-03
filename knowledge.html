@@ -6,7 +6,7 @@
 <title>AI 知識島｜學員問答大探險・AI 幫你做什麼</title>
 <meta name="description" content="學員許下的 AutoCAD × AI 願望，蘋果爸一一回答。九座萬聖節問答島、課程城堡與報名碼頭，邊玩邊認識實體課程。">
 <meta property="og:title" content="AI 知識島｜AutoCAD × AI 學員問答大探險">
-<meta property="og:description" content="點一座島，翻開問答卡，集滿 9 顆糖果打開南瓜寶箱。">
+<meta property="og:description" content="點一座島，翻開問答卡拿糖果，拿到 5 顆送你提示詞禮物包。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kv1012tiger.github.io/ai-course/knowledge.html">
 <meta property="og:image" content="https://kv1012tiger.github.io/ai-course/og-island-sq.jpg">
@@ -372,6 +372,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 .s-count{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
 
 /* ===== PDF 下載 ===== */
+.howto{margin:16px auto 0;padding:10px 16px;max-width:560px;border-radius:14px;border:1px dashed rgba(255,209,102,.5);background:rgba(255,209,102,.08);font-size:14.5px;color:var(--ink)}
 .dl-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
 .dl-cnt{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 20px;margin:10px 0 0;min-height:20px;font-size:14.5px;font-weight:700;color:var(--gold)}
 .dltip{position:fixed;inset:0;z-index:145;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
@@ -482,7 +483,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
   <div class="wrap">
     <span class="eyebrow">AI Knowledge Island</span>
     <h1><span class="grad-fire">AI</span> <span class="grad">知識島</span></h1>
-    <p class="lead">學員許下的 AutoCAD × AI 願望，蘋果爸一一回答。點一座島開始探險：每座島翻開 3 張問答卡就拿到 1 顆糖果，集滿 9 顆打開南瓜寶箱！</p>
+    <p class="lead">學員許下的 AutoCAD × AI 願望，蘋果爸一一回答。點一座島開始探險：每座島翻開 3 張問答卡就拿到 1 顆糖果，拿到 5 顆就送你「🎁 提示詞禮物包」！</p>
     <div class="guide"><div class="tav" aria-hidden="true"></div><div class="bubble" id="guideTxt">嗨！我是蘋果爸。坐上小船，從第一座島出發吧 👇</div></div>
     <div class="quest">
       <button class="qbtn hot" type="button" id="startBtn">🛶 開始探險</button>
@@ -492,6 +493,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
       <button class="qbtn" type="button" data-open="dock">⛵ 報名碼頭</button>
       <button class="qbtn hot" type="button" id="giftBtn" hidden>🎁 提示詞禮物包</button>
     </div>
+    <p class="howto"><b>🍬 怎麼拿糖果？</b> ① 點一座島　② 翻開 3 張問答卡　③ 拿到 1 顆糖果。<br>拿滿 <b>5 顆</b>，送你 <b>🎁 提示詞禮物包</b>：教你做出自己的知識島，主題與風格自己設定。</p>
     <div class="dl-row">
       <a class="btn btn-ghost" href="AI幫你做_課程大綱與主題介紹.pdf" data-dl>⬇ 下載課程大綱 PDF</a>
       <a class="btn btn-ghost" href="AI幫你做_課前準備.pdf" data-dl="prep">⬇ 下載課前準備 PDF</a>
@@ -567,7 +569,7 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
   <div class="card chest-box gift">
     <div class="chest-ico">🎁</div>
     <h3 id="chestT">南瓜寶箱打開了！</h3>
-    <p>9 顆糖果到手，你是 <b>AI 知識島探險家</b> 🎉</p>
+    <p>5 顆糖果到手，你是 <b>AI 知識島探險家</b> 🎉</p>
     <p>裡面有一份 <b>提示詞禮物包</b> 🎁　讓你也能做出自己的知識島</p>
     <ol class="gift-steps"><li>按「複製提示詞」</li><li>貼到 ChatGPT、Gemini 或 Claude</li><li>回答它的 6 個問題，自己設定島主題與風格</li></ol>
     <pre class="gift-pre" id="giftPre" tabindex="0" aria-label="提示詞內容">【AI 知識島 建置提示詞（通用版）】
@@ -878,7 +880,7 @@ ISLES.forEach(function(s,i){
   s.li=b;isleList.appendChild(b);
 });
 function refresh(){
-  var n=candyCount();$('candyN').textContent=n===9?'9/9 🎁':n+'/9';$('candyBtn').classList.toggle('gift',n===9);$('giftBtn').hidden=n<9;
+  var n=candyCount();var gf=n>=5;$('candyN').textContent=n+'/9'+(gf?' 🎁':'');$('candyBtn').classList.toggle('gift',gf);$('giftBtn').hidden=!gf;
   [].forEach.call(slots.children,function(e,k){e.classList.toggle('on',k<n);e.textContent=k<n?'🍬':''});
   var nextSet=false;
   ISLES.forEach(function(s,i){
@@ -886,7 +888,7 @@ function refresh(){
     var nx=!done&&!nextSet;if(nx)nextSet=true;s.el.classList.toggle('next',nx);
     s.li.classList.toggle('done',done);s.li.querySelector('.st').textContent=done?'🍬 已拿到':'翻開 '+flippedIn(i)+'/'+need(i);
   });
-  $('guideTxt').textContent=n===9?'太厲害了！9 顆糖果全拿到，送你一份 🎁 提示詞禮物包，再去報名碼頭找我吧 ⛵':n?'已經拿到 '+n+' 顆糖果，繼續往下一座島前進！':'嗨！我是蘋果爸。坐上小船，從第一座島出發吧 👇';
+  $('guideTxt').textContent=n===9?'太厲害了！9 顆糖果全拿到，送你一份 🎁 提示詞禮物包，再去報名碼頭找我吧 ⛵':n>=5?'已經拿到 '+n+' 顆糖果，🎁 提示詞禮物包送你了！繼續往下一座島前進！':n?'已經拿到 '+n+' 顆糖果，繼續往下一座島前進！':'嗨！我是蘋果爸。坐上小船，從第一座島出發吧 👇';
 }
 $('stQ').textContent=TOTAL;
 
@@ -1070,7 +1072,7 @@ function flip(card){
     var rc=card.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2,['🍬','🍭','🎃','✨']);
     playSfx('candy');toast('🍬 拿到「'+ISLES[n].name+'」的糖果！');
     var cb=$('candyBtn');cb.classList.remove('bump');void cb.offsetWidth;cb.classList.add('bump');
-    if(candyCount()===9&&!ST.chest){ST.chest=1;save();setTimeout(openChest,1400)}
+    if(candyCount()>=5&&!ST.chest){ST.chest=1;save();setTimeout(openChest,1400)}
   }
   if(V.t==='isle'){var pg=$('prog');if(pg)pg.outerHTML=progHTML(V.i);pDots.innerHTML=ISLES.map(function(x,k){return '<i class="'+(k===V.i?'on':'')+(ST.c[k]?' v':'')+'"></i>'}).join('')}
   refresh();
@@ -1106,7 +1108,7 @@ $('startBtn').addEventListener('click',function(){
 function openSearch(){openPanel('search');setTimeout(function(){var i=$('qIn');if(i)i.focus({preventScroll:true})},380)}
 $('searchBtn').addEventListener('click',openSearch);
 $('searchBtn2').addEventListener('click',openSearch);
-$('candyBtn').addEventListener('click',function(){if(candyCount()===9){openChest();return}$('isles').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+$('candyBtn').addEventListener('click',function(){if(candyCount()>=5){openChest();return}$('isles').scrollIntoView({behavior:reduce?'auto':'smooth'})});
 $('resetBtn').addEventListener('click',function(){if(!confirm('要清除這台裝置上的探險進度嗎？'))return;ST={f:{},c:{},chest:0};save();refresh();toast('已清除進度，重新出發！')});
 function openChest(){$('chest').hidden=false;$('chest').firstElementChild.scrollTop=0;playSfx('chest');burst(innerWidth/2,innerHeight/2,['🍬','🎃','🍭','⭐','🎉','👻']);$('giftCopy').focus({preventScroll:true})}
 $('chestClose').addEventListener('click',function(){$('chest').hidden=true});

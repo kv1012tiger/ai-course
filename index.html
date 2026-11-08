@@ -876,7 +876,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
         <div class="stat"><b>5 小時</b><span>現場實作</span></div>
         <div class="stat"><b class="grad-fire">6＋3</b><span>範例＋加碼附錄</span></div>
         <div class="stat"><b>4 個月</b><span>課後錄影回看</span></div>
-        <div class="stat"><b>5 場次</b><span>北・高・南・中</span></div>
+        <div class="stat"><b>6 場次</b><span>北・高・南・中</span></div>
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
@@ -1278,7 +1278,8 @@ var SESSIONS=[
  {d:'2026-11-21',dl:'2026-11-18',name:'台北場 2',left:0,tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30751-topic',c:'#a78bfa',u:0},
  {d:'2026-12-05',dl:'2026-11-19',name:'高雄場',left:2,tm:'13:00–18:00',place:'高雄市（輕軌或車站附近）',room:'高雄輕軌籬仔內站附近',pay:'kaohsiung',url:'https://www.autocad-tw.com/t30752-topic',c:'#f5c6a8',u:4},
  {d:'2026-12-19',dl:'2026-12-03',name:'台南場',left:4,tm:'13:00–18:00',place:'台南市（車站附近）',room:'台南火車站附近',pay:'tainan',url:'https://www.autocad-tw.com/t30753-topic',c:'#f0a070',u:2},
- {d:'2027-01-02',dl:'2026-12-17',name:'台中場',left:0,tm:'13:00–18:00',place:'台中市（捷運或車站附近）',room:'台中場教室準備中，稍後提供',pay:'taichung',url:'https://www.autocad-tw.com/t30754-topic',c:'#9ee8f0',u:1}
+ {d:'2027-01-02',dl:'2026-12-17',name:'台中場',left:0,tm:'13:00–18:00',place:'台中市（捷運或車站附近）',room:'台中場教室準備中，稍後提供',pay:'taichung',url:'https://www.autocad-tw.com/t30754-topic',c:'#9ee8f0',u:1},
+ {d:'2027-01-16',dl:'2027-01-13',name:'台北場 3',left:10,tm:'13:15–18:15',place:'台北市（捷運國父紀念館站附近）',room:'捷運國父紀念館站 1 號出口左後轉彎，步行約 3 分鐘',pay:'taipei',url:'https://www.autocad-tw.com/t30763-topic',c:'#6aa0ff',u:5}
 ];
 
 function $(id){return document.getElementById(id)}
@@ -1828,7 +1829,7 @@ function renderSession(i){
       '<a class="btn btn-primary" href="'+SHOP+pay.b+'" target="_blank" rel="noopener"'+dis+'><span>含專屬 B 會員一年<small>價值 1,500 元 · 信用卡付款 ↗</small></span><b>NT$4,200</b></a>'+
       '<a class="btn btn-ghost" href="'+SHOP+pay.n+'" target="_blank" rel="noopener"'+dis+'><span>無專屬 B 會員<small>信用卡付款 ↗</small></span><b>NT$3,600</b></a>'+
       (full?'<p class="warn">本場已額滿，請用 LINE@ 登記候補。</p>':'')+
-      (s.pay==='taipei'?'<p class="warn">台北兩場共用同一付款頁，付款後請用 LINE@ 告知上課日期（'+SESSIONS.filter(function(o){return o.pay===s.pay&&o.left>0}).map(function(o){return o.d.slice(5).replace('-','/')}).join(' 或 ')+'）。</p>':'')+
+      (s.pay==='taipei'?'<p class="warn">台北場次共用同一付款頁，付款後請用 LINE@ 告知上課日期（'+SESSIONS.filter(function(o){return o.pay===s.pay&&o.left>0}).map(function(o){return o.d.slice(5).replace('-','/')}).join(' 或 ')+'）。</p>':'')+
       '<p class="hint">付款完成後，請用 LINE@ 告知姓名與論壇會員名稱。</p>'+
     '</div></div>'+
     '<div class="p-sec"><h4>銀行轉帳（ATM／臨櫃）</h4><div class="bank">'+

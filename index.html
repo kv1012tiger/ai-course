@@ -293,25 +293,23 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .planet.bounce .pl{animation:fxBounce .7s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 0 16px var(--atm))}
 @keyframes fxBounce{0%{transform:scale(1)}30%{transform:scale(1.55)}55%{transform:scale(.9)}75%{transform:scale(1.25)}100%{transform:scale(1)}}
 /* 開場畫面（點一下進入並開始播放背景音樂） */
-.intro{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:radial-gradient(circle at 50% 38%,rgba(90,30,120,.94),rgba(18,6,30,.98) 70%);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:opacity .6s ease}
-.intro.hide{opacity:0;pointer-events:none}
-.intro[hidden]{display:none}
-.intro-box{text-align:center;max-width:560px}
-.intro-art{position:relative;width:150px;height:150px;margin:0 auto 22px}
-.ia-core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 30%,#fffbe8 0%,#ffe08a 18%,#ffb03a 42%,#ff6a1a 70%,#b33a06 100%);
-  box-shadow:0 0 50px 16px rgba(255,138,42,.55),0 0 140px 60px rgba(255,90,30,.2);animation:introPulse 2.4s ease-in-out infinite}
-.intro .ia-core{background:radial-gradient(circle at 40% 38%,#fffbe6 0%,#ffeeb5 40%,#f5c86b 72%,#d99a3a 100%);box-shadow:0 0 60px 20px rgba(255,220,140,.4),0 0 160px 70px rgba(255,160,70,.18)}
-.ia-pk{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);font-size:84px;line-height:1;filter:drop-shadow(0 0 16px rgba(255,140,40,.9))}
-.ia-bat{position:absolute;right:-30px;top:-6px;font-size:34px;animation:float 3s ease-in-out infinite}
-@keyframes introPulse{50%{transform:scale(1.06);box-shadow:0 0 70px 24px rgba(255,150,50,.7),0 0 170px 80px rgba(255,90,30,.26)}}
-.intro-title{font-size:clamp(38px,8vw,64px);font-weight:900;line-height:1.15}
-.intro-sub{margin:10px 0 0;color:var(--muted);font-size:clamp(15px,2vw,18px)}
-.intro-go{margin-top:26px;font-size:20px;padding:18px 34px}
-.intro-pick{margin:22px 0 0;color:var(--gold);font-weight:900;font-size:16px;letter-spacing:.08em}
-.intro-choices{display:flex;flex-direction:column;align-items:stretch;gap:12px;max-width:440px;margin:12px auto 0}
-.intro-choices .intro-go{margin-top:0;flex-direction:column;gap:2px;padding:14px 26px;white-space:normal;line-height:1.35}
-.intro-choices .intro-go small{font-size:13.5px;font-weight:500;opacity:.92}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .intro-kb{color:#fff;background:rgba(255,209,102,.16);border:2px solid var(--gold);box-shadow:0 0 22px rgba(255,209,102,.35)}
 .intro-kb:hover{background:rgba(255,209,102,.28);transform:translateY(-2px)}
 .kb-go{margin:28px auto 0;max-width:440px}
@@ -1158,19 +1156,6 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
     <div class="row2"><button class="btn btn-primary btn-sm" id="dlCopy" type="button">📋 複製下載連結</button><button class="btn btn-ghost btn-sm" id="dlClose" type="button">關閉</button></div>
   </div>
 </div>
-<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introT">
-  <div class="intro-box">
-    <div class="intro-art" aria-hidden="true"><span class="ia-core"></span><span class="ia-pk">🎃</span><span class="ia-bat">🦇</span></div>
-    <h2 class="intro-title" id="introT"><span class="grad-fire">AI</span> <span class="grad">幫你做什麼</span></h2>
-    <p class="intro-sub">AutoCAD × AI 實體課程・週六下午 5 小時實作</p>
-    <p class="intro-pick">有兩座島可以選擇</p>
-    <div class="intro-choices">
-      <button class="btn btn-primary intro-go" id="introGo" type="button"><span>🎃 按一下，進入AI探索島</span><small>標準招生頁・課程與報名一次看</small></button>
-      <a class="btn intro-go intro-kb" id="introKb" href="knowledge.html?from=std"><span>🏝️ 按一下，進入AI知識島</span><small>遊戲互動招生・學員問答大探險</small></a>
-    </div>
-    
-  </div>
-</div>
 <div id="fx" aria-hidden="true"></div>
 <button class="sfx-btn" id="sfxBtn" type="button" aria-label="關閉音效">🔊</button>
 <div class="share-sheet" id="shareSheet" role="dialog" aria-modal="true" aria-labelledby="shareT" hidden>
@@ -1695,26 +1680,12 @@ function bgmStop(){
 }
 function bgmSchedule(a){clearInterval(BGM.timer);BGM.timer=setInterval(function(){if(!document.hidden)try{bgmTick(a)}catch(e){}},BGM_STEP)}
 /* 瀏覽器規定需使用者先點擊或按鍵，才能開始播放 */
-function firstGesture(){if(intro&&!intro.hidden)return;if(SFX_ON)bgmStart()}
+function firstGesture(){if(SFX_ON)bgmStart()}
 document.addEventListener('pointerdown',firstGesture,{once:true});
 document.addEventListener('keydown',firstGesture,{once:true});
 document.addEventListener('visibilitychange',function(){if(!AC)return;if(document.hidden)AC.suspend();else if(SFX_ON)AC.resume()});
 /* ---------- 開場畫面：同一次瀏覽只出現一次 ---------- */
-var intro=$('intro'),introSeen=false;
-try{introSeen=sessionStorage.getItem('aic-intro')==='1'}catch(e){}
-if(introSeen)intro.hidden=true;
-else{document.documentElement.style.overflow='hidden';setTimeout(function(){$('introGo').focus({preventScroll:true})},120)}
-function closeIntro(withSound){
-  try{sessionStorage.setItem('aic-intro','1')}catch(e){}
-  SFX_ON=withSound;try{sessionStorage.setItem('aic-sfx',withSound?'on':'off')}catch(e){}
-  sfxUI();
-  if(withSound){tone(1046,0,.2,'sine',.12);bgmStart()}else bgmStop();
-  intro.classList.add('hide');document.documentElement.style.overflow='';
-  setTimeout(function(){intro.hidden=true},650);
-}
-$('introGo').addEventListener('click',function(){closeIntro(SFX_ON)});
-/* 選 AI知識島：到那邊直接開始，不再出現開場畫面 */
-$('introKb').addEventListener('click',function(){try{sessionStorage.setItem('aic-intro','1')}catch(e){}});
+
 
 /* ---------- 點星球的隨機特效（衝擊光環／星塵爆發／流星劃過／超光速躍遷／彈跳放大） ---------- */
 var fxLayer=$('fx'),fxBusy=false;

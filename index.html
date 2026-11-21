@@ -1721,7 +1721,7 @@ function fmtDate(s){var d=toDate(s);return d.getFullYear()+'/'+(d.getMonth()+1)+
 function daysTo(s){return Math.round((toDate(s)-today)/86400000)}
 var nextFound=false,sl=$('sessionList');
 SESSIONS.forEach(function(s,i){
-  var dt=toDate(s.d),past=dt<today,sold=!past&&s.left<=0,isNext=!past&&!sold&&!nextFound;if(isNext)nextFound=true;
+  var dt=toDate(s.d),past=dt<=today,sold=!past&&s.left<=0,isNext=!past&&!sold&&!nextFound;if(isNext)nextFound=true;
   var left=daysTo(s.dl),u=UNITS[s.u];
   var el=document.createElement('button');el.type='button';el.className='card ss reveal in'+(past?' past':'')+(isNext?' next':'')+(sold?' soldout':'');
   el.innerHTML='<span class="flag">'+(past?'已結束':'最近場次')+'</span>'+planetHTML(u)+
@@ -1729,8 +1729,8 @@ SESSIONS.forEach(function(s,i){
     '<span class="city">'+esc(s.name)+'</span><span class="tm">'+esc(s.tm)+' · 5 小時</span>'+
     seatHTML(s,'span')+
     (sold?'':'<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>')+
-    '<span class="go">'+(sold?'實體課已額滿':'詳情與付款 →')+'</span>';
-  el.addEventListener('click',function(e){if(sold){toast(s.name+' 實體課已經額滿');return}openPanel('session',i,el,e.detail===0)});
+    '<span class="go">詳情與付款 →</span>';
+  el.addEventListener('click',function(e){openPanel('session',i,el,e.detail===0)});
   sl.appendChild(el);
 });
 
@@ -1762,7 +1762,7 @@ function renderUnit(i){
 }
 function tplFor(s){return '報名場次：'+s.name+'（'+fmtDate(s.d)+'）\n方案：4,200（含專屬B）／3,600（無專屬B）\n姓名：\n電話：\n論壇會員名稱：\nGmail 信箱：\n銀行帳號後5碼（轉帳者填寫）：'}
 function renderSession(i){
-  var s=SESSIONS[i],dt=toDate(s.d),past=dt<today,left=daysTo(s.dl),full=s.left<=0,closed=past||left<0||full,pay=PAY[s.pay];
+  var s=SESSIONS[i],dt=toDate(s.d),past=dt<=today,left=daysTo(s.dl),full=s.left<=0,closed=past||left<0||full,pay=PAY[s.pay];
   var status=past?'<span class="off">課程已結束</span>':left<0?'<span class="off">已截止報名</span>':'<span class="hot">報名截止 '+fmtDate(s.dl)+' · '+(left===0?'今天截止':'倒數 '+left+' 天')+'</span>';
   var dis=closed?' aria-disabled="true" tabindex="-1"':'';
   pBody.innerHTML=
@@ -1857,7 +1857,7 @@ function closePanel(){
   document.body.style.overflow='';
   if(openerKb&&opener&&opener.focus)opener.focus({preventScroll:true});else if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
 }
-function offerOk(k){return mode!=='session'||SESSIONS[k].left>0}
+function offerOk(k){return true}
 function hasAdj(i,d){for(var k=i+d,L=listOf(mode).length;k>=0&&k<L;k+=d)if(offerOk(k))return true;return false}
 function go(d){
   var n=cur+d,L=listOf(mode).length;while(n>=0&&n<L&&!offerOk(n))n+=d;

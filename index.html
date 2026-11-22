@@ -533,6 +533,10 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
 .seat.full{border-color:var(--line);background:rgba(255,255,255,.06);color:var(--dim)}
 @keyframes seatPulse{50%{transform:scale(1.12)}}
 .ss .dl{font-size:15px;color:#ffc58f}
+.ss .wait{font-size:13.5px;color:var(--dim);display:flex;flex-direction:column;gap:2px}
+.ss .wait b{color:var(--gold);font-weight:700}
+.ss .waitlink{color:var(--cyan);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.ss .waitlink:hover{color:var(--gold)}
 .ss .go{margin-top:auto;padding-top:12px;font-size:16px;font-weight:700;color:var(--cyan)}
 .ss .flag{position:absolute;top:14px;right:14px;font-size:13px;font-weight:900;padding:3px 10px;border-radius:999px;background:linear-gradient(135deg,#ffb347,#ff4d6d);color:#fff;display:none}
 .ss.next{border-color:rgba(255,138,42,.6);box-shadow:0 0 0 1px rgba(255,138,42,.3),0 18px 50px rgba(255,90,30,.18)}
@@ -765,6 +769,7 @@ h2{font-size:clamp(28px,4.4vw,48px);font-weight:900;margin:14px 0 14px;letter-sp
   .ss .city{font-size:17px}
   .ss .tm{font-size:13px}
   .ss .dl{font-size:12.5px}
+  .ss .wait{font-size:12px}
   .seat{font-size:17px}
   .seat b{font-size:28px}
   .seat .su{font-size:15px}
@@ -1728,9 +1733,9 @@ SESSIONS.forEach(function(s,i){
     '<span class="yr">'+dt.getFullYear()+'</span><span class="date">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<small>（'+WD[dt.getDay()]+'）</small></span>'+
     '<span class="city">'+esc(s.name)+'</span><span class="tm">'+esc(s.tm)+' · 5 小時</span>'+
     seatHTML(s,'span')+
-    (sold?'':'<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>')+
+    (sold?'<span class="wait"><b>加入候補名單</b><a class="waitlink" href="'+LINE+'" target="_blank" rel="noopener">使用LINE@與我們聯繫 ↗</a></span>':'<span class="dl">'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</span>')+
     '<span class="go">詳情與付款 →</span>';
-  el.addEventListener('click',function(e){openPanel('session',i,el,e.detail===0)});
+  el.addEventListener('click',function(e){if(e.target.closest('.waitlink'))return;openPanel('session',i,el,e.detail===0)});
   sl.appendChild(el);
 });
 

@@ -289,6 +289,8 @@ h1,h2,h3,h4{margin:0;line-height:1.25}
 .ss .si b{display:block;font-size:16.5px}
 .ss .si small{display:block;font-size:13px;color:var(--muted);line-height:1.5}
 .ss .sl{flex:none;text-align:center;font-size:12px;color:var(--muted);line-height:1.3}
+.ss .waitlink{color:var(--cyan);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.ss .waitlink:hover{color:var(--gold)}
 .ss .sl b{display:block;font-size:24px;color:var(--gold);font-weight:900}
 .ss .sl.hot b{color:#ff7a5a}
 .plans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -974,7 +976,7 @@ function renderDock(){
     '<div class="p-sec" style="--pc:#ff8a2a"><h4>上課場次（點場次看付款方式）</h4><div class="ss-list">'+SESSIONS.map(function(s,i){
       var dt=toDate(s.d),past=dt<today,left=daysTo(s.dl),hot=s.left>0&&s.left<=3;
       return '<button class="ss'+(past?' past':'')+'" type="button" data-ss="'+i+'"><span class="sd" style="--sc:'+s.c+'"><b>'+(dt.getMonth()+1)+'/'+dt.getDate()+'</b><small>週'+WD[dt.getDay()]+'</small></span>'+
-        '<span class="si"><b>'+esc(s.name)+'</b><small>'+esc(s.tm)+'・'+esc(s.place)+'</small>'+(!past&&s.left<=0?'':'<small>'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</small>')+'</span>'+
+        '<span class="si"><b>'+esc(s.name)+'</b><small>'+esc(s.tm)+'・'+esc(s.place)+'</small>'+(!past&&s.left<=0?'<small>加入候補名單・<a class="waitlink" href="'+LINE+'" target="_blank" rel="noopener">使用LINE@與我們聯繫 ↗</a></small>':'<small>'+(past?'課程已結束':left>0?'報名倒數 '+left+' 天':left===0?'今天截止報名':'已截止報名')+'</small>')+'</span>'+
         '<span class="sl'+(hot?' hot':'')+'">'+(s.left<=0?'已額滿':'剩<b>'+s.left+'</b>位')+'</span></button>'}).join('')+'</div></div>'+
     '<div class="p-sec" style="--pc:#ffd166"><h4>費用方案（早鳥優惠）</h4><div class="plans">'+
       '<div class="plan"><h5>實作課程</h5><s>原價 NT$7,000</s><div class="amt"><small>NT$</small>3,600</div><p>5 小時實體課程・不含論壇專屬 B 會員</p></div>'+
